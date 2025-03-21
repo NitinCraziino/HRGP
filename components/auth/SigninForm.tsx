@@ -1,4 +1,3 @@
-
 "use client";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -40,8 +39,8 @@ const SigninForm = () => {
                 {...register("password")}
             />
             <div className="flex flex-row justify-between items-center text-[14px]  sm:text-sm gap-2 sm:gap-4">
-                <Link href="/signup" className="text-blue-600 hover:underline">
-                    Create new account
+                <Link href="/forgot-password" className="text-blue-600 hover:underline">
+                    Forgot Password?
                 </Link>
                 <div className="flex items-center gap-1 sm:gap-2">
                     <Checkbox id="remember" defaultChecked />
@@ -53,10 +52,17 @@ const SigninForm = () => {
 
             <Button
                 type="submit"
-                className="w-full py-3 rounded bg-[#5d45f8] hover:bg-[#4a35d9] text-lg"
+                className="py-2 px-8 rounded bg-[#5d45f8] hover:bg-[#4a35d9] text-sm float-right"
             >
                 Login
             </Button>
+
+            <div className="text-start mt-16 text-sm">
+                Don't have an account?{" "}
+                <Link href="/signup" className="text-[#5d45f8] hover:text-[#4a35d9] transition-colors">
+                    Click here to sign up
+                </Link>
+            </div>
         </form>
     );
 };

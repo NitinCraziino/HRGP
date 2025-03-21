@@ -2,6 +2,7 @@ import Image from "next/image";
 import { memo } from "react";
 import SignupForm from "@/components/auth/SignupForm";
 
+
 const Signup = () => {
     return (
         <div className="flex justify-center items-center px-8 lg:px-32 py-20">

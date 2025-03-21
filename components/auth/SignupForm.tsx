@@ -117,7 +117,7 @@ const SignupForm = () => {
 
                 <Button
                     type="submit"
-                    className="py-2 px-4 rounded bg-[#5d45f8] hover:bg-[#4a35d9] text-sm float-right"
+                    className="py-2 px-8 rounded bg-[#5d45f8] hover:bg-[#4a35d9] text-sm float-right"
                 >
                     Next
                 </Button>
@@ -125,7 +125,7 @@ const SignupForm = () => {
 
             <div className="text-start mt-16 text-sm">
                 Already have an account?{" "}
-                <Link href="/login" className="text-blue-600 hover:underline">
+                <Link href="/signin" className="text-[#5d45f8] hover:text-[#4a35d9] transition-colors">
                     Click here to login
                 </Link>
             </div>
