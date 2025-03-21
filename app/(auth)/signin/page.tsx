@@ -5,7 +5,7 @@ import { memo } from "react";
 
 const Signin = () => {
     return (
-        <div className="h-full py-[20px] sm:py-24 flex items-center px-4 md:px-8">
+        <div className="container h-full py-[20px] sm:py-24 flex items-center px-4 md:px-8">
             <div className="mx-auto max-w-6xl w-full">
                 <div className="grid md:grid-cols-2 gap-8 items-center">
                     {/* Left side - Image */}
