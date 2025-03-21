@@ -1,6 +1,6 @@
 'use client';
 import Image from "next/image";
-import SigninForm from "@/components/signin/SigninForm";
+import SigninForm from "@/components/auth/SigninForm";
 import { memo } from "react";
 
 const Signin = () => {
