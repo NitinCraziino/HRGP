@@ -58,7 +58,7 @@ const SigninForm = () => {
             </Button>
 
             <div className="text-start mt-16 text-sm">
-                Don't have an account?{" "}
+                Don&apos;t have an account?{" "}
                 <Link href="/signup" className="text-[#5d45f8] hover:text-[#4a35d9] transition-colors">
                     Click here to sign up
                 </Link>

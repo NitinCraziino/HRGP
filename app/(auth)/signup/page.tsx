@@ -9,7 +9,7 @@ const Signup = () => {
             <div className="flex flex-col md:flex-row items-center justify-center max-w-6xl w-full ">
 
                 {/* Left Side - Image (Hidden on Small Screens) */}
-                <div className="hidden md:flex w-1/2 justify-center">
+                <div className="hidden md:flex w-1/2 justify-center md:mr-10">
                     <Image
                         src="/assets/images/signup-banner.png"
                         alt="Signup Banner"

@@ -18,7 +18,7 @@ function Input({ className, type, ...props }: React.ComponentProps<"input">) {
   );
 }
 
-const InputWithError = ({ label, error, className, placeholder, type, defaultValue, ...props }: { label?: string, error: string, className: string, placeholder: string, type: string, defaultValue?: string; } & React.ComponentProps<"input">) => {
+const InputWithError = ({ label, error, className, placeholder, type, name, defaultValue, ...props }: { label?: string, error: string, className: string, placeholder: string, type: string, name: string, defaultValue?: string; } & React.ComponentProps<"input">) => {
   const id = useId();
   return (
     <div className="*:not-first:mt-2">
@@ -28,6 +28,7 @@ const InputWithError = ({ label, error, className, placeholder, type, defaultVal
         className={cn(className, "py-6")}
         placeholder={placeholder}
         type={type}
+        name={name}
         defaultValue={defaultValue}
         aria-invalid={error ? true : false}
         {...props}
