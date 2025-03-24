@@ -1,6 +1,7 @@
 import Image from "next/image";
 import SigninForm from "@/components/auth/SigninForm";
 import { memo } from "react";
+import OAuthButtons from "@/components/auth/OAuthButtons";
 
 const Signin = () => {
     return (
@@ -25,6 +26,7 @@ const Signin = () => {
                         <h1 className="text-3xl font-bold text-[#0f1941] mb-6 text-center md:text-left">
                             Welcome Back!
                         </h1>
+                        <OAuthButtons isSignIn={true} />
                         <SigninForm />
                     </div>
                 </div>

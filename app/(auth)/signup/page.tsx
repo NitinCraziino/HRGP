@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { memo } from "react";
 import SignupForm from "@/components/auth/SignupForm";
-
+import OAuthButtons from "@/components/auth/OAuthButtons";
 
 const Signup = () => {
     return (
@@ -24,6 +24,7 @@ const Signup = () => {
                 <div className="w-full md:w-1/2 flex justify-center">
                     <div className="max-w-md w-full">
                         <h1 className="text-3xl font-bold mb-6 text-center">FREE 30-DAY TRIAL</h1>
+                        <OAuthButtons isSignIn={false} />
                         <SignupForm />
                     </div>
                 </div>
