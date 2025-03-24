@@ -10,9 +10,6 @@ export enum StatusCode {
     INTERNAL_SERVER_ERROR = 500,
 }
 
-export interface CustomRequest extends Request {
-    user?: TokenPayload;
-}
 
 export interface TokenPayload {
     email: string;

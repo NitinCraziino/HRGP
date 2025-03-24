@@ -1,11 +1,11 @@
-import { Response, NextFunction } from "express";
-import { CustomRequest } from "../types";
+import { Response, NextFunction, Request } from "express";
 import { jwtService } from "../services";
 import { UnauthorizedError } from "../types/CustomError";
 
-const authMiddleware = (req: CustomRequest, res: Response, next: NextFunction) => {
+const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
     try {
-        const authHeader = req.headers.authorization || req.headers.Authorization;
+        // @ts-ignore
+        const authHeader = req.headers.authoriation || req.headers.Authorization;
         if (!authHeader) {
             throw new UnauthorizedError();
         }
@@ -17,6 +17,7 @@ const authMiddleware = (req: CustomRequest, res: Response, next: NextFunction) =
 
         const decoded = jwtService.verifyToken(token);
 
+        // @ts-ignore
         req.user = decoded;
 
         next();
