@@ -7,13 +7,6 @@ export const errorHandler = (err: CustomError, req: Request, res: Response, next
     let statusCode = err.statusCode || StatusCode.INTERNAL_SERVER_ERROR;
     let message = err.message || "Internal Server Error";
 
-    logger.error({
-        message,
-        statusCode,
-        location: err.location,
-        data: err.data,
-        stack: err.stack,
-    });
-
+    logger.error(err);
     res.status(statusCode).json({ message });
 };

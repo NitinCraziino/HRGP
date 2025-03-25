@@ -5,6 +5,7 @@ import bcrypt from "bcryptjs";
 import { StatusCode } from "../../types";
 import { query } from "../../config/db/query";
 import { jwtService } from "../../services/JwtService";
+import logger from "../../utils/logger";
 
 const signupController = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -22,11 +23,7 @@ const signupController = async (req: Request, res: Response, next: NextFunction)
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        const userData = await query<{
-            userId: number;
-            isSuccess: boolean;
-            error: string;
-        }>("CALL usp_SignupUser(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [
+        const signupData = [
             firstName,
             lastName,
             hashedPassword,
@@ -36,16 +33,30 @@ const signupController = async (req: Request, res: Response, next: NextFunction)
             true,
             "Online",
             5,
-            primaryEmail,
             primaryPhoneNumber,
+            primaryEmail,
             null,
             null,
-            1,
-            1,
-            1
-        ]);
+            "",
+            0,
+            0
+        ];
+
+        console.log("PARAMS", signupData);
+
+        const userData = await query<{
+            userId: number;
+            isSuccess: boolean;
+            error: string;
+        }>("CALL usp_SignupUser(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", signupData);
+
+        // @ts-ignore
+
+        console.log("RESPONSE", userData);
 
         if (!userData.isSuccess) {
+
+            logger.error(userData.error);
             throw new ValidationError(userData.error);
         }
 
@@ -69,6 +80,7 @@ const signupController = async (req: Request, res: Response, next: NextFunction)
         ]);
 
         if (!companyData.isSuccess) {
+
             throw new ValidationError(companyData.error);
         }
 
