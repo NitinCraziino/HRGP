@@ -24,6 +24,15 @@
                 "Use memoization for performance optimizations. using useMemo and useCallback and memo",
                 "always use zod for validation"
             ]
+        },
+        {
+            "name": "Git Commit Messages",
+            "description": "Always write clear and concise git commit messages.",
+            "sequential": true,
+            "steps": [
+                "Write a commit message explaining the main changes made only the overview of the changes.",
+                "Use present tense in the commit message."
+            ]
         }
     ]
 }

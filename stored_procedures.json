@@ -1,0 +1,93 @@
+{
+    "procedures": [
+        {
+            "name": "usp_InsertCompanyPurchasedPhones",
+            "params": {
+                "IN_p_userId": 1,
+                "INOUT_p_companyId": "@companyId",
+                "IN_p_phone": "9876543210",
+                "IN_p_phoneSid": "ABC123XYZ",
+                "OUT_p_isSuccess": "@isSuccess",
+                "OUT_p_error": "@error"
+            }
+        },
+        {
+            "name": "usp_UpdateCompanySettings",
+            "params": {
+                "IN_p_userId": 1,
+                "IN_p_companyAbout": "Company Description",
+                "IN_p_companyType": "Corporation",
+                "IN_p_industryId": 5,
+                "IN_p_logoUrl": "https://example.com/logo.png",
+                "IN_p_bannerUrl": "https://example.com/banner.png",
+                "IN_p_isautomatedJobCode": true,
+                "IN_p_isautomatedInvoiceNo": true,
+                "IN_p_isrecruitForCustomers": false,
+                "IN_p_companyAddressId": 100,
+                "IN_p_companyStatus": "Active",
+                "OUT_p_isSuccess": "@isSuccess",
+                "OUT_p_error": "@error",
+                "INOUT_p_companyId": "@companyId"
+            }
+        },
+        {
+            "name": "usp_UpsertEmployee",
+            "params": {
+                "INOUT_p_companyId": "@companyId", // required
+                "IN_p_userId": 2, // required
+                "IN_p_employeeCode": "EMP1234", // 1
+                "IN_p_managerId": 10, // 0
+                "IN_p_positionTitle": "Software Engineer", // required
+                "IN_p_employeeType": "Full-Time", // full-time
+                "IN_p_isRemoteWorking": true, // true
+                "IN_p_joiningDate": "2025-03-20", // current date
+                "IN_p_employeeStatus": "Active", // active
+                "OUT_p_error": "@error",
+                "OUT_p_employeeId": "@employeeId",
+                "OUT_p_isSuccess": "@isSuccess"
+            }
+        },
+        {
+            "name": "usp_UpsertCompanies",
+            "params": {
+                "IN_p_userId": 3,
+                "IN_p_companyName": "Tech Innovations Inc.", // required
+                "IN_p_companyAbout": "Tech Company Description", // sting ""
+                "IN_p_companyType": "Limited Liability Company", // required
+                "IN_p_industryId": 8, // required
+                "IN_p_publicName": "TechInnovations", // null
+                "IN_p_logoUrl": "https://example.com/logo.png", // null
+                "IN_p_bannerUrl": "https://example.com/banner.png", // null
+                "IN_p_isautomatedJobCode": false, // false
+                "IN_p_isautomatedInvoiceNo": false, // false
+                "IN_p_isrecruitForCustomers": true, // false
+                "IN_p_companyAddressId": 200, // null
+                "IN_p_companyStatus": "Active", // active
+                "OUT_p_isSuccess": "@isSuccess",
+                "OUT_p_error": "@error",
+                "OUT_p_companyId": "@companyId"
+            }
+        },
+        {
+            "name": "usp_SignupUser",
+            "params": {
+                "IN_p_firstName": "John", // required
+                "IN_p_lastName": "Doe", // required
+                "IN_p_hashedPassword": "hashed_password_value", //required
+                "IN_p_profilePicUrl": "https://example.com/profile.jpg", // null
+                "IN_p_bannerUrl": "https://example.com/banner.jpg", // null
+                "IN_p_timezoneId": 1, // 1
+                "IN_p_isUserConcent": true, // true
+                "IN_p_userStatus": "Online", // online 
+                "IN_p_roleId": 5, // 1
+                "IN_p_primaryPhoneNumber": "1234567890", // required
+                "IN_p_PrimaryEmail": "john.doe@example.com", // required
+                "IN_p_secondaryPhoneNumber": "0987654321", // null
+                "IN_p_secondaryEmail": "john.alt@example.com", // null
+                "OUT_p_error": "@error",
+                "OUT_p_userId": "@userId",
+                "OUT_p_isSuccess": "@isSuccess"
+            }
+        }
+    ]
+}
