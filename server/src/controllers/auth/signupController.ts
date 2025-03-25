@@ -37,27 +37,16 @@ const signupController = async (req: Request, res: Response, next: NextFunction)
             primaryEmail,
             null,
             null,
-            "",
-            0,
             0
         ];
 
-        console.log("PARAMS", signupData);
 
-        const userData = await query<{
-            userId: number;
-            isSuccess: boolean;
-            error: string;
-        }>("CALL usp_SignupUser(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", signupData);
+        const userData = await query<any>("CALL usp_SignupUser(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", signupData);
+        console.log(userData);
 
-        // @ts-ignore
-
-        console.log("RESPONSE", userData);
 
         if (!userData.isSuccess) {
-
-            logger.error(userData.error);
-            throw new ValidationError(userData.error);
+            throw new Error(userData.error);
         }
 
         const companyData = await query<{

@@ -32,6 +32,5 @@ app.use(errorHandler);
 
 app.listen(PORT, () => {
     configurePassport();
-    connectDb();
     console.log(`Server is running on port ${PORT}`);
 });
