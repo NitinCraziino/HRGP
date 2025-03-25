@@ -3,8 +3,8 @@ import { ValidationError } from "../../types/CustomError";
 import validator from "validator";
 import bcrypt from "bcryptjs";
 import { StatusCode } from "../../types";
-import assert from "assert";
 import { query } from "../../config/db/query";
+import { jwtService } from "../../services/JwtService";
 
 const signupController = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -91,6 +91,13 @@ const signupController = async (req: Request, res: Response, next: NextFunction)
         if (!employeeData.isSuccess) {
             throw new ValidationError(employeeData.error);
         }
+
+        const jwtToken = jwtService.createToken({
+            email: primaryEmail,
+            userId: userData.userId.toString(),
+            companyId: companyData.companyId.toString(),
+            name: `${firstName} ${lastName}`,
+        });
 
         console.log(userData, companyData, employeeData);
 
