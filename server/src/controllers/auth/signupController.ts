@@ -117,19 +117,9 @@ const validateData = (data: any) => {
         throw new ValidationError("Invalid data");
     }
 
-    // do assertions for all fields
-    // this is to ensure that the data is valid
-    // if the data is not valid, it will throw an error
-    // this is to ensure that the data is not null
-    assert(primaryEmail, "primaryEmail is required");
-    assert(primaryPhoneNumber, "primaryPhoneNumber is required");
-    assert(password, "password is required");
-    assert(firstName, "firstName is required");
-    assert(lastName, "lastName is required");
-    assert(companyName, "companyName is required");
-    assert(companyType, "companyType is required");
-    assert(industryId, "industryId is required");
-    assert(positionTitle, "positionTitle is required");
+    if (!primaryEmail || !primaryPhoneNumber || !password || !firstName || !lastName || !companyName || !companyType || !industryId || !positionTitle) {
+        throw new ValidationError("All fields are required");
+    }
 
     if (!validator.isEmail(primaryEmail)) {
         throw new ValidationError("Invalid primary email");
