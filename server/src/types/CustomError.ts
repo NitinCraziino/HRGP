@@ -37,3 +37,8 @@ export class InternalServerError extends CustomError {
     }
 }
 
+export class ValidationError extends CustomError {
+    constructor(message: string = "Validation Error") {
+        super(message, StatusCode.BAD_REQUEST);
+    }
+}

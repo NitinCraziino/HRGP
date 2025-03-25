@@ -1,10 +1,13 @@
 import express, { json, urlencoded } from "express";
-import { PORT, CLIENT_URL } from "./config";
+import { PORT, CLIENT_URL, EXPRESS_SESSION_SECRET } from "./config";
 import { errorHandler } from "./middlewares/ErrorHandler";
 import cors from "cors";
-import authMiddleware from "./middlewares/AuthMiddleware";
 import configurePassport from "./config/configurePassport";
-import connectDb from "./config/connectDb";
+import connectDb from "./config/db/connect";
+import passport from "passport";
+import session from "express-session";
+import cookieParser from "cookie-parser";
+import router from "./routes";
 
 const app = express();
 
@@ -15,15 +18,16 @@ app.use(cors({
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
 }));
+app.use(cookieParser());
+app.use(session({
+    secret: EXPRESS_SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 
-app.get("/", (req, res) => {
-    res.send("Hello World");
-});
-
-app.get("/test", authMiddleware, (req, res) => {
-    res.send("Hello World");
-});
-
+app.use("/", router);
 app.use(errorHandler);
 
 app.listen(PORT, () => {
