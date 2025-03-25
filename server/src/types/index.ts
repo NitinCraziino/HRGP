@@ -1,5 +1,3 @@
-import { Request } from "express";
-
 export enum StatusCode {
     OK = 200,
     CREATED = 201,
@@ -14,6 +12,6 @@ export enum StatusCode {
 export interface TokenPayload {
     email: string;
     userId: string;
-    companyId: string;
     name: string;
+    companyId?: string;
 }
