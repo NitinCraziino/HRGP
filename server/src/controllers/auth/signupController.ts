@@ -1,120 +1,34 @@
-import { Request, Response, NextFunction, response } from "express";
-import { ValidationError, ConflictError, InternalServerError } from "../../types/CustomError";
+import { Request, Response, NextFunction } from "express";
+import { ValidationError } from "../../types/CustomError";
 import validator from "validator";
-import bcrypt from "bcryptjs";
 import { StatusCode } from "../../types";
-import { query } from "../../config/db/query";
+import createUser from "../../services/db/user/createUser";
+import createCompany from "../../services/db/company/createCompany";
 
 const signupController = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const {
-            primaryEmail,
-            primaryPhoneNumber,
-            password,
-            firstName,
-            lastName,
-            companyName,
-            companyType,
-            industryId,
-            positionTitle,
-        } = validateData(req.body);
+        const validatedData = validateData(req.body);
 
-        const hashedPassword = await bcrypt.hash(password, 10);
+        const userId = await createUser(validatedData);
 
-        const signupData = [
-            firstName,
-            lastName,
-            hashedPassword,
-            null,
-            null,
-            1,
-            true,
-            "Online",
-            5,
-            primaryPhoneNumber,
-            primaryEmail,
-            null,
-            null,
-            null,
-            null,
-            0
-        ];
-        const userResponse = await query<any>("CALL usp_SignupUser(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", signupData);
+        const companyResponse = await createCompany({
+            userId,
+            companyName: validatedData.companyName,
+            companyType: validatedData.companyType,
+            industryId: validatedData.industryId,
+        });
 
-        const errorMessage = userResponse[0][0]?.MESSAGE_TEXT;
-        const userId = userResponse[0][0]?.p_userId;
-
-        if (errorMessage === "this Email or phone is already resgisterd.") {
-            throw new ConflictError("This email or phone number is already registered.", "SIGNUP_CONTROLLER");
-        } else if (errorMessage) {
-            throw new ValidationError(errorMessage, "SIGNUP_CONTROLLER");
-        }
-        if (!userId) {
-            throw new InternalServerError("Failed to create user.", "SIGNUP_CONTROLLER");
-        }
-
-
-        // const companyResponse = await query<{
-        //     companyId: number;
-        //     isSuccess: boolean;
-        //     error: string;
-        // }>("CALL usp_UpsertCompanies(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [
+        // const employeeResponse = await createEmployee({
+        //     companyId: companyResponse[0].companyId,
         //     userId,
-        //     companyName,
-        //     "",
-        //     companyType,
-        //     industryId,
-        //     null,
-        //     null,
-        //     null,
-        //     false,
-        //     false,
-        //     false,
-        //     null,
-        //     "Active",
-        // ]);
-
-        // console.log(companyResponse);
-
-
-        // if (!companyData.isSuccess) {
-
-        //     throw new ValidationError(companyData.error);
-        // }
-
-        // const employeeData = await query<{
-        //     employeeId: number;
-        //     isSuccess: boolean;
-        //     error: string;
-        // }>("CALL usp_UpsertEmployee(?, ?, ?, ?, ?, ?, ?, ?, ?)", [
-        //     companyData.companyId,
-        //     userData.userId,
-        //     1,
-        //     0,
-        //     positionTitle,
-        //     "Full-Time",
-        //     true,
-        //     new Date().toISOString().split('T')[0],
-        //     "Active",
-        // ]);
-
-        // if (!employeeData.isSuccess) {
-        //     throw new ValidationError(employeeData.error);
-        // }
-
-        // const jwtToken = jwtService.createToken({
-        //     email: primaryEmail,
-        //     userId: userData.userId.toString(),
-        //     companyId: companyData.companyId.toString(),
-        //     name: `${firstName} ${lastName}`,
+        //     positionTitle: validatedData.positionTitle,
         // });
 
-        // console.log(userData, companyData, employeeData);
 
-        res.status(StatusCode.CREATED).json({ userId });
+        res.status(StatusCode.CREATED).json();
     } catch (error) {
-        if (error instanceof ValidationError) {
-            throw new ValidationError(error.message, "SIGNUP_CONTROLLER");
+        if (error instanceof ValidationError && error.location === "Unknown") {
+            next(new ValidationError(error.message, "SIGNUP_CONTROLLER"));
         }
         next(error);
     }
