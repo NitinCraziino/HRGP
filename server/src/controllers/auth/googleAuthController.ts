@@ -1,14 +1,14 @@
 import { NextFunction, Request, Response } from "express";
-import { StatusCode } from "../../../types";
-import { jwtService } from "../../../services/JwtService";
-import IUser, { demoUserGoogle } from "../../../types/IUser";
+import { CLIENT_URL } from "../../config";
+import { jwtService } from "../../services/JwtService";
+import IUser, { demoUserGoogle } from "../../types/IUser";
 
 const googleAuthController = async (req: Request, res: Response, next: NextFunction) => {
     try {
         // the user is the user object from the passport authenticate
         // the user will contain the id, email, name, and isExistingUser property
         // @ts-ignore
-        const user = req.user as IUser;
+        const user = req.user as any;
 
         const userData = await getUserData(user);
 
@@ -19,7 +19,11 @@ const googleAuthController = async (req: Request, res: Response, next: NextFunct
             companyId: userData.companyId
         });
 
-        res.status(StatusCode.OK).json({ token });
+        if (user.isExistingUser) {
+            res.redirect(`${CLIENT_URL}/?token=${token}`);
+        } else {
+            res.redirect(`${CLIENT_URL}/?token=${token}`);
+        }
     } catch (error) {
         next(error);
     }

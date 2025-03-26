@@ -1,16 +1,16 @@
-
 import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import { Request } from 'express';
-import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, CLIENT_URL } from '.';
+import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, SERVER_URL } from '.';
 import IUser from '../types/IUser';
 
 const configurePassport = () => {
+    // Passport Google OAuth strategy
     passport.use(new GoogleStrategy(
         {
             clientID: GOOGLE_CLIENT_ID,
             clientSecret: GOOGLE_CLIENT_SECRET,
-            callbackURL: `${CLIENT_URL}/api/auth/callback`,
+            callbackURL: `${SERVER_URL}/api/auth/google/callback`,
             passReqToCallback: true
         },
         async (req: Request, accessToken, refreshToken, profile, done) => {
@@ -21,31 +21,45 @@ const configurePassport = () => {
                     name: profile.displayName
                 };
 
+                // Validate and get user from DB
                 const user = await validateGoogleUser(googleUser.id);
 
-                if (user.isExistingUser) {
-                    return done(null, user.user);
-                } else {
-                    return done(null, user.user);
-                }
-
+                // Securely passing the user ID for serialization
+                return done(null, user.user?.userId);
             } catch (error) {
+                console.error("Google OAuth error:", error);
                 return done(error as Error);
             }
         }
     ));
 
-
-    passport.serializeUser((user: any, done) => {
-        done(null, user.id);
+    passport.serializeUser((userId: any, done) => {
+        try {
+            if (!userId) {
+                return done(new Error('User ID is missing in serializeUser'));
+            }
+            done(null, userId);
+        } catch (error) {
+            console.error("Serialize user error:", error);
+            return done(error);
+        }
     });
 
-    passport.deserializeUser((id: string, done) => {
-        done(null, { id });
+    passport.deserializeUser(async (id: string, done) => {
+        try {
+            const user = await getUserById(id);
+            if (!user) {
+                return done(new Error('User not found'));
+            }
+            done(null, user);
+        } catch (error) {
+            console.error("Deserialize user error:", error);
+            done(error);
+        }
     });
 };
 
-// Dummy function to simulate checking if Google user exists in database
+// Dummy function to simulate checking if Google user exists in DB
 const validateGoogleUser = async (googleId: string) => {
     const userData = {
         lastName: "Doe",
@@ -53,6 +67,7 @@ const validateGoogleUser = async (googleId: string) => {
         googleId: googleId,
         userId: "1234567890"
     };
+
     const user = await new Promise<{
         isExistingUser: boolean;
         user?: IUser;
@@ -62,24 +77,30 @@ const validateGoogleUser = async (googleId: string) => {
             const userExists = Math.random() < 0.3;
 
             if (userExists) {
-                // Return existing user data
                 resolve({
                     isExistingUser: true,
                     user: userData
                 });
             } else {
-                // Simulate creating new user
                 resolve({
                     isExistingUser: false,
                     user: userData
                 });
             }
-        }, 500); // Reduced timeout for better UX
+        }, 500); // Simulating DB delay
     });
 
     return user;
 };
 
-
+// Dummy function to fetch user by ID (you should replace it with actual DB logic)
+const getUserById = async (id: string) => {
+    return {
+        userId: id,
+        lastName: "Doe",
+        primaryEmail: "john.doe@example.com",
+        googleId: "sample-google-id",
+    };
+};
 
 export default configurePassport;

@@ -3,7 +3,7 @@ import signupController from "../controllers/auth/signupController";
 import signinController from "../controllers/auth/signinController";
 import passport from "passport";
 import { CLIENT_URL } from "../config";
-import googleAuthController from "../config/controllers/auth/googleAuthController";
+import googleAuthController from "../controllers/auth/googleAuthController";
 
 const router = Router();
 
