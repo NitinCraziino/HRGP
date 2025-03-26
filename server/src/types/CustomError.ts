@@ -51,3 +51,10 @@ export class ValidationError extends CustomError {
         super(message, StatusCode.BAD_REQUEST, location);
     }
 }
+
+
+export class ConflictError extends CustomError {
+    constructor(message: string = "Conflict", location: string = 'Unknown') {
+        super(message, StatusCode.CONFLICT, location);
+    }
+}

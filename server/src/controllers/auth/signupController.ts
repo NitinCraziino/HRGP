@@ -1,11 +1,9 @@
-import { Request, Response, NextFunction } from "express";
-import { ValidationError } from "../../types/CustomError";
+import { Request, Response, NextFunction, response } from "express";
+import { ValidationError, ConflictError, InternalServerError } from "../../types/CustomError";
 import validator from "validator";
 import bcrypt from "bcryptjs";
 import { StatusCode } from "../../types";
 import { query } from "../../config/db/query";
-import { jwtService } from "../../services/JwtService";
-import logger from "../../utils/logger";
 
 const signupController = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -37,73 +35,87 @@ const signupController = async (req: Request, res: Response, next: NextFunction)
             primaryEmail,
             null,
             null,
+            null,
+            null,
             0
         ];
+        const userResponse = await query<any>("CALL usp_SignupUser(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", signupData);
 
+        const errorMessage = userResponse[0][0]?.MESSAGE_TEXT;
+        const userId = userResponse[0][0]?.p_userId;
 
-        const userData = await query<any>("CALL usp_SignupUser(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", signupData);
-        console.log(userData);
-
-
-        if (!userData.isSuccess) {
-            throw new Error(userData.error);
+        if (errorMessage === "this Email or phone is already resgisterd.") {
+            throw new ConflictError("This email or phone number is already registered.", "SIGNUP_CONTROLLER");
+        } else if (errorMessage) {
+            throw new ValidationError(errorMessage, "SIGNUP_CONTROLLER");
+        }
+        if (!userId) {
+            throw new InternalServerError("Failed to create user.", "SIGNUP_CONTROLLER");
         }
 
-        const companyData = await query<{
-            companyId: number;
-            isSuccess: boolean;
-            error: string;
-        }>("CALL usp_UpsertCompanies(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [
-            userData.userId,
-            companyName,
-            "",
-            companyType,
-            industryId,
-            null,
-            null,
-            false,
-            false,
-            false,
-            null,
-            "Active",
-        ]);
 
-        if (!companyData.isSuccess) {
+        // const companyResponse = await query<{
+        //     companyId: number;
+        //     isSuccess: boolean;
+        //     error: string;
+        // }>("CALL usp_UpsertCompanies(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [
+        //     userId,
+        //     companyName,
+        //     "",
+        //     companyType,
+        //     industryId,
+        //     null,
+        //     null,
+        //     null,
+        //     false,
+        //     false,
+        //     false,
+        //     null,
+        //     "Active",
+        // ]);
 
-            throw new ValidationError(companyData.error);
-        }
+        // console.log(companyResponse);
 
-        const employeeData = await query<{
-            employeeId: number;
-            isSuccess: boolean;
-            error: string;
-        }>("CALL usp_UpsertEmployee(?, ?, ?, ?, ?, ?, ?, ?, ?)", [
-            companyData.companyId,
-            userData.userId,
-            1,
-            0,
-            positionTitle,
-            "Full-Time",
-            true,
-            new Date().toISOString().split('T')[0],
-            "Active",
-        ]);
 
-        if (!employeeData.isSuccess) {
-            throw new ValidationError(employeeData.error);
-        }
+        // if (!companyData.isSuccess) {
 
-        const jwtToken = jwtService.createToken({
-            email: primaryEmail,
-            userId: userData.userId.toString(),
-            companyId: companyData.companyId.toString(),
-            name: `${firstName} ${lastName}`,
-        });
+        //     throw new ValidationError(companyData.error);
+        // }
 
-        console.log(userData, companyData, employeeData);
+        // const employeeData = await query<{
+        //     employeeId: number;
+        //     isSuccess: boolean;
+        //     error: string;
+        // }>("CALL usp_UpsertEmployee(?, ?, ?, ?, ?, ?, ?, ?, ?)", [
+        //     companyData.companyId,
+        //     userData.userId,
+        //     1,
+        //     0,
+        //     positionTitle,
+        //     "Full-Time",
+        //     true,
+        //     new Date().toISOString().split('T')[0],
+        //     "Active",
+        // ]);
 
-        res.status(StatusCode.CREATED).json({ userData, companyData, employeeData });
+        // if (!employeeData.isSuccess) {
+        //     throw new ValidationError(employeeData.error);
+        // }
+
+        // const jwtToken = jwtService.createToken({
+        //     email: primaryEmail,
+        //     userId: userData.userId.toString(),
+        //     companyId: companyData.companyId.toString(),
+        //     name: `${firstName} ${lastName}`,
+        // });
+
+        // console.log(userData, companyData, employeeData);
+
+        res.status(StatusCode.CREATED).json({ userId });
     } catch (error) {
+        if (error instanceof ValidationError) {
+            throw new ValidationError(error.message, "SIGNUP_CONTROLLER");
+        }
         next(error);
     }
 };
