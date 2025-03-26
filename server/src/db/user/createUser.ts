@@ -1,19 +1,19 @@
-import bcrypt from "bcryptjs";
 import { query } from "../../config/db/query";
 import { ValidationError, ConflictError, InternalServerError } from "../../types/CustomError";
 
-const createUser = async (userData: {
+type UserData = {
     firstName: string;
     lastName: string;
     primaryEmail: string;
     primaryPhoneNumber: string;
-    password: string;
-}) => {
-    const hashedPassword = await bcrypt.hash(userData.password, 10);
+    // this should be hashed
+    hashedPassword: string;
+};
+const createUser = async ({ firstName, lastName, primaryEmail, primaryPhoneNumber, hashedPassword }: UserData) => {
 
     const signupData = [
-        userData.firstName,
-        userData.lastName,
+        firstName,
+        lastName,
         hashedPassword,
         null,
         null,
@@ -21,8 +21,8 @@ const createUser = async (userData: {
         true,
         "Online",
         5,
-        userData.primaryPhoneNumber,
-        userData.primaryEmail,
+        primaryPhoneNumber,
+        primaryEmail,
         null,
         null,
         null,

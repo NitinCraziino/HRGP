@@ -2,14 +2,20 @@ import { Request, Response, NextFunction } from "express";
 import { ValidationError } from "../../types/CustomError";
 import validator from "validator";
 import { StatusCode } from "../../types";
-import createUser from "../../services/db/user/createUser";
-import createCompany from "../../services/db/company/createCompany";
+import createUser from "../../db/user/createUser";
+import createCompany from "../../db/company/createCompany";
+import bcrypt from "bcryptjs";
 
 const signupController = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const validatedData = validateData(req.body);
 
-        const userId = await createUser(validatedData);
+        const hashedPassword = await bcrypt.hash(validatedData.password, 10);
+
+        const userId = await createUser({
+            ...validatedData,
+            hashedPassword,
+        });
 
         const companyResponse = await createCompany({
             userId,

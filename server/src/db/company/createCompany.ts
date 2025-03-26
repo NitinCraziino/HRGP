@@ -1,17 +1,19 @@
-import { query } from "../../../config/db/query";
+import { query } from "../../config/db/query";
 
-const createCompany = async (companyData: {
+type CompanyData = {
     userId: number;
     companyName: string;
     companyType: string;
     industryId: string;
-}) => {
+};
+
+const createCompany = async ({ userId, companyName, companyType, industryId }: CompanyData) => {
     const params = [
-        companyData.userId,
-        companyData.companyName,
+        userId,
+        companyName,
         "",
-        companyData.companyType,
-        companyData.industryId,
+        companyType,
+        industryId,
         null,
         null,
         null,

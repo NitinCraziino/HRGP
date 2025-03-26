@@ -1,17 +1,17 @@
-import { query } from "../../../config/db/query";
-import { ValidationError } from "../../../types/CustomError";
+import { query } from "../../config/db/query";
 
-const createEmployee = async (employeeData: {
+type EmployeeData = {
     companyId: number;
     userId: number;
     positionTitle: string;
-}) => {
+};
+const createEmployee = async ({ companyId, userId, positionTitle }: EmployeeData) => {
     const employeeResponse = await query<any>("CALL usp_UpsertEmployee(?, ?, ?, ?, ?, ?, ?, ?, ?)", [
-        employeeData.companyId,
-        employeeData.userId,
+        companyId,
+        userId,
         1,
         0,
-        employeeData.positionTitle,
+        positionTitle,
         "Full-Time",
         true,
         new Date().toISOString().split('T')[0],
