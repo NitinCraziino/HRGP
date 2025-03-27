@@ -32,7 +32,7 @@ const SigninForm = () => {
         signin(data, {
             onSuccess: () => {
                 router.push("/");
-                toast("Login successful", {
+                toast.success("Login successful", {
                     icon: "🔑"
                 });
             },
