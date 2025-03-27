@@ -1,10 +1,10 @@
+import { getUserByEmail } from "../../db/user/getUser";
 import { NextFunction, Request, Response } from "express";
 import { ValidationError } from "../../types/CustomError";
-import validator from "validator";
-import { StatusCode } from "../../types";
-import bcrypt from "bcryptjs";
 import { jwtService } from "../../services/JwtService";
-import { getUserByEmail } from "../../db/user/getUser";
+import { StatusCode } from "../../types";
+import validator from "validator";
+import bcrypt from "bcryptjs";
 
 const signinController = async (req: Request, res: Response, next: NextFunction) => {
     try {

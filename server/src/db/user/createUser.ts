@@ -1,5 +1,6 @@
 import query from "../query";
 import { ValidationError, ConflictError, InternalServerError } from "../../types/CustomError";
+import { executeDbQuery } from "../../utils";
 
 type UserData = {
     firstName: string;
@@ -30,7 +31,9 @@ const createUser = async ({ firstName, lastName, primaryEmail, primaryPhoneNumbe
         0
     ];
 
-    const userResponse = await query<any>("CALL usp_SignupUser(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", signupData);
+    const userResponse = await executeDbQuery<any>(async () => {
+        return await query<any>("CALL usp_SignupUser(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", signupData);
+    }, "USER_SERVICE");
 
     const errorMessage = userResponse[0][0]?.MESSAGE_TEXT;
     const userId = userResponse[0][0]?.p_userId;
