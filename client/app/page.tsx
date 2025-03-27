@@ -1,7 +1,10 @@
+import Container from "@/components/Container";
 
 const page = () => {
   return (
-    <div>page</div>
+    <Container>
+      <div>page</div>
+    </Container>
   );
 };
 

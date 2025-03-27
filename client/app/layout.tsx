@@ -5,17 +5,14 @@ import NavBar from "@/components/layout/NavBar";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { Toaster } from "@/components/ui/sonner";
+import { RootLayoutProps } from "@/types/props";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 });
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+const RootLayout = ({ children }: RootLayoutProps) => {
   return (
     <html lang="en">
       <body
@@ -35,7 +32,8 @@ export default function RootLayout({
       </body>
     </html>
   );
-}
+};
 
 
 export { metadata } from "./metadata";
+export default RootLayout;

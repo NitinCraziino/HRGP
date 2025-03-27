@@ -2,11 +2,12 @@ import Image from "next/image";
 import SigninForm from "@/components/auth/SigninForm";
 import { memo } from "react";
 import OAuthButtons from "@/components/auth/OAuthButtons";
+import Container from "@/components/Container";
 
 const Signin = () => {
     return (
         <div className="container h-full py-[20px] sm:py-24 flex items-center px-4 md:px-8">
-            <div className="mx-auto max-w-6xl w-full">
+            <Container className="mx-auto max-w-6xl w-full">
                 <div className="grid md:grid-cols-2 gap-8 items-center">
                     {/* Left side - Image */}
                     <div className="hidden md:flex justify-center">
@@ -30,7 +31,7 @@ const Signin = () => {
                         <SigninForm />
                     </div>
                 </div>
-            </div>
+            </Container>
         </div>
     );
 };
