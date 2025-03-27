@@ -1,4 +1,4 @@
-import { query } from "../../config/db/query";
+import query from "../query";
 import { ValidationError, ConflictError, InternalServerError } from "../../types/CustomError";
 
 type UserData = {

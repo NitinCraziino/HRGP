@@ -1,6 +1,7 @@
 import connectDb from "./connect";
-import { InternalServerError } from "../../types/CustomError";
-export async function query<T>(sql: string, params?: any[]): Promise<T> {
+import { InternalServerError } from "../types/CustomError";
+
+const query = async <T>(sql: string, params?: any[]): Promise<T> => {
     const connection = await connectDb();
 
     try {
@@ -12,6 +13,6 @@ export async function query<T>(sql: string, params?: any[]): Promise<T> {
     } finally {
         await connection.end();
     }
-}
+};
 
 export default query;

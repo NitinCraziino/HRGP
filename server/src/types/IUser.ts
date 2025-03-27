@@ -9,14 +9,21 @@ interface IUser {
     isUserConcent?: boolean; // required
     userStatus?: string; // required
     roleId?: number; // required
-    primaryPhoneNumber?: string; // required
     primaryEmail: string; // required
-    secondaryPhoneNumber?: string;
     secondaryEmail?: string;
     linkedinId?: string;
     googleId?: string;
     // companyId is the id of the company that the user belongs to
     companyId?: string;
+    createdBy?: string;
+    googleToken?: string;
+    linkdenToken?: string;
+    modifiedBy?: string;
+    modifiedDate?: string;
+    activeStatus?: string;
+    createdDate?: string;
+    primaryPhone?: string;
+    secondaryPhone?: string;
 }
 
 
@@ -33,10 +40,17 @@ export const demoUserGoogle: IUser = {
     timezoneId: 1,
     profilePicUrl: "https://example.com/profile.jpg",
     bannerUrl: "https://example.com/banner.jpg",
-    secondaryPhoneNumber: "1234567890",
+    secondaryPhone: "1234567890",
     secondaryEmail: "john.doe@example.com",
     hashedPassword: "1234567890",
-    primaryPhoneNumber: "1234567890",
+    primaryPhone: "1234567890",
+    createdBy: "1234567890",
+    createdDate: "2021-01-01",
+    modifiedBy: "1234567890",
+    modifiedDate: "2021-01-01",
+    activeStatus: "active",
+    companyId: "1234567890",
+
 };
 
 export default IUser;

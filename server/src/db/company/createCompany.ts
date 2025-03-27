@@ -1,4 +1,4 @@
-import { query } from "../../config/db/query";
+import query from "../query";
 
 type CompanyData = {
     userId: number;
