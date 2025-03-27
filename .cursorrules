@@ -1,17 +1,6 @@
 {
     "rules": [
         {
-            "name": "Initial Prompt Execution",
-            "description": "Execute all setup requirements and generate the complete initial codebase before proceeding.",
-            "sequential": true,
-            "steps": [
-                "Verify all implementation steps.",
-                "always memoize components using memo, useMemo, useCallback",
-                "always use useQuery for fetching data from api though an hook",
-                "always use arrow functions and export the function in the last line of the file if possible as default export"
-            ]
-        },
-        {
             "name": "Development Guidelines Adherence",
             "description": "Maintain coding standards, performance, and modularity as per .development-guidelines.",
             "sequential": true,
@@ -22,7 +11,11 @@
                 "Perform a final verification before project completion.",
                 "Verify all implementation steps.",
                 "Use memoization for performance optimizations. using useMemo and useCallback and memo",
-                "always use zod for validation"
+                "always use zod for validation",
+                "always use arrow functions and export the function in the last line of the file if possible as default export",
+                "always memoize components using memo, useMemo, useCallback",
+                "always use useQuery for fetching data from api though an hook",
+                "use Emojis in commit messages and error and toast messages"
             ]
         },
         {

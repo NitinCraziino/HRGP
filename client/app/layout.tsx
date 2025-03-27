@@ -4,12 +4,12 @@ import QueryProvider from "@/components/providers/QueryProvider";
 import NavBar from "@/components/layout/NavBar";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import { Toaster } from "@/components/ui/sonner";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 });
-
-
 
 export default function RootLayout({
   children,
@@ -26,6 +26,11 @@ export default function RootLayout({
           <NavBar />
           {children}
           <Footer />
+          <Toaster
+            position="top-right"
+            richColors
+            duration={3000}
+          />
         </QueryProvider>
       </body>
     </html>

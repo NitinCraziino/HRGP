@@ -1,24 +1,46 @@
 "use client";
+
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { InputWithError } from "../ui/input";
-import { Button } from "../ui/button";
 import Link from "next/link";
 import { Checkbox } from "../ui/checkbox";
 import { signinSchema } from "@/lib/schema";
+import useSignin from "@/hooks/api/auth/useSignin";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import ButtonWithLoading from "../ButtonWithLoading";
 
 const SigninForm = () => {
+    const router = useRouter();
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm({
         resolver: zodResolver(signinSchema),
+        defaultValues: {
+            email: "us12eat6sdf@pe.com",
+            password: "StrongP@ssw0rd",
+        }
     });
 
+    const { mutate: signin, isPending } = useSignin();
+
     const onSubmit = (data: z.infer<typeof signinSchema>) => {
-        console.log(data);
+        signin(data, {
+            onSuccess: () => {
+                router.push("/");
+                toast("Login successful", {
+                    icon: "🔑"
+                });
+            },
+            onError: (error: any) => {
+                const message = error.response?.data?.message || "Something went wrong";
+                toast.error(message);
+            }
+        });
     };
 
     return (
@@ -50,12 +72,13 @@ const SigninForm = () => {
                 </div>
             </div>
 
-            <Button
+            <ButtonWithLoading
+                isLoading={isPending}
                 type="submit"
-                className="py-2 px-8 rounded bg-[#5d45f8] hover:bg-[#4a35d9] text-sm float-right"
+                className="py-2 px-8 rounded bg-[#5d45f8] hover:bg-[#4a35d9] text-sm float-right min-w-[100px]"
             >
                 Login
-            </Button>
+            </ButtonWithLoading>
 
             <div className="text-start mt-16 text-sm">
                 Don&apos;t have an account?{" "}
