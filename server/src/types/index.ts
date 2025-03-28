@@ -17,3 +17,10 @@ export interface TokenPayload {
     name: string;
     companyId?: string;
 }
+
+
+export interface QueryResponse {
+    error: string;
+    isSuccess: number;
+}
+

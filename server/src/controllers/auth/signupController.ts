@@ -6,6 +6,8 @@ import createUser from "../../db/user/createUser";
 import bcrypt from "bcryptjs";
 import { paymentService } from "../../services/PaymentService";
 import createCompany from "../../db/company/createCompany";
+import createStripeCustomer from "../../db/stripe/createStripeCustomer";
+import createEmployee from "../../db/employee/createEmployee";
 
 const signupController = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -13,23 +15,23 @@ const signupController = async (req: Request, res: Response, next: NextFunction)
 
         const hashedPassword = await bcrypt.hash(validatedData.password, 10);
 
-        const userId = await createUser({
-            ...validatedData,
-            hashedPassword,
-        });
-
-        const companyResponse = await createCompany({
-            userId: 1,
-            companyName: validatedData.companyName,
-            companyType: validatedData.companyType,
-            industryId: validatedData.industryId,
-        });
-
-        // const employeeResponse = await createEmployee({
-        //     companyId: companyResponse[0].companyId,
-        //     userId,
-        //     positionTitle: validatedData.positionTitle,
+        // const userId = await createUser({
+        //     ...validatedData,
+        //     hashedPassword
         // });
+
+        // const companyResponse = await createCompany({
+        //     userId: 1,
+        //     companyName: validatedData.companyName,
+        //     companyType: validatedData.companyType,
+        //     industryId: validatedData.industryId,
+        // });
+
+        const employeeResponse = await createEmployee({
+            companyId: 1,
+            positionTitle: validatedData.positionTitle,
+            userId: 1,
+        });
 
         // const customerPayload = {
         //     email: validatedData.primaryEmail,
@@ -38,6 +40,14 @@ const signupController = async (req: Request, res: Response, next: NextFunction)
         // };
 
         // const stripeCustomer = await paymentService.createCustomer(customerPayload);
+
+        // // save the customer details in the database
+        // await createStripeCustomer({
+        //     userId: 1,
+        //     email: validatedData.primaryEmail,
+        //     name: `${validatedData.firstName} ${validatedData.lastName}`,
+        //     phone: validatedData.primaryPhoneNumber || "",
+        // });
 
         // console.log(stripeCustomer);
 

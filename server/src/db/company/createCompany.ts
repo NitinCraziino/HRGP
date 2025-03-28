@@ -1,6 +1,7 @@
 import query from "../query";
 import { executeDbQuery } from "../../utils";
 import { ValidationError } from "../../types/CustomError";
+import { QueryResponse } from "../../types";
 
 type CompanyData = {
     userId: number;
@@ -9,11 +10,9 @@ type CompanyData = {
     industryId: string;
 };
 
-type CompanyResponse = {
-    isSuccess: number;
-    error: string;
+interface Response extends QueryResponse {
     companyId: number;
-};
+}
 
 const createCompany = async ({ userId, companyName, companyType, industryId }: CompanyData) => {
     const params = [
@@ -31,8 +30,8 @@ const createCompany = async ({ userId, companyName, companyType, industryId }: C
         0, // company address id 
     ];
 
-    const companyResponse = await executeDbQuery<CompanyResponse>(async () => {
-        return await query<CompanyResponse>(`CALL usp_InsertCompanies(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, @outParam1, @outParam2, @outParam3); SELECT @outParam1 AS isSuccess, @outParam2 AS error, @outParam3 AS companyId;`, params);
+    const companyResponse = await executeDbQuery<Response>(async () => {
+        return await query(`CALL usp_InsertCompanies(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, @outParam1, @outParam2, @outParam3); SELECT @outParam1 AS isSuccess, @outParam2 AS error, @outParam3 AS companyId;`, params);
     }, "createCompany");
 
     if (companyResponse.isSuccess !== 1) {

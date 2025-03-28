@@ -1,6 +1,7 @@
 import query from "../query";
 import { ValidationError, ConflictError, InternalServerError } from "../../types/CustomError";
 import { executeDbQuery } from "../../utils";
+import { QueryResponse } from "../../types";
 
 type UserData = {
     firstName: string;
@@ -9,27 +10,55 @@ type UserData = {
     primaryPhoneNumber: string;
     // this should be hashed
     hashedPassword: string;
+    profilePicUrl?: string;
+    bannerUrl?: string;
+    timezoneId?: number;
+    isUserConcent?: boolean;
+    userStatus?: string;
+    roleId?: number;
+    secondaryPhoneNumber?: string;
+    secondaryEmail?: string;
+    stripeCustomerId?: string;
 };
 
-const createUser = async ({ firstName, lastName, primaryEmail, primaryPhoneNumber, hashedPassword }: UserData) => {
+interface Response extends QueryResponse {
+    userId: number;
+}
+
+const createUser = async ({
+    firstName,
+    lastName,
+    primaryEmail,
+    primaryPhoneNumber,
+    hashedPassword,
+    profilePicUrl,
+    bannerUrl,
+    timezoneId,
+    isUserConcent,
+    userStatus,
+    roleId,
+    secondaryPhoneNumber,
+    secondaryEmail,
+}: UserData) => {
+
     const signupData = [
         firstName,
         lastName,
         hashedPassword,
-        null,// profile pic url
-        null,// banner url
-        1,// timezone id
-        true,// is user concent
-        "Online",// user status
-        5,// role id
+        profilePicUrl || null,
+        bannerUrl || null,
+        timezoneId || 1,
+        isUserConcent || true,
+        userStatus || "Online",
+        roleId || 5,
         primaryPhoneNumber,
         primaryEmail,
-        null, // secondary phone number
-        null, // secondary email
+        secondaryPhoneNumber || null,
+        secondaryEmail || null,
     ];
 
-    const userResponse = await executeDbQuery<any>(async () => {
-        return await query<any>("CALL usp_SignupUser(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, @outParam1, @outParam2, @outParam3); SELECT @outParam1 AS error, @outParam2 AS userId, @outParam3 AS isSuccess; ", signupData);
+    const userResponse = await executeDbQuery<Response>(async () => {
+        return await query("CALL usp_SignupUser(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, @outParam1, @outParam2, @outParam3); SELECT @outParam1 AS error, @outParam2 AS userId, @outParam3 AS isSuccess; ", signupData);
     }, "createUser");
 
     console.log(userResponse);

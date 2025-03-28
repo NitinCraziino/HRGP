@@ -20,8 +20,8 @@ interface IUser {
     modifiedDate?: string;
     activeStatus?: string;
     createdDate?: string;
-    primaryPhone?: string;
-    secondaryPhone?: string;
+    primaryPhoneNumber?: string;
+    secondaryPhoneNumber?: string;
 }
 
 
@@ -37,10 +37,10 @@ export const demoUserGoogle: IUser = {
     timezoneId: 1,
     profilePicUrl: "https://example.com/profile.jpg",
     bannerUrl: "https://example.com/banner.jpg",
-    secondaryPhone: "1234567890",
+    secondaryPhoneNumber: "1234567890",
     secondaryEmail: "john.doe@example.com",
     hashedPassword: "1234567890",
-    primaryPhone: "1234567890",
+    primaryPhoneNumber: "1234567890",
     createdBy: "1234567890",
     createdDate: "2021-01-01",
     modifiedBy: "1234567890",
