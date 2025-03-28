@@ -34,6 +34,17 @@ const signinController = async (req: Request, res: Response, next: NextFunction)
 
         res.status(StatusCode.OK).json({
             token,
+            user: {
+                userId: user.userId,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                primaryEmail: user.primaryEmail,
+                companyId: user.companyId,
+                userStatus: user.userStatus,
+                roleId: user.roleId,
+                profilePicUrl: user.profilePicUrl,
+                bannerUrl: user.bannerUrl,
+            }
         });
 
     } catch (error) {

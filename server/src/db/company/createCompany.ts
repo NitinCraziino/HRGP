@@ -1,10 +1,18 @@
 import query from "../query";
+import { executeDbQuery } from "../../utils";
+import { ValidationError } from "../../types/CustomError";
 
 type CompanyData = {
     userId: number;
     companyName: string;
     companyType: string;
     industryId: string;
+};
+
+type CompanyResponse = {
+    isSuccess: number;
+    error: string;
+    companyId: number;
 };
 
 const createCompany = async ({ userId, companyName, companyType, industryId }: CompanyData) => {
@@ -21,42 +29,21 @@ const createCompany = async ({ userId, companyName, companyType, industryId }: C
         false,
         false,
         0,
-        "Active",
-        true,
-        null,
-        null
+        "Active"
     ];
-    console.log("params", params);
 
-    const companyResponse = await query<any>("CALL usp_UpsertCompanies(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, @outParam1, @outParam2)", params);
-    console.log("companyResponse", companyResponse);
+    const companyResponse = await executeDbQuery<CompanyResponse>(async () => {
+        return await query<CompanyResponse>(`
+            CALL usp_UpsertCompanies(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, @outParam1, @outParam2, @outParam3); 
+            SELECT @outParam1 AS isSuccess, @outParam2 AS error, @outParam3 AS companyId;
+        `, params);
+    }, "createCompany");
 
-    const output = await query<any>("SELECT @outParam1 AS outParam1, @outParam2 AS outParam2");
+    if (companyResponse.isSuccess !== 1) {
+        throw new ValidationError(companyResponse.error, "createCompany");
+    }
 
-    console.log("output", output);
-
-
-    return companyResponse;
+    return companyResponse.companyId;
 };
 
 export default createCompany;
-
-//     const userResponse = await executeDbQuery<any>(async () => {
-//         return await query<any>("CALL usp_SignupUser(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, @outParam1, @outParam2)", signupData);
-//     }, "create");
-
-
-//     const output = await query<any>("SELECT @outParam1 AS outParam1, @outParam2 AS outParam2");
-//     console.log("Procedure Response:", userResponse);
-//     console.log("Output Parameters:", output);
-//     // const errorMessage = userResponse[0][0]?.MESSAGE_TEXT;
-//     // const userId = userResponse[0][0]?.p_userId;
-
-//     // if (errorMessage === "this Email or phone is already resgisterd.") {
-//     //     throw new ConflictError("This email or phone number is already registered.", "create");
-//     // } else if (errorMessage) {
-//     //     throw new ValidationError(errorMessage, "create");
-//     // }
-//     // if (!userId) {
-//     //     throw new InternalServerError("Failed to create user.", "create");
-//     // }
