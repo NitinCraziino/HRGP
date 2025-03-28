@@ -5,6 +5,7 @@ import { StatusCode } from "../../types";
 import createUser from "../../db/user/createUser";
 import bcrypt from "bcryptjs";
 import { paymentService } from "../../services/PaymentService";
+import createCompany from "../../db/company/createCompany";
 
 const signupController = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -12,17 +13,17 @@ const signupController = async (req: Request, res: Response, next: NextFunction)
 
         const hashedPassword = await bcrypt.hash(validatedData.password, 10);
 
-        const userId = await createUser({
-            ...validatedData,
-            hashedPassword,
-        });
-
-        // const companyResponse = await createCompany({
-        //     userId,
-        //     companyName: validatedData.companyName,
-        //     companyType: validatedData.companyType,
-        //     industryId: validatedData.industryId,
+        // const userId = await createUser({
+        //     ...validatedData,
+        //     hashedPassword,
         // });
+
+        const companyResponse = await createCompany({
+            userId: 1,
+            companyName: validatedData.companyName,
+            companyType: validatedData.companyType,
+            industryId: validatedData.industryId,
+        });
 
         // const employeeResponse = await createEmployee({
         //     companyId: companyResponse[0].companyId,
@@ -30,15 +31,15 @@ const signupController = async (req: Request, res: Response, next: NextFunction)
         //     positionTitle: validatedData.positionTitle,
         // });
 
-        const customerPayload = {
-            email: validatedData.primaryEmail,
-            name: `${validatedData.firstName} ${validatedData.lastName}`,
-            phone: validatedData.primaryPhoneNumber || "",
-        };
+        // const customerPayload = {
+        //     email: validatedData.primaryEmail,
+        //     name: `${validatedData.firstName} ${validatedData.lastName}`,
+        //     phone: validatedData.primaryPhoneNumber || "",
+        // };
 
-        const stripeCustomer = await paymentService.createCustomer(customerPayload);
+        // const stripeCustomer = await paymentService.createCustomer(customerPayload);
 
-        console.log(stripeCustomer);
+        // console.log(stripeCustomer);
 
         res.status(StatusCode.CREATED).json();
     } catch (error) {

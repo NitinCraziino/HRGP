@@ -10,8 +10,8 @@ type UserData = {
     // this should be hashed
     hashedPassword: string;
 };
-const createUser = async ({ firstName, lastName, primaryEmail, primaryPhoneNumber, hashedPassword }: UserData) => {
 
+const createUser = async ({ firstName, lastName, primaryEmail, primaryPhoneNumber, hashedPassword }: UserData) => {
     const signupData = [
         firstName,
         lastName,
@@ -33,18 +33,18 @@ const createUser = async ({ firstName, lastName, primaryEmail, primaryPhoneNumbe
 
     const userResponse = await executeDbQuery<any>(async () => {
         return await query<any>("CALL usp_SignupUser(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", signupData);
-    }, "USER_SERVICE");
+    }, "createUser");
 
     const errorMessage = userResponse[0][0]?.MESSAGE_TEXT;
     const userId = userResponse[0][0]?.p_userId;
 
     if (errorMessage === "this Email or phone is already resgisterd.") {
-        throw new ConflictError("This email or phone number is already registered.", "USER_SERVICE");
+        throw new ConflictError("This email or phone number is already registered.", "createUser");
     } else if (errorMessage) {
-        throw new ValidationError(errorMessage, "USER_SERVICE");
+        throw new ValidationError(errorMessage, "createUser");
     }
     if (!userId) {
-        throw new InternalServerError("Failed to create user.", "USER_SERVICE");
+        throw new InternalServerError("Failed to create user.", "createUser");
     }
 
     return userId;
