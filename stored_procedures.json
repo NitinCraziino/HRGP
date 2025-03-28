@@ -33,36 +33,35 @@
         {
             "name": "usp_UpsertEmployee",
             "params": {
-                "INOUT_p_companyId": "@companyId", // required
-                "IN_p_userId": 2, // required
-                "IN_p_employeeCode": "EMP1234", // 1
-                "IN_p_managerId": 10, // 0
-                "IN_p_positionTitle": "Software Engineer", // required
-                "IN_p_employeeType": "Full-Time", // full-time
-                "IN_p_isRemoteWorking": true, // true
-                "IN_p_joiningDate": "2025-03-20", // current date
-                "IN_p_employeeStatus": "Active", // active
+                "INOUT_p_companyId": "@companyId",
+                "IN_p_userId": 2,
+                "IN_p_employeeCode": "EMP1234",
+                "IN_p_managerId": 10,
+                "IN_p_positionTitle": "Software Engineer",
+                "IN_p_employeeType": "Full-Time",
+                "IN_p_isRemoteWorking": true,
+                "IN_p_joiningDate": "2025-03-20",
+                "IN_p_employeeStatus": "Active",
                 "OUT_p_error": "@error",
                 "OUT_p_employeeId": "@employeeId",
                 "OUT_p_isSuccess": "@isSuccess"
             }
         },
         {
-            "name": "usp_UpsertCompanies",
+            "name": "usp_InsertCompanies",
             "params": {
                 "IN_p_userId": 3,
-                "IN_p_companyName": "Tech Innovations Inc.", // required
-                "IN_p_companyAbout": "Tech Company Description", // sting ""
-                "IN_p_companyType": "Limited Liability Company", // required
-                "IN_p_industryId": 8, // required
-                "IN_p_publicName": "TechInnovations", // null
-                "IN_p_logoUrl": "https://example.com/logo.png", // null
-                "IN_p_bannerUrl": "https://example.com/banner.png", // null
-                "IN_p_isautomatedJobCode": false, // false
-                "IN_p_isautomatedInvoiceNo": false, // false
-                "IN_p_isrecruitForCustomers": true, // false
-                "IN_p_companyAddressId": 200, // null
-                "IN_p_companyStatus": "Active", // active
+                "IN_p_companyName": "Tech Innovations Inc.",
+                "IN_p_companyAbout": "Tech Company Description",
+                "IN_p_companyType": "Limited Liability Company",
+                "IN_p_industryId": 8,
+                "IN_p_publicName": "TechInnovations",
+                "IN_p_logoUrl": "https://example.com/logo.png",
+                "IN_p_bannerUrl": "https://example.com/banner.png",
+                "IN_p_isautomatedJobCode": false,
+                "IN_p_isautomatedInvoiceNo": false,
+                "IN_p_isrecruitForCustomers": true,
+                "IN_p_companyAddressId": 200,
                 "OUT_p_isSuccess": "@isSuccess",
                 "OUT_p_error": "@error",
                 "OUT_p_companyId": "@companyId"
@@ -71,23 +70,34 @@
         {
             "name": "usp_SignupUser",
             "params": {
-                "IN_p_firstName": "John", // required
-                "IN_p_lastName": "Doe", // required
-                "IN_p_hashedPassword": "hashed_password_value", //required
-                "IN_p_profilePicUrl": "https://example.com/profile.jpg", // null
-                "IN_p_bannerUrl": "https://example.com/banner.jpg", // null
-                "IN_p_timezoneId": 1, // 1
-                "IN_p_isUserConcent": true, // true
-                "IN_p_userStatus": "Online", // online 
-                "IN_p_roleId": 5, // 1
-                "IN_p_primaryPhoneNumber": "1234567890", // required
-                "IN_p_PrimaryEmail": "john.doe@example.com", // required
-                "IN_p_secondaryPhoneNumber": "0987654321", // null
-                "IN_p_secondaryEmail": "john.alt@example.com", // null
+                "IN_p_firstName": "John",
+                "IN_p_lastName": "Doe",
+                "IN_p_hashedPassword": "hashed_password_value",
+                "IN_p_profilePicUrl": "https://example.com/profile.jpg",
+                "IN_p_bannerUrl": "https://example.com/banner.jpg",
+                "IN_p_timezoneId": 1,
+                "IN_p_isUserConcent": true,
+                "IN_p_userStatus": "Online",
+                "IN_p_roleId": 5,
+                "IN_p_primaryPhoneNumber": "1234567890",
+                "IN_p_PrimaryEmail": "john.doe@example.com",
+                "IN_p_secondaryPhoneNumber": "0987654321",
+                "IN_p_secondaryEmail": "john.alt@example.com",
                 "OUT_p_error": "@error",
                 "OUT_p_userId": "@userId",
                 "OUT_p_isSuccess": "@isSuccess"
+            },
+            {
+                "name": "usp_InsertCompanyPaymentDetails",
+                "params": {
+                    "IN_p_userId": 0,
+                    "INOUT_p_companyId": "Doe",
+                    "IN_p_stripeCustomerId": "hashed_password_value",
+                    "IN_p_stripeSubscriptionId": "https://example.com/profile.jpg",
+                    "IN_p_signUpOn": "https://example.com/banner.jpg",
+                    "OUT_p_error": "@error",
+                    "OUT_p_isSuccess": "@isSuccess"
+                }
             }
-        }
-    ]
-}
+        ]
+    }

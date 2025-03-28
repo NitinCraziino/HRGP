@@ -13,10 +13,10 @@ const signupController = async (req: Request, res: Response, next: NextFunction)
 
         const hashedPassword = await bcrypt.hash(validatedData.password, 10);
 
-        // const userId = await createUser({
-        //     ...validatedData,
-        //     hashedPassword,
-        // });
+        const userId = await createUser({
+            ...validatedData,
+            hashedPassword,
+        });
 
         const companyResponse = await createCompany({
             userId: 1,

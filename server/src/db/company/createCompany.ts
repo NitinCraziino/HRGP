@@ -19,24 +19,20 @@ const createCompany = async ({ userId, companyName, companyType, industryId }: C
     const params = [
         userId,
         companyName,
-        "",
+        "", // company about
         companyType,
         industryId,
-        null,
-        null,
-        null,
-        false,
-        false,
-        false,
-        0,
-        "Active"
+        null, // public name
+        null, // logo url
+        null, // banner url
+        false, // is automated job code
+        false, // is automated invoice no
+        false, // is recruit for customers
+        0, // company address id 
     ];
 
     const companyResponse = await executeDbQuery<CompanyResponse>(async () => {
-        return await query<CompanyResponse>(`
-            CALL usp_UpsertCompanies(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, @outParam1, @outParam2, @outParam3); 
-            SELECT @outParam1 AS isSuccess, @outParam2 AS error, @outParam3 AS companyId;
-        `, params);
+        return await query<CompanyResponse>(`CALL usp_InsertCompanies(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, @outParam1, @outParam2, @outParam3); SELECT @outParam1 AS isSuccess, @outParam2 AS error, @outParam3 AS companyId;`, params);
     }, "createCompany");
 
     if (companyResponse.isSuccess !== 1) {
