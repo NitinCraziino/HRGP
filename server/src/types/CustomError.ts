@@ -58,3 +58,9 @@ export class ConflictError extends CustomError {
         super(message, StatusCode.CONFLICT, location);
     }
 }
+
+export class PaymentError extends CustomError {
+    constructor(message: string = "Payment Error", location: string = 'Unknown') {
+        super(message, StatusCode.BAD_REQUEST, location);
+    }
+}

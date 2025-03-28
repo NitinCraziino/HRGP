@@ -3,8 +3,8 @@ import { ValidationError } from "../../types/CustomError";
 import validator from "validator";
 import { StatusCode } from "../../types";
 import createUser from "../../db/user/createUser";
-import createCompany from "../../db/company/createCompany";
 import bcrypt from "bcryptjs";
+import { paymentService } from "../../services/PaymentService";
 
 const signupController = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -17,12 +17,12 @@ const signupController = async (req: Request, res: Response, next: NextFunction)
             hashedPassword,
         });
 
-        const companyResponse = await createCompany({
-            userId,
-            companyName: validatedData.companyName,
-            companyType: validatedData.companyType,
-            industryId: validatedData.industryId,
-        });
+        // const companyResponse = await createCompany({
+        //     userId,
+        //     companyName: validatedData.companyName,
+        //     companyType: validatedData.companyType,
+        //     industryId: validatedData.industryId,
+        // });
 
         // const employeeResponse = await createEmployee({
         //     companyId: companyResponse[0].companyId,
@@ -30,6 +30,15 @@ const signupController = async (req: Request, res: Response, next: NextFunction)
         //     positionTitle: validatedData.positionTitle,
         // });
 
+        const customerPayload = {
+            email: validatedData.primaryEmail,
+            name: `${validatedData.firstName} ${validatedData.lastName}`,
+            phone: validatedData.primaryPhoneNumber || "",
+        };
+
+        const stripeCustomer = await paymentService.createCustomer(customerPayload);
+
+        console.log(stripeCustomer);
 
         res.status(StatusCode.CREATED).json();
     } catch (error) {
