@@ -8,7 +8,7 @@ const NavBar = () => {
     const pathname = usePathname();
     const showLinks = pathname !== '/signin';
     return (
-        <header className="bg-white border-b py-1 px-2 md:px-4 fixed top-[32px] left-0 right-0 z-40">
+        <header className="bg-white border-b py-1 px-2 md:px-4">
             <div className="max-w-6xl mx-auto flex items-center justify-between flex-wrap">
                 <div className="flex items-center gap-2 md:gap-4 w-full md:w-auto justify-between md:justify-start">
                     <Link href="/" className="flex items-center">

@@ -6,7 +6,6 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { Toaster } from "@/components/ui/sonner";
 import { RootLayoutProps } from "@/types/props";
-import PageWrapper from "@/components/layout/PageWrapper";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,14 +16,12 @@ const RootLayout = ({ children }: RootLayoutProps) => {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} antialiased`}
+        className={`${geistSans.variable} antialiased `}
       >
         <QueryProvider>
           <Header />
           <NavBar />
-          <PageWrapper>
-            {children}
-          </PageWrapper>
+          {children}
           <Footer />
           <Toaster
             position="top-right"

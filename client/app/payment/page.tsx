@@ -1,11 +1,9 @@
-import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import CardInput from "@/components/form/CardInput";
+import CardDetailsForm from "@/components/payment/CardDetailsForm";
 
 const paymentPage = () => {
     return (
-        <div className="min-h-screen flex items-center justify-center">
+        <div className="min-h-screen flex items-center justify-center ">
             <Card className="w-full max-w-lg">
                 <CardHeader className="text-center">
                     <CardTitle className="text-xl font-bold">
@@ -39,21 +37,8 @@ const paymentPage = () => {
                                 If you have any questions or need assistance, our support team is here to help!
                             </p>
 
-                            <div className="flex flex-col space-y-2">
-                                <CardInput label="Card Number" placeholder="Card number" />
-                                <Button className="w-full">
-                                    Start Your Free Trial Now!
-                                </Button>
-                            </div>
+                            <CardDetailsForm />
 
-                            <div className="text-xs text-gray-500 mt-4 text-center">
-                                <p>© 2008 - 2023 All rights reserved.</p>
-                                <p>Guided Hiring® is a registered trademark of Hire and Retain Good People LLC</p>
-                                <div className="mt-2 space-x-2">
-                                    <a href="#" className="underline">Terms & Conditions</a>
-                                    <a href="#" className="underline">Privacy Policy</a>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </CardContent>

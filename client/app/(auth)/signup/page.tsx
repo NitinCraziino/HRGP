@@ -5,7 +5,7 @@ import OAuthButtons from "@/components/auth/OAuthButtons";
 
 const Signup = () => {
     return (
-        <div className="flex justify-center items-center px-8 lg:px-32 py-20">
+        <div className="flex justify-center items-center px-8 lg:px-32 py-20 md:py-32">
             <div className="flex flex-col md:flex-row items-center justify-center max-w-6xl w-full ">
                 {/* Left Side - Image (Hidden on Small Screens) */}
                 <div className="hidden md:flex w-1/2 justify-center md:mr-10">
