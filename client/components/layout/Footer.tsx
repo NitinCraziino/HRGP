@@ -3,12 +3,12 @@ import React from 'react';
 
 const Footer = () => {
     return (
-        <footer className="fixed bottom-0 left-0 right-0 border-t py-4 px-4 md:px-8 bg-white">
-            <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center text-xs sm:text-sm text-gray-600 text-center">
-                <div className="mb-2 md:mb-0">
+        <footer className="border-t py-2 px-4 md:px-6 bg-white mt-auto">
+            <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center text-xs text-gray-600 text-center">
+                <div className="mb-1 md:mb-0">
                     © 2008 - 2023 All rights reserved. | Guided Hiring® is a registered trademark of Hire and Retain Good People LLC
                 </div>
-                <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 mt-2 md:mt-0">
+                <div className="flex flex-col sm:flex-row gap-1 sm:gap-3 mt-1 md:mt-0">
                     <Link href="/terms" className="text-blue-600 hover:underline">
                         Terms & Conditions
                     </Link>
