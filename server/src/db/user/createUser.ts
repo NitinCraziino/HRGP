@@ -69,6 +69,9 @@ const createUser = async ({
 
 
     if (userResponse.isSuccess !== 1) {
+        if (userResponse.error.includes("this Email or phone is already resgisterd.")) {
+            throw new ConflictError("Email or phone already exists", "createUser");
+        }
         throw new ValidationError(userResponse.error, "createUser");
     }
 

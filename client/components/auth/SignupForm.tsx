@@ -9,10 +9,12 @@ import Link from "next/link";
 import { Checkbox } from "../ui/checkbox";
 import { signupSchema } from "@/lib/schema";
 import { PhoneInputComponent } from "../ui/phoneinput";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import MultipleSelector from "../ui/multiselect";
-
+import useSignup from "@/hooks/api/auth/useSignup";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 const companyTypes = [
     { value: "Cooperative", label: "Cooperative" },
     { value: "Corporation", label: "Corporation" },
@@ -61,13 +63,14 @@ const SignupForm = () => {
     const [terms, setTerms] = useState(false);
     const [termsError, setTermsError] = useState("");
     const [tabs, setTabs] = useState(1);
+    const router = useRouter();
 
     const {
         register,
         handleSubmit,
         formState: { errors, },
         setValue,
-        trigger
+        trigger,
     } = useForm({
         resolver: zodResolver(signupSchema),
     });
@@ -102,9 +105,33 @@ const SignupForm = () => {
         setTabs(2);
     }, [validatePhoneAndTerms, trigger]);
 
+    const { mutate: signup, isPending } = useSignup();
+
     const onSubmit = useCallback((data: z.infer<typeof signupSchema>) => {
-        console.log(data);
-    }, []);
+        try {
+            signup({
+                firstName: data.firstName,
+                lastName: data.lastName,
+                primaryEmail: data.email,
+                primaryPhoneNumber: phone,
+                password: data.password,
+                companyName: data.companyName,
+                companyType: data.companyType,
+                industryId: data.industry,
+                positionTitle: data.positionTitle,
+            }, {
+                onError: (error: any) => {
+                    toast.error(error.response?.data?.message || "Something went wrong");
+                },
+                onSuccess: (data) => {
+                    toast.success("Signup successful");
+                    router.push("/payment");
+                }
+            });
+        } catch (error) {
+            console.error('error', phone);
+        }
+    }, [signup, phone]);
 
     const handleBack = useCallback(() => {
         setTabs(1);
@@ -272,7 +299,8 @@ const SignupForm = () => {
 
                             <Button
                                 type="submit"
-                                className="py-2 px-8 rounded bg-green-700 hover:bg-green-500 text-sm float-right"
+                                className={cn("py-2 px-8 rounded bg-green-700 hover:bg-green-500 text-sm float-right", isPending && "opacity-50 cursor-not-allowed")}
+                                disabled={isPending}
                             >
                                 Submit
                             </Button>

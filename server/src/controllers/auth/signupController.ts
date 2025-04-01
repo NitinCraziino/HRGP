@@ -50,6 +50,7 @@ const signupController = async (req: Request, res: Response, next: NextFunction)
             signUpOn: new Date().toISOString(),
         });
 
+
         const user: IUser = {
             userId: userId.toString(),
             primaryEmail: validatedData.primaryEmail,
@@ -85,6 +86,7 @@ const validateData = (data: any) => {
     if (!data) {
         throw new ValidationError("Invalid data");
     }
+    console.log('data', data);
 
     if (!primaryEmail || !primaryPhoneNumber || !password || !firstName || !lastName || !companyName || !companyType || !industryId || !positionTitle) {
         throw new ValidationError("All fields are required");
@@ -94,11 +96,12 @@ const validateData = (data: any) => {
         throw new ValidationError("Invalid primary email");
     }
 
-    if (!validator.isMobilePhone(primaryPhoneNumber, "any")) {
+    // can be all country codes with it + also can be without it
+    if (primaryPhoneNumber && !primaryPhoneNumber.replace(/^[0-9]+$/, '').length) {
         throw new ValidationError("Invalid primary phone number");
     }
 
-    if (!validator.isStrongPassword(password, { minLength: 8 })) {
+    if (password && password.trim().length < 8) {
         throw new ValidationError("Password must be at least 8 characters long");
     }
 
