@@ -2,7 +2,7 @@ import Image from "next/image";
 import SigninForm from "@/components/auth/SigninForm";
 import { memo } from "react";
 import OAuthButtons from "@/components/auth/OAuthButtons";
-import Container from "@/components/Container";
+import Container from "@/components/hoc/Container";
 
 const Signin = () => {
     return (
