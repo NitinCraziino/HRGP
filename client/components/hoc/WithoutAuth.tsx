@@ -1,13 +1,12 @@
 'use client';
-
 import useAuth from "@/hooks/states/useAuth";
-import { notFound } from "next/navigation";
-import { useEffect, memo, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import PageSkeleton from "../PageSkeleton";
+import { notFound } from "next/navigation";
 import { WrapperProps } from "@/types/props";
 
-const WithAuth = ({ children }: WrapperProps) => {
-    const { user, userToken } = useAuth();
+const WithoutAuth = ({ children }: WrapperProps) => {
+    const { userToken } = useAuth();
     const [isLoading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -20,11 +19,11 @@ const WithAuth = ({ children }: WrapperProps) => {
 
     if (isLoading) return <PageSkeleton />;
 
-    if (user || userToken) {
+    if (!userToken) {
         return <>{children}</>;
     }
 
     notFound();
 };
 
-export default memo(WithAuth);
+export default memo(WithoutAuth);

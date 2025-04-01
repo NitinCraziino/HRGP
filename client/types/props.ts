@@ -1,8 +1,14 @@
+import { ReactNode } from "react";
+
 export type ContainerProps = {
-    children: React.ReactNode;
+    children: ReactNode;
     className?: string;
 };
 
 export type RootLayoutProps = {
-    children: React.ReactNode;
+    children: ReactNode;
+};
+
+export type WrapperProps = {
+    children: ReactNode;
 };

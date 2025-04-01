@@ -4,10 +4,9 @@ import useAuth from "@/hooks/states/useAuth";
 import { notFound } from "next/navigation";
 import { useEffect, memo, useState } from "react";
 import PageSkeleton from "../PageSkeleton";
-import { WrapperProps } from "@/types/props";
 
-const WithAuth = ({ children }: WrapperProps) => {
-    const { user, userToken } = useAuth();
+const WithUser = ({ children }: { children: React.ReactNode; }) => {
+    const { user } = useAuth();
     const [isLoading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -20,11 +19,11 @@ const WithAuth = ({ children }: WrapperProps) => {
 
     if (isLoading) return <PageSkeleton />;
 
-    if (user || userToken) {
+    if (user) {
         return <>{children}</>;
     }
 
     notFound();
 };
 
-export default memo(WithAuth);
+export default memo(WithUser);
