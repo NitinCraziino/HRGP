@@ -6,25 +6,31 @@ import { QueryResponse } from "../../types";
 
 type CreateStripeCustomer = {
     userId: number;
-    email: string;
-    name: string;
-    phone: string;
+    companyId: number;
+    customerId: string;
+    subscriptionId: string;
+    signUpOn: string;
 };
 
 interface Response extends QueryResponse {
     stripeCustomerId: string;
 }
 
-const createStripeCustomer = async ({ userId, email, name, phone }: CreateStripeCustomer) => {
+const createStripeCustomer = async ({ userId, companyId, customerId, subscriptionId, signUpOn }: CreateStripeCustomer) => {
+    const params = [
+        userId,
+        companyId,
+        customerId,
+        subscriptionId,
+        signUpOn
+    ];
     const stripeCustomer = await executeDbQuery<Response>(async () => {
-        return await query("CALL usp_CreateStripeCustomer(?, ?, ?, ?, @outParam1, @outParam2, @outParam3); SELECT @outParam1 AS error, @outParam2 AS stripeCustomerId, @outParam3 AS isSuccess; ", [userId, email, name, phone]);
+        return await query("CALL usp_InsertCompanyPaymentDetails(?, ?, ?, ?, ?, @outParam1, @outParam2); SELECT @outParam1 AS error, @outParam2 AS isSuccess; ", params);
     }, "createStripeCustomer");
 
     if (stripeCustomer.isSuccess !== 1) {
         throw new ValidationError(stripeCustomer.error, "createStripeCustomer");
     }
-
-    return stripeCustomer.stripeCustomerId;
 };
 
 export default createStripeCustomer;

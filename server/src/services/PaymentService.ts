@@ -1,5 +1,5 @@
 import { Stripe } from 'stripe';
-import { STRIPE_SECRET } from '../config';
+import { HRGP_SUBSCRIPTION_PRICE_ID, HRGP_TWILIO_NUMBER_PRICE_ID, STRIPE_SECRET } from '../config';
 import { PaymentError } from '../types/CustomError';
 
 const stripe = new Stripe(STRIPE_SECRET!, {
@@ -7,6 +7,15 @@ const stripe = new Stripe(STRIPE_SECRET!, {
 });
 
 type CustomerPayload = {
+    email: string;
+    name: string;
+    phone: string;
+};
+
+type CreateSubscriptionPayload = {
+    paymentMethodId: string;
+    customerId: string;
+    companyId: string;
     email: string;
     name: string;
     phone: string;
@@ -21,6 +30,32 @@ export default class PaymentService {
             return customer;
         });
     }
+
+    async createSubscription({ paymentMethodId, customerId, companyId, email, name, phone }: CreateSubscriptionPayload): Promise<Stripe.Subscription> {
+        return this.tryCatch<Stripe.Subscription>(async () => {
+            // Attach payment method to customer
+            await stripe.paymentMethods.attach(paymentMethodId, { customer: customerId });
+
+            await stripe.customers.update(customerId, {
+                invoice_settings: { default_payment_method: paymentMethodId },
+            });
+
+            // Define subscription details
+            const subscription = await stripe.subscriptions.create({
+                customer: customerId,
+                metadata: { companyId, email, name, phone },
+                items: [
+                    { price: HRGP_SUBSCRIPTION_PRICE_ID },
+                    { price: HRGP_TWILIO_NUMBER_PRICE_ID },
+                ],
+                trial_period_days: 30,
+                expand: ["latest_invoice.payment_intent"],
+            });
+
+            return subscription;
+        });
+    }
+
 
     private async tryCatch<T>(fn: () => Promise<T>): Promise<T> {
         try {

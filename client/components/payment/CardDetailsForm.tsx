@@ -13,14 +13,23 @@ const CardDetailsForm = () => {
     const [errorMessage, setErrorMessage] = useState("");
     const { user } = useAuth();
 
+
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!stripe || !elements) {
             return;
         }
 
+        if (!user || !user.stripeCustomerId || !user.companyId || !user.primaryEmail || !user.firstName || !user.lastName || !user.primaryPhone) {
+            setErrorMessage("User data is missing.");
+            setLoading(false);
+            return;
+        }
+
+
         setLoading(true);
         setErrorMessage("");
+
 
         const cardElement = elements.getElement(CardElement);
         if (!cardElement) {
@@ -33,9 +42,9 @@ const CardDetailsForm = () => {
             type: "card",
             card: cardElement,
             billing_details: {
-                name: user?.firstName + " " + user?.lastName,
-                email: user?.primaryEmail,
-                phone: user?.primaryPhone
+                name: user.firstName + " " + user.lastName,
+                email: user.primaryEmail,
+                phone: user.primaryPhone
             },
         });
 
@@ -47,11 +56,11 @@ const CardDetailsForm = () => {
 
         const { data } = await createSubscription({
             paymentMethodId: paymentMethod.id,
-            customerId: user?.stripeCustomerId || "",
-            companyId: user?.companyId || "",
-            email: user?.primaryEmail || "",
-            name: user?.firstName + " " + user?.lastName || "",
-            phone: user?.primaryPhone || "",
+            customerId: user.stripeCustomerId,
+            companyId: user.companyId,
+            email: user.primaryEmail,
+            name: user.firstName + " " + user.lastName,
+            phone: user.primaryPhone,
         });
 
         console.log(data);

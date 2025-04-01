@@ -93,8 +93,8 @@
                     "IN_p_userId": 0,
                     "INOUT_p_companyId": "Doe",
                     "IN_p_stripeCustomerId": "hashed_password_value",
-                    "IN_p_stripeSubscriptionId": "https://example.com/profile.jpg",
-                    "IN_p_signUpOn": "https://example.com/banner.jpg",
+                    "IN_p_stripeSubscriptionId": "hashed_password_value",
+                    "IN_p_signUpOn": "hashed_password_value",
                     "OUT_p_error": "@error",
                     "OUT_p_isSuccess": "@isSuccess"
                 }

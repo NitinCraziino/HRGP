@@ -43,7 +43,7 @@ const signinController = async (req: Request, res: Response, next: NextFunction)
                 userStatus: user.userStatus,
                 roleId: user.roleId,
                 profilePicUrl: user.profilePicUrl,
-                bannerUrl: user.bannerUrl,
+                bannerUrl: user.bannerUrl
             }
         });
 

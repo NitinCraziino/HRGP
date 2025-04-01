@@ -15,41 +15,39 @@ const signupController = async (req: Request, res: Response, next: NextFunction)
 
         const hashedPassword = await bcrypt.hash(validatedData.password, 10);
 
-        // const userId = await createUser({
-        //     ...validatedData,
-        //     hashedPassword
-        // });
+        const userId = await createUser({
+            ...validatedData,
+            hashedPassword
+        });
 
-        // const companyResponse = await createCompany({
-        //     userId: 1,
-        //     companyName: validatedData.companyName,
-        //     companyType: validatedData.companyType,
-        //     industryId: validatedData.industryId,
-        // });
+        const companyId = await createCompany({
+            userId: 1,
+            companyName: validatedData.companyName,
+            companyType: validatedData.companyType,
+            industryId: validatedData.industryId,
+        });
 
-        const employeeResponse = await createEmployee({
+        await createEmployee({
             companyId: 1,
             positionTitle: validatedData.positionTitle,
             userId: 1,
         });
 
-        // const customerPayload = {
-        //     email: validatedData.primaryEmail,
-        //     name: `${validatedData.firstName} ${validatedData.lastName}`,
-        //     phone: validatedData.primaryPhoneNumber || "",
-        // };
+        const customerPayload = {
+            email: validatedData.primaryEmail,
+            name: `${validatedData.firstName} ${validatedData.lastName}`,
+            phone: validatedData.primaryPhoneNumber || "",
+        };
 
-        // const stripeCustomer = await paymentService.createCustomer(customerPayload);
+        const stripeCustomer = await paymentService.createCustomer(customerPayload);
 
-        // // save the customer details in the database
-        // await createStripeCustomer({
-        //     userId: 1,
-        //     email: validatedData.primaryEmail,
-        //     name: `${validatedData.firstName} ${validatedData.lastName}`,
-        //     phone: validatedData.primaryPhoneNumber || "",
-        // });
-
-        // console.log(stripeCustomer);
+        await createStripeCustomer({
+            userId: 1,
+            companyId: 1,
+            customerId: stripeCustomer.id,
+            subscriptionId: "",
+            signUpOn: "",
+        });
 
         res.status(StatusCode.CREATED).json();
     } catch (error) {

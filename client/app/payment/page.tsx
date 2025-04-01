@@ -5,10 +5,11 @@ import CardDetailsForm from "@/components/payment/CardDetailsForm";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { STRIPE_PUBLISHABLE_KEY } from "@/config";
-
+import useAuth from "@/hooks/states/useAuth";
 const stripePromise = loadStripe("pk_test_ZuUQzt0DVChoJPDT86CvotoH00asrs6E8c"!);
 
 const paymentPage = () => {
+    const { user } = useAuth();
     return (
         <div className="min-h-screen flex items-center justify-center ">
             <Card className="w-full max-w-lg">
