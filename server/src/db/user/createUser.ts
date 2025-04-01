@@ -19,6 +19,8 @@ type UserData = {
     secondaryPhoneNumber?: string;
     secondaryEmail?: string;
     stripeCustomerId?: string;
+    googleToken?: string;
+    linkedinToken?: string;
 };
 
 interface Response extends QueryResponse {
@@ -39,6 +41,8 @@ const createUser = async ({
     roleId,
     secondaryPhoneNumber,
     secondaryEmail,
+    googleToken,
+    linkedinToken,
 }: UserData) => {
 
     const signupData = [

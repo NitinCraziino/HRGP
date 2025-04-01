@@ -1,5 +1,12 @@
+'use client';
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import CardDetailsForm from "@/components/payment/CardDetailsForm";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import { STRIPE_PUBLISHABLE_KEY } from "@/config";
+
+const stripePromise = loadStripe("pk_test_ZuUQzt0DVChoJPDT86CvotoH00asrs6E8c"!);
 
 const paymentPage = () => {
     return (
@@ -37,7 +44,9 @@ const paymentPage = () => {
                                 If you have any questions or need assistance, our support team is here to help!
                             </p>
 
-                            <CardDetailsForm />
+                            <Elements stripe={stripePromise}>
+                                <CardDetailsForm />
+                            </Elements>
 
                         </div>
                     </div>
