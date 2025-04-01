@@ -8,6 +8,7 @@ import { paymentService } from "../../services/PaymentService";
 import createCompany from "../../db/company/createCompany";
 import createStripeCustomer from "../../db/stripe/createStripeCustomer";
 import createEmployee from "../../db/employee/createEmployee";
+import IUser from "../../types/IUser";
 
 const signupController = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -21,16 +22,16 @@ const signupController = async (req: Request, res: Response, next: NextFunction)
         });
 
         const companyId = await createCompany({
-            userId: 1,
+            userId: userId,
             companyName: validatedData.companyName,
             companyType: validatedData.companyType,
             industryId: validatedData.industryId,
         });
 
         await createEmployee({
-            companyId: 1,
+            companyId: companyId,
             positionTitle: validatedData.positionTitle,
-            userId: 1,
+            userId: userId,
         });
 
         const customerPayload = {
@@ -42,14 +43,24 @@ const signupController = async (req: Request, res: Response, next: NextFunction)
         const stripeCustomer = await paymentService.createCustomer(customerPayload);
 
         await createStripeCustomer({
-            userId: 1,
-            companyId: 1,
+            userId: userId,
+            companyId: companyId,
             customerId: stripeCustomer.id,
             subscriptionId: "",
-            signUpOn: "",
+            signUpOn: new Date().toISOString(),
         });
 
-        res.status(StatusCode.CREATED).json();
+        const user: IUser = {
+            userId: userId.toString(),
+            primaryEmail: validatedData.primaryEmail,
+            primaryPhoneNumber: validatedData.primaryPhoneNumber,
+            firstName: validatedData.firstName,
+            lastName: validatedData.lastName,
+            companyId: companyId.toString(),
+            stripeCustomerId: stripeCustomer.id
+        };
+
+        res.status(StatusCode.CREATED).json(user);
     } catch (error) {
         if (error instanceof ValidationError && error.location === "Unknown") {
             next(new ValidationError(error.message, "SIGNUP_CONTROLLER"));

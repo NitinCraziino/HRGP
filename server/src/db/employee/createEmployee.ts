@@ -14,6 +14,12 @@ type EmployeeData = {
     employeeStatus?: string;
 };
 
+type EmployeeResponse = {
+    employeeId: number;
+    isSuccess: number;
+    error: string;
+};
+
 const createEmployee = async ({ companyId, userId, positionTitle, employeeCode, managerId, employeeType, isRemoteWorking, joiningDate, employeeStatus }: EmployeeData) => {
     const params = [
         companyId,
@@ -30,13 +36,12 @@ const createEmployee = async ({ companyId, userId, positionTitle, employeeCode, 
         return await query("CALL usp_UpsertEmployee(?, ?, ?, ?, ?, ?, ?, ?, ?, @outParam1, @outParam2, @outParam3); SELECT @outParam1 AS error, @outParam2 AS employeeId, @outParam3 AS isSuccess;", params);
     }, "createEmployee");
 
-    console.log(employeeResponse);
 
     if (employeeResponse.isSuccess !== 1) {
         throw new ValidationError(employeeResponse.error, "createEmployee");
     }
 
-    return employeeResponse;
+    return employeeResponse.employeeId;
 };
 
 export default createEmployee;

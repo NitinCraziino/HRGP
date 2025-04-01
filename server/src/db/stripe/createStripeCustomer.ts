@@ -25,12 +25,14 @@ const createStripeCustomer = async ({ userId, companyId, customerId, subscriptio
         signUpOn
     ];
     const stripeCustomer = await executeDbQuery<Response>(async () => {
-        return await query("CALL usp_InsertCompanyPaymentDetails(?, ?, ?, ?, ?, @outParam1, @outParam2); SELECT @outParam1 AS error, @outParam2 AS isSuccess; ", params);
+        return await query("CALL usp_InsertCompanyPaymentDetails(?, ?, ?, ?, ?, @outParam1, @outParam2); SELECT @outParam1 AS isSuccess, @outParam2 AS error; ", params);
     }, "createStripeCustomer");
 
     if (stripeCustomer.isSuccess !== 1) {
         throw new ValidationError(stripeCustomer.error, "createStripeCustomer");
     }
+
+    return stripeCustomer.stripeCustomerId;
 };
 
 export default createStripeCustomer;

@@ -59,27 +59,21 @@ const createUser = async ({
         primaryEmail,
         secondaryPhoneNumber || null,
         secondaryEmail || null,
+        googleToken || null,
+        linkedinToken || null,
     ];
 
     const userResponse = await executeDbQuery<Response>(async () => {
-        return await query("CALL usp_SignupUser(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, @outParam1, @outParam2, @outParam3); SELECT @outParam1 AS error, @outParam2 AS userId, @outParam3 AS isSuccess; ", signupData);
+        return await query("CALL usp_SignupUser(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, @outParam1, @outParam2, @outParam3); SELECT @outParam1 AS isSuccess, @outParam2 AS error, @outParam3 AS userId; ", signupData);
     }, "createUser");
 
-    console.log(userResponse);
 
-    // const errorMessage = userResponse[0][0]?.MESSAGE_TEXT;
-    // const userId = userResponse[0][0]?.p_userId;
+    if (userResponse.isSuccess !== 1) {
+        throw new ValidationError(userResponse.error, "createUser");
+    }
 
-    // if (errorMessage === "this Email or phone is already resgisterd.") {
-    //     throw new ConflictError("This email or phone number is already registered.", "createUser");
-    // } else if (errorMessage) {
-    //     throw new ValidationError(errorMessage, "createUser");
-    // }
-    // if (!userId) {
-    //     throw new InternalServerError("Failed to create user.", "createUser");
-    // }
 
-    return 'userId';
+    return userResponse.userId;
 };
 
 export default createUser;

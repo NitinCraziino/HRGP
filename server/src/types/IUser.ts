@@ -22,6 +22,7 @@ interface IUser {
     createdDate?: string;
     primaryPhoneNumber?: string;
     secondaryPhoneNumber?: string;
+    stripeCustomerId?: string;
 }
 
 

@@ -12,7 +12,7 @@ import { InternalServerError } from "../types/CustomError";
 export const executeDbQuery = async <T>(queryFn: () => Promise<T>, serviceName: string): Promise<T> => {
     try {
         const result = await queryFn();
-        console.log("result", result);
+        console.log(serviceName, "result", result);
         // @ts-ignore
         return result[1][0] as T;
     } catch (error) {
