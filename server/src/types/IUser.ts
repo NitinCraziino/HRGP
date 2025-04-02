@@ -15,7 +15,7 @@ interface IUser {
     companyId?: string;
     createdBy?: string;
     googleToken?: string;
-    linkdenToken?: string;
+    linkedinToken?: string;
     modifiedBy?: string;
     modifiedDate?: string;
     activeStatus?: string;

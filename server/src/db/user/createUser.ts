@@ -1,9 +1,10 @@
 import query from "../query";
-import { ValidationError, ConflictError, InternalServerError } from "../../types/CustomError";
+import { ValidationError, ConflictError } from "../../types/CustomError";
 import { executeDbQuery } from "../../utils";
 import { QueryResponse } from "../../types";
 
 type UserData = {
+    companyId?: number;
     firstName: string;
     lastName: string;
     primaryEmail: string;
@@ -43,9 +44,11 @@ const createUser = async ({
     secondaryEmail,
     googleToken,
     linkedinToken,
+    companyId,
 }: UserData) => {
 
     const signupData = [
+        companyId || 0,
         firstName,
         lastName,
         hashedPassword,
@@ -64,7 +67,7 @@ const createUser = async ({
     ];
 
     const userResponse = await executeDbQuery<Response>(async () => {
-        return await query("CALL usp_SignupUser(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, @outParam1, @outParam2, @outParam3); SELECT @outParam1 AS isSuccess, @outParam2 AS error, @outParam3 AS userId; ", signupData);
+        return await query("CALL usp_SignupUser(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, @outParam1, @outParam2, @outParam3); SELECT @outParam1 AS isSuccess, @outParam2 AS error, @outParam3 AS userId; ", signupData);
     }, "createUser");
 
 

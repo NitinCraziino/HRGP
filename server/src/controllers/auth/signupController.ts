@@ -9,6 +9,7 @@ import updateStripeCustomerSubscription from "../../db/stripe/updateStripeCustom
 import createEmployee from "../../db/employee/createEmployee";
 import IUser from "../../types/IUser";
 import { z } from "zod";
+import updateCompanyId from "../../db/user/updateCompanyId";
 
 const signupController = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -16,12 +17,14 @@ const signupController = async (req: Request, res: Response, next: NextFunction)
 
         const hashedPassword = await bcrypt.hash(validatedData.password, 10);
 
+        // create a new user
         const userId = await createUser({
             ...validatedData,
             hashedPassword,
             primaryPhoneNumber: validatedData.primaryPhoneNumber!
         });
 
+        // create a new company
         const companyId = await createCompany({
             userId: userId,
             companyName: validatedData.companyName,
@@ -29,20 +32,25 @@ const signupController = async (req: Request, res: Response, next: NextFunction)
             industryId: validatedData.industryId,
         });
 
+        // update the user's company id
+        await updateCompanyId(userId, companyId);
+
+        // create a new employee
         await createEmployee({
             companyId: companyId,
             positionTitle: validatedData.positionTitle,
             userId: userId,
         });
 
+        // create a new stripe customerId
         const customerPayload = {
             email: validatedData.primaryEmail,
             name: `${validatedData.firstName} ${validatedData.lastName}`,
             phone: validatedData.primaryPhoneNumber || "",
         };
-
         const stripeCustomer = await paymentService.createCustomer(customerPayload);
 
+        // update the stripe customerId
         await updateStripeCustomerSubscription({
             userId: userId.toString(),
             companyId: companyId.toString(),
@@ -51,6 +59,7 @@ const signupController = async (req: Request, res: Response, next: NextFunction)
             signUpOn: new Date().toISOString(),
         });
 
+        // extract the user data to send to the client
         const user: IUser = {
             userId: userId.toString(),
             primaryEmail: validatedData.primaryEmail,

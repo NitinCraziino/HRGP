@@ -1,18 +1,17 @@
 import query from "../query";
 import IUser from "../../types/IUser";
-import { executeDbQuery } from "../../utils";
+import { executeDbQueryDirect } from "../../utils";
 
 export const getUserByEmail = async (email: string) => {
-    return executeDbQuery<IUser>(async () => {
+    return executeDbQueryDirect<IUser>(async () => {
         const response = await query<any>("SELECT * FROM Users WHERE primaryEmail = ?", [email]);
-        return response[0];
+        return response;
     }, "getUserByEmail");
 };
 
 export const getUserById = async (id: string) => {
-    return executeDbQuery<IUser>(async () => {
+    return executeDbQueryDirect<IUser>(async () => {
         const response = await query<any>("SELECT * FROM Users WHERE userId = ?", [id]);
-        return response[0];
+        return response;
     }, "getUserById");
 };
-

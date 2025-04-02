@@ -70,6 +70,7 @@
         {
             "name": "usp_SignupUser",
             "params": {
+                "IN_p_companyId": 0,
                 "IN_p_firstName": "John",
                 "IN_p_lastName": "Doe",
                 "IN_p_hashedPassword": "hashed_password_value",
@@ -91,13 +92,62 @@
                 "name": "usp_InsertCompanyPaymentDetails",
                 "params": {
                     "IN_p_userId": 0,
-                    "INOUT_p_companyId": "Doe",
-                    "IN_p_stripeCustomerId": "hashed_password_value",
-                    "IN_p_stripeSubscriptionId": "hashed_password_value",
-                    "IN_p_signUpOn": "hashed_password_value",
-                    "OUT_p_isSuccess": "@isSuccess",
-                    "OUT_p_error": "@error"
-                }
-            }
-        ]
-    }
+                    "IN_p_companyId": 0,
+                    "IN_p_stripeCustomerId": "string",
+                    "IN_p_stripeSubscriptionId": "string",
+                    "IN_p_signUpOn": "1900-01-01 00:00:00",
+                    "OUT_p_error": "@error",
+                    "OUT_p_isSuccess": "@isSuccess"
+                },
+                {
+                    "name": "usp_InsertCompaniesBranchDetails",
+                    "params": {
+                        "IN_p_userId": 0,
+                        "IN_p_companyId": 0,
+                        "IN_p_branchAddress": "string",
+                        "IN_p_addressType": "string" ("Primary",
+                        "Branch"),
+                        "IN_p_countryId": 0,
+                        "IN_p_stateId": 0,
+                        "IN_p_cityId": 0,
+                        "IN_p_pincode": "98984873",
+                        "OUT_p_error": "@error",
+                        "OUT_p_isSuccess": "@isSuccess",
+                        "OUT_p_CompanyBranchDetailsId": "@CompanyBranchDetailsId"
+                    },
+                    {
+                        "name": "usp_InsertTwilioDetails",
+                        "params": {
+                            "IN_p_userId": 0,
+                            "IN_p_companyId": 0,
+                            "IN_p_twilioAccountSid": "string",
+                            "IN_p_isTwilioApproved": 0,
+                            "OUT_p_error": "@error",
+                            "OUT_p_isSuccess": "@isSuccess",
+                            "OUT_p_TwilioDetailsId": "@TwilioDetailsId"
+                        },
+                        {
+                            "name": "usp_UpdateCompanyPurchasedPhones",
+                            "params": {
+                                "IN_p_userId": 0,
+                                "IN_p_phoneId": 0,
+                                "IN_p_employeeId": 0,
+                                "IN_p_phoneStatus": "string" ("Active",
+                                "InActive"),
+                                "IN_p_isemployeeAssignment": 0,
+                                1,
+                                "IN_p_removedOn": "1900-01-01 00:00:00",
+                                "OUT_p_error": "@error",
+                                "OUT_p_isSuccess": "@isSuccess"
+                            },
+                            {
+                                "name": "usp_UpdateCompanyforUser",
+                                "params": {
+                                    "IN_p_userId": 0,
+                                    "IN_p_companyId": 0,
+                                    "OUT_p_error": "@error",
+                                    "OUT_p_isSuccess": "@isSuccess"
+                                }
+                            }
+                        ]
+                    }
