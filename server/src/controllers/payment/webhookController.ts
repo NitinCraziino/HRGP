@@ -11,7 +11,6 @@ const webhookController = async (req: Request, res: Response, next: NextFunction
 
         switch (eventType) {
             case "payment_intent.payment_failed":
-
                 break;
             case "payment_intent.payment_succeeded":
                 break;

@@ -32,4 +32,5 @@ export interface CreateSubscriptionProps {
     email: string;
     name: string;
     phone: string;
+    userId: string;
 }

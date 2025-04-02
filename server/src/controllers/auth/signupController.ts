@@ -1,24 +1,25 @@
 import { Request, Response, NextFunction } from "express";
 import { ValidationError } from "../../types/CustomError";
-import validator from "validator";
 import { StatusCode } from "../../types";
 import createUser from "../../db/user/createUser";
 import bcrypt from "bcryptjs";
 import { paymentService } from "../../services/PaymentService";
 import createCompany from "../../db/company/createCompany";
-import createStripeCustomer from "../../db/stripe/createStripeCustomer";
+import updateStripeCustomerSubscription from "../../db/stripe/updateStripeCustomerSubscription";
 import createEmployee from "../../db/employee/createEmployee";
 import IUser from "../../types/IUser";
+import { z } from "zod";
 
 const signupController = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const validatedData = validateData(req.body);
+        const validatedData = signupSchema.parse(req.body);
 
         const hashedPassword = await bcrypt.hash(validatedData.password, 10);
 
         const userId = await createUser({
             ...validatedData,
-            hashedPassword
+            hashedPassword,
+            primaryPhoneNumber: validatedData.primaryPhoneNumber!
         });
 
         const companyId = await createCompany({
@@ -42,14 +43,13 @@ const signupController = async (req: Request, res: Response, next: NextFunction)
 
         const stripeCustomer = await paymentService.createCustomer(customerPayload);
 
-        await createStripeCustomer({
-            userId: userId,
-            companyId: companyId,
+        await updateStripeCustomerSubscription({
+            userId: userId.toString(),
+            companyId: companyId.toString(),
             customerId: stripeCustomer.id,
             subscriptionId: "",
             signUpOn: new Date().toISOString(),
         });
-
 
         const user: IUser = {
             userId: userId.toString(),
@@ -66,70 +66,26 @@ const signupController = async (req: Request, res: Response, next: NextFunction)
         if (error instanceof ValidationError && error.location === "Unknown") {
             next(new ValidationError(error.message, "SIGNUP_CONTROLLER"));
         }
+        // Catch and handle Zod validation errors
+        if (error instanceof z.ZodError) {
+            next(new ValidationError("Validation failed: " + error.errors.map(e => e.message).join(", "), "SIGNUP_CONTROLLER"));
+        }
         next(error);
     }
 };
 
-const validateData = (data: any) => {
-    const {
-        primaryEmail,
-        primaryPhoneNumber,
-        password,
-        firstName,
-        lastName,
-        companyName,
-        companyType,
-        industryId,
-        positionTitle,
-    } = data;
+export default signupController;
 
-    if (!data) {
-        throw new ValidationError("Invalid data");
-    }
-    console.log('data', data);
 
-    if (!primaryEmail || !primaryPhoneNumber || !password || !firstName || !lastName || !companyName || !companyType || !industryId || !positionTitle) {
-        throw new ValidationError("All fields are required");
-    }
-
-    if (!validator.isEmail(primaryEmail)) {
-        throw new ValidationError("Invalid primary email");
-    }
-
-    // can be all country codes with it + also can be without it
-    if (primaryPhoneNumber && !primaryPhoneNumber.replace(/^[0-9]+$/, '').length) {
-        throw new ValidationError("Invalid primary phone number");
-    }
-
-    if (password && password.trim().length < 8) {
-        throw new ValidationError("Password must be at least 8 characters long");
-    }
-
-    if (!validator.isLength(firstName, { min: 1, max: 50 })) {
-        throw new ValidationError("First name must be between 1 and 50 characters");
-    }
-
-    if (!validator.isLength(lastName, { min: 1, max: 50 })) {
-        throw new ValidationError("Last name must be between 1 and 50 characters");
-    }
-
-    if (!validator.isLength(companyName, { min: 1, max: 100 })) {
-        throw new ValidationError("Company name must be between 1 and 100 characters");
-    }
-
-    if (!validator.isLength(companyType, { min: 1, max: 100 })) {
-        throw new ValidationError("Company type must be between 1 and 100 characters");
-    }
-
-    if (!validator.isLength(industryId, { min: 1, max: 100 })) {
-        throw new ValidationError("Industry ID must be between 1 and 100 characters");
-    }
-
-    if (!validator.isLength(positionTitle, { min: 1, max: 100 })) {
-        throw new ValidationError("Position title must be between 1 and 100 characters");
-    }
-
-    return { primaryEmail, primaryPhoneNumber, password, firstName, lastName, companyName, companyType, industryId, positionTitle };
-};
-
-export default signupController;    
+// Zod schema definition for validation
+const signupSchema = z.object({
+    primaryEmail: z.string().email("Invalid primary email"),
+    primaryPhoneNumber: z.string(),
+    password: z.string().min(8, "Password must be at least 8 characters long"),
+    firstName: z.string().min(1, "First name must be between 1 and 50 characters").max(50),
+    lastName: z.string().min(1, "Last name must be between 1 and 50 characters").max(50),
+    companyName: z.string().min(1, "Company name must be between 1 and 100 characters").max(100),
+    companyType: z.string().min(1, "Company type must be between 1 and 100 characters").max(100),
+    industryId: z.string().min(1, "Industry ID must be between 1 and 100 characters").max(100),
+    positionTitle: z.string().min(1, "Position title must be between 1 and 100 characters").max(100),
+});

@@ -3,23 +3,20 @@ import { NextFunction, Request, Response } from "express";
 import { ValidationError } from "../../types/CustomError";
 import { jwtService } from "../../services/JwtService";
 import { StatusCode } from "../../types";
-import validator from "validator";
 import bcrypt from "bcryptjs";
+import z from "zod";
 
 const signinController = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const { email, password } = req.body;
-        if (!email || !password || !validator.isEmail(email) || !validator.isLength(password, { min: 8 })) {
-            throw new ValidationError("Invalid email or password");
-        }
+        const validatedData = signinSchema.parse(req.body);
 
-        const user = await getUserByEmail(email);
+        const user = await getUserByEmail(validatedData.primaryEmail);
 
         if (!user) {
             throw new ValidationError("Invalid email or password");
         }
 
-        const isPasswordValid = await bcrypt.compare(password, user.hashedPassword!);
+        const isPasswordValid = await bcrypt.compare(validatedData.password, user.hashedPassword!);
 
         if (!isPasswordValid) {
             throw new ValidationError("Invalid email or password");
@@ -40,10 +37,7 @@ const signinController = async (req: Request, res: Response, next: NextFunction)
                 lastName: user.lastName,
                 primaryEmail: user.primaryEmail,
                 companyId: user.companyId,
-                userStatus: user.userStatus,
-                roleId: user.roleId,
-                profilePicUrl: user.profilePicUrl,
-                bannerUrl: user.bannerUrl
+                primaryPhoneNumber: user.primaryPhoneNumber,
             }
         });
 
@@ -57,3 +51,11 @@ const signinController = async (req: Request, res: Response, next: NextFunction)
 };
 
 export default signinController;
+
+
+
+// Zod schema definition for validation
+const signinSchema = z.object({
+    primaryEmail: z.string().email("Invalid primary email"),
+    password: z.string().min(8, "Password must be at least 8 characters long"),
+});

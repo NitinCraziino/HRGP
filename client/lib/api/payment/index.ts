@@ -8,6 +8,7 @@ export const createSubscription = async ({
     email,
     name,
     phone,
+    userId
 }: CreateSubscriptionProps) => {
     const response = await api.post("/payment/create-subscription", {
         paymentMethodId,
@@ -16,6 +17,7 @@ export const createSubscription = async ({
         email,
         name,
         phone,
+        userId
     });
     return response.data;
 };

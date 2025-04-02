@@ -5,6 +5,7 @@ import ButtonWithLoading from "../ButtonWithLoading";
 import { memo, useState } from "react";
 import useAuth from "@/hooks/states/useAuth";
 import { useCreateSubscription } from "@/hooks/api/payment";
+import { toast } from "sonner";
 
 const PaymentForm = () => {
     const stripe = useStripe();
@@ -57,13 +58,17 @@ const PaymentForm = () => {
                 companyId: user.companyId,
                 email: user.primaryEmail,
                 name: user.firstName + " " + user.lastName,
-                phone: user.primaryPhoneNumber
+                phone: user.primaryPhoneNumber,
+                userId: user.userId
             }, {
                 onError: (error: any) => {
-                    setErrorMessage(error.response.data.message || "Something wend wrong");
+                    const message = error.response.data.message || "Something wend wrong";
+                    setErrorMessage(message);
+                    toast.error(message);
                 },
                 onSuccess: (data) => {
                     console.log(data);
+                    toast.success("Subscription created successfully");
                 }
             }
             );
