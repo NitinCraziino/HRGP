@@ -20,7 +20,7 @@ const createSubscription = async (req: Request, res: Response, next: NextFunctio
         }
 
 
-
+        res.status(StatusCode.CREATED);
     } catch (error) {
         next(error);
     }

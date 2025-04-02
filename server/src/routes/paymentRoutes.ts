@@ -1,5 +1,5 @@
 import { Router } from "express";
-import createSubscription from "../controllers/payment/createSubscription";
+import createSubscription from "../controllers/payment/createSubscriptionController";
 
 const router = Router();
 

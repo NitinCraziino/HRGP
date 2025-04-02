@@ -58,6 +58,16 @@ export default class PaymentService {
         });
     }
 
+    async handleInvoicePaid(body: Buffer, signature: string) {
+        return this.tryCatch<{ invoice: Stripe.Invoice, eventType: string; }>(async () => {
+            const event = stripe.webhooks.constructEvent(body, signature, process.env.STRIPE_WEBHOOK_SECRET!);
+
+            const invoice = event.data.object as Stripe.Invoice;
+
+            return { invoice, eventType: event.type };
+        });
+    }
+
 
     private async tryCatch<T>(fn: () => Promise<T>): Promise<T> {
         try {
