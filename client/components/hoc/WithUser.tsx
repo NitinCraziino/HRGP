@@ -6,7 +6,7 @@ import { useEffect, memo, useState } from "react";
 import PageSkeleton from "../PageSkeleton";
 
 const WithUser = ({ children }: { children: React.ReactNode; }) => {
-    const { user } = useAuth();
+    const { user, userToken } = useAuth();
     const [isLoading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -19,7 +19,7 @@ const WithUser = ({ children }: { children: React.ReactNode; }) => {
 
     if (isLoading) return <PageSkeleton />;
 
-    if (user) {
+    if (user && !userToken) {
         return <>{children}</>;
     }
 

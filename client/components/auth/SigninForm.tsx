@@ -21,8 +21,8 @@ const SigninForm = () => {
     } = useForm({
         resolver: zodResolver(signinSchema),
         defaultValues: {
-            email: "us12eat6sdf@pe.com",
-            password: "StrongP@ssw0rd",
+            email: "2a223xi@nno.com",
+            password: "StrongaP@ssw0rd",
         }
     });
 

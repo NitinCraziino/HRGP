@@ -1,6 +1,7 @@
 export default interface ICompany {
     companyId: string;
     companyName: string;
+    companyAbout: string;
     companyType: string;
     industryId: string;
     publicName: string;
@@ -9,5 +10,4 @@ export default interface ICompany {
     isAutomatedJobCode: boolean;
     isAutomatedInvoiceNo: boolean;
     isRecruitForCustomers: boolean;
-    companyAddressId: string;
 }

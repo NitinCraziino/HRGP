@@ -23,7 +23,7 @@ const PaymentForm = ({ setIsPaymentSuccess }: { setIsPaymentSuccess: (isPaymentS
                 return;
             }
 
-            if (!user || !user.stripeCustomerId || !user.companyId || !user.primaryEmail || !user.firstName || !user.lastName || !user.primaryPhoneNumber) {
+            if (!user || !user.stripeCustomerId || !user.companyId || !user.primaryEmail || !user.firstName || !user.lastName || !user.primaryPhone) {
                 throw new Error("User data is missing.");
             }
 
@@ -43,7 +43,7 @@ const PaymentForm = ({ setIsPaymentSuccess }: { setIsPaymentSuccess: (isPaymentS
                 billing_details: {
                     name: user.firstName + " " + user.lastName,
                     email: user.primaryEmail,
-                    phone: user.primaryPhoneNumber
+                    phone: user.primaryPhone
                 },
             });
 
@@ -58,7 +58,7 @@ const PaymentForm = ({ setIsPaymentSuccess }: { setIsPaymentSuccess: (isPaymentS
                 companyId: user.companyId,
                 email: user.primaryEmail,
                 name: user.firstName + " " + user.lastName,
-                phone: user.primaryPhoneNumber,
+                phone: user.primaryPhone,
                 userId: user.userId
             }, {
                 onError: (error: any) => {

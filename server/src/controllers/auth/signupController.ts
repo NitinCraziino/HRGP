@@ -7,7 +7,6 @@ import { paymentService } from "../../services/PaymentService";
 import createCompany from "../../db/company/createCompany";
 import updateStripeCustomerSubscription from "../../db/stripe/updateStripeCustomerSubscription";
 import createEmployee from "../../db/employee/createEmployee";
-import IUser from "../../types/IUser";
 import { z } from "zod";
 import updateCompanyId from "../../db/user/updateCompanyId";
 
@@ -21,7 +20,7 @@ const signupController = async (req: Request, res: Response, next: NextFunction)
         const userId = await createUser({
             ...validatedData,
             hashedPassword,
-            primaryPhoneNumber: validatedData.primaryPhoneNumber!
+            primaryPhone: validatedData.primaryPhone!
         });
 
         // create a new company
@@ -46,7 +45,7 @@ const signupController = async (req: Request, res: Response, next: NextFunction)
         const customerPayload = {
             email: validatedData.primaryEmail,
             name: `${validatedData.firstName} ${validatedData.lastName}`,
-            phone: validatedData.primaryPhoneNumber || "",
+            phone: validatedData.primaryPhone || "",
         };
         const stripeCustomer = await paymentService.createCustomer(customerPayload);
 
@@ -59,11 +58,11 @@ const signupController = async (req: Request, res: Response, next: NextFunction)
             signUpOn: new Date().toISOString(),
         });
 
-        // extract the user data to send to the client
-        const user: IUser = {
+        // extract the user data to send to the client for payment processing
+        const user = {
             userId: userId.toString(),
             primaryEmail: validatedData.primaryEmail,
-            primaryPhoneNumber: validatedData.primaryPhoneNumber,
+            primaryPhone: validatedData.primaryPhone,
             firstName: validatedData.firstName,
             lastName: validatedData.lastName,
             companyId: companyId.toString(),
@@ -89,7 +88,7 @@ export default signupController;
 // Zod schema definition for validation
 const signupSchema = z.object({
     primaryEmail: z.string().email("Invalid primary email"),
-    primaryPhoneNumber: z.string(),
+    primaryPhone: z.string(),
     password: z.string().min(8, "Password must be at least 8 characters long"),
     firstName: z.string().min(1, "First name must be between 1 and 50 characters").max(50),
     lastName: z.string().min(1, "Last name must be between 1 and 50 characters").max(50),

@@ -1,6 +1,7 @@
 import { executeDbQueryDirect } from "../../utils";
 import ICompany from "../../types/ICompany";
 import query from "../query";
+import { IUserWithCompany } from "../../types/IUser";
 
 export const getCompanyById = async (companyId: string) => {
     const company = await executeDbQueryDirect<ICompany>(async () => {
@@ -10,9 +11,9 @@ export const getCompanyById = async (companyId: string) => {
     return company;
 };
 
-export const getCompanyByUserId = async (userId: string) => {
-    const company = await executeDbQueryDirect<ICompany>(async () => {
-        return await query<ICompany>("SELECT * FROM Companies WHERE userId = ?", [userId]);
+export const getCompanyWithUserByUserEmail = async (email: string) => {
+    const company = await executeDbQueryDirect<IUserWithCompany>(async () => {
+        return await query<IUserWithCompany>("SELECT * FROM Users INNER JOIN Companies ON Users.companyId = Companies.companyId WHERE Users.primaryEmail = ?", [email]);
     }, "getCompanyByUserId");
 
     return company;

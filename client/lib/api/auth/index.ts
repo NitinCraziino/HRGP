@@ -1,7 +1,7 @@
 import api from "../index";
-import { SigninData, SignupData, SignupResponse } from "@/types/api.types";
+import { SigninData, SignupData, SignupResponse, SigninResponse } from "@/types/api.types";
 
-export const signin = async (data: SigninData) => {
+export const signin = async (data: SigninData): Promise<SigninResponse> => {
     const response = await api.post("/auth/signin", data);
     return response.data;
 };

@@ -1,17 +1,16 @@
-import { getUserByEmail } from "../../db/user/getUser";
 import { NextFunction, Request, Response } from "express";
 import { ValidationError } from "../../types/CustomError";
 import { jwtService } from "../../services/JwtService";
 import { StatusCode } from "../../types";
 import bcrypt from "bcryptjs";
 import z, { ZodError } from "zod";
-import { getCompanyByUserId } from "../../db/company/getCompany";
+import { getCompanyWithUserByUserEmail } from "../../db/company/getCompany";
 
 const signinController = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const validatedData = signinSchema.parse(req.body);
 
-        const user = await getUserByEmail(validatedData.primaryEmail);
+        const user = await getCompanyWithUserByUserEmail(validatedData.email);
 
         if (!user) {
             throw new ValidationError("Invalid email or password");
@@ -26,9 +25,8 @@ const signinController = async (req: Request, res: Response, next: NextFunction)
             throw new ValidationError("Invalid email or password");
         }
 
-        const company = await getCompanyByUserId(user.userId!);
 
-        if (!company) {
+        if (!user.companyId) {
             throw new ValidationError("Company not found");
         }
 
@@ -48,14 +46,13 @@ const signinController = async (req: Request, res: Response, next: NextFunction)
                 lastName: user.lastName,
                 primaryEmail: user.primaryEmail,
                 companyId: user.companyId,
-                primaryPhoneNumber: user.primaryPhoneNumber,
+                primaryPhone: user.primaryPhone,
             },
-
             company: {
                 companyId: user.companyId,
-                companyName: company.companyName,
-                companyAddress: company.companyAddressId,
-                companyType: company.companyType,
+                companyName: user.companyName,
+                companyType: user.companyType,
+                companyAbout: user.companyAbout,
             }
         });
 
@@ -76,6 +73,6 @@ export default signinController;
 
 // Zod schema definition for validation
 const signinSchema = z.object({
-    primaryEmail: z.string().email("Invalid primary email"),
+    email: z.string().email("Invalid email"),
     password: z.string().min(8, "Password must be at least 8 characters long"),
 });

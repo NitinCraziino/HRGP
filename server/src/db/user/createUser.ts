@@ -8,7 +8,7 @@ type UserData = {
     firstName: string;
     lastName: string;
     primaryEmail: string;
-    primaryPhoneNumber: string;
+    primaryPhone: string;
     // this should be hashed
     hashedPassword: string;
     profilePicUrl?: string;
@@ -32,7 +32,7 @@ const createUser = async ({
     firstName,
     lastName,
     primaryEmail,
-    primaryPhoneNumber,
+    primaryPhone,
     hashedPassword,
     profilePicUrl,
     bannerUrl,
@@ -58,7 +58,7 @@ const createUser = async ({
         isUserConcent || true,
         userStatus || "Online",
         roleId || 5,
-        primaryPhoneNumber,
+        primaryPhone,
         primaryEmail,
         secondaryPhoneNumber || null,
         secondaryEmail || null,

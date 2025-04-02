@@ -9,12 +9,13 @@ import Link from "next/link";
 import { Checkbox } from "../ui/checkbox";
 import { signupSchema } from "@/lib/schema";
 import { PhoneInputComponent } from "../ui/phoneinput";
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback } from "react";
 import { cn } from "@/lib/utils";
 import MultipleSelector from "../ui/multiselect";
 import useSignup from "@/hooks/api/auth/useSignup";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+
 const companyTypes = [
     { value: "Cooperative", label: "Cooperative" },
     { value: "Corporation", label: "Corporation" },
@@ -113,7 +114,7 @@ const SignupForm = () => {
                 firstName: data.firstName,
                 lastName: data.lastName,
                 primaryEmail: data.email,
-                primaryPhoneNumber: phone,
+                primaryPhone: phone,
                 password: data.password,
                 companyName: data.companyName,
                 companyType: data.companyType,

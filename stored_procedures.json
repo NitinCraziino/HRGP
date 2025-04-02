@@ -80,7 +80,7 @@
                 "IN_p_isUserConcent": true,
                 "IN_p_userStatus": "Online",
                 "IN_p_roleId": 5,
-                "IN_p_primaryPhoneNumber": "1234567890",
+                "IN_p_primaryPhone": "1234567890",
                 "IN_p_PrimaryEmail": "john.doe@example.com",
                 "IN_p_secondaryPhoneNumber": "0987654321",
                 "IN_p_secondaryEmail": "john.alt@example.com",

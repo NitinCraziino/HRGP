@@ -20,7 +20,7 @@ interface IUser {
     modifiedDate?: string;
     activeStatus?: string;
     createdDate?: string;
-    primaryPhoneNumber?: string;
+    primaryPhone?: string;
     secondaryPhoneNumber?: string;
     stripeCustomerId?: string;
 }
@@ -41,7 +41,7 @@ export const demoUserGoogle: IUser = {
     secondaryPhoneNumber: "1234567890",
     secondaryEmail: "john.doe@example.com",
     hashedPassword: "1234567890",
-    primaryPhoneNumber: "1234567890",
+    primaryPhone: "1234567890",
     createdBy: "1234567890",
     createdDate: "2021-01-01",
     modifiedBy: "1234567890",
@@ -50,5 +50,18 @@ export const demoUserGoogle: IUser = {
     companyId: "1234567890",
 
 };
+
+export interface IUserWithCompany extends IUser {
+    companyName: string;
+    companyAbout: string;
+    companyType: string;
+    industryId: string;
+    publicName: string;
+    logoUrl: string;
+    bannerUrl: string;
+    isAutomatedJobCode: boolean;
+    isAutomatedInvoiceNo: boolean;
+    isRecruitForCustomers: boolean;
+}
 
 export default IUser;
