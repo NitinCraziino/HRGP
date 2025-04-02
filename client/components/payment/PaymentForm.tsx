@@ -7,7 +7,7 @@ import useAuth from "@/hooks/states/useAuth";
 import { useCreateSubscription } from "@/hooks/api/payment";
 import { toast } from "sonner";
 
-const PaymentForm = () => {
+const PaymentForm = ({ setIsPaymentSuccess }: { setIsPaymentSuccess: (isPaymentSuccess: boolean) => void; }) => {
     const stripe = useStripe();
     const elements = useElements();
     const [loading, setLoading] = useState(false);
@@ -67,7 +67,7 @@ const PaymentForm = () => {
                     toast.error(message);
                 },
                 onSuccess: (data) => {
-                    console.log(data);
+                    setIsPaymentSuccess(true);
                     toast.success("Subscription created successfully");
                 }
             }
