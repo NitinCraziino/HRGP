@@ -15,6 +15,7 @@ import MultipleSelector from "../ui/multiselect";
 import useSignup from "@/hooks/api/auth/useSignup";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import AddressInputs from "./AddressInputs";
 
 const companyTypes = [
     { value: "Cooperative", label: "Cooperative" },
@@ -59,7 +60,7 @@ const positions = [
 ];
 
 const SignupForm = () => {
-    const [phone, setPhone] = useState("");
+    const [phone, setPhone] = useState("+1234567890");
     const [phoneError, setPhoneError] = useState("");
     const [terms, setTerms] = useState(false);
     const [termsError, setTermsError] = useState("");
@@ -72,8 +73,22 @@ const SignupForm = () => {
         formState: { errors, },
         setValue,
         trigger,
+        getValues,
+        setError,
+        control
     } = useForm({
         resolver: zodResolver(signupSchema),
+        defaultValues: {
+            firstName: "asd",
+            lastName: "asd",
+            email: "asd@asd.com",
+            password: "asdasasdas",
+            confirmPassword: "asdasasdas",
+            companyName: "asd",
+            companyType: "asd",
+            industry: "asd",
+            positionTitle: "asd",
+        }
     });
 
     const validatePhoneAndTerms = useCallback(() => {
@@ -99,7 +114,7 @@ const SignupForm = () => {
     }, [terms, phone]);
 
     const handleClickNext = useCallback(() => {
-        trigger();
+        trigger(["firstName", "lastName", "email", "password", "confirmPassword"]);
         if (!validatePhoneAndTerms()) {
             return;
         }
@@ -146,14 +161,14 @@ const SignupForm = () => {
                     <>
                         <div className="grid grid-cols-2 gap-4">
                             <InputWithError
-                                error={errors.firstName?.message || ""}
+                                error={errors.firstName?.message}
                                 type="text"
                                 placeholder="First Name"
                                 className="py-3 px-4 w-full"
                                 {...register("firstName")}
                             />
                             <InputWithError
-                                error={errors.lastName?.message || ""}
+                                error={errors.lastName?.message}
                                 type="text"
                                 placeholder="Last Name"
                                 className="py-3 px-4 w-full"
@@ -162,7 +177,7 @@ const SignupForm = () => {
                         </div>
 
                         <InputWithError
-                            error={errors.email?.message || ""}
+                            error={errors.email?.message}
                             type="email"
                             placeholder="Email"
                             className="py-3 px-4 w-full"
@@ -171,14 +186,14 @@ const SignupForm = () => {
 
                         <div className="grid grid-cols-2 gap-4">
                             <InputWithError
-                                error={errors.password?.message || ""}
+                                error={errors.password?.message}
                                 type="password"
                                 placeholder="Password"
                                 className="py-3 px-4 w-full"
                                 {...register("password")}
                             />
                             <InputWithError
-                                error={errors.confirmPassword?.message || ""}
+                                error={errors.confirmPassword?.message}
                                 type="password"
                                 placeholder="Confirm Password"
                                 className="py-3 px-4 w-full"
@@ -227,7 +242,7 @@ const SignupForm = () => {
                     </>
                 )}
                 {tabs === 2 && (
-                    <>
+                    <div className="space-y-4">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
                             <div className="w-full">
                                 <MultipleSelector
@@ -287,6 +302,13 @@ const SignupForm = () => {
                                     <p className="text-red-500 text-xs mt-2 font-medium">{errors.companyType?.message}</p>
                                 )}
                             </div>
+                            <AddressInputs
+                                register={register}
+                                errors={errors}
+                                setValue={setValue}
+                                setError={setError}
+                                control={control}
+                            />
                         </div>
 
                         <div className="flex items-center justify-between">
@@ -306,7 +328,7 @@ const SignupForm = () => {
                                 Submit
                             </Button>
                         </div>
-                    </>
+                    </div>
                 )}
             </form>
 

@@ -2,6 +2,7 @@
 import { cn } from "@/lib/utils";
 import { useId } from "react";
 import { Label } from "./label";
+
 function Input({ className, type, ...props }: React.ComponentProps<"input">) {
   return (
     <input
@@ -18,7 +19,12 @@ function Input({ className, type, ...props }: React.ComponentProps<"input">) {
   );
 }
 
-const InputWithError = ({ label, error, className, placeholder, type, name, defaultValue, ...props }: { label?: string, error: string, className: string, placeholder: string, type: string, name: string, defaultValue?: string; } & React.ComponentProps<"input">) => {
+type InputWithErrorProps = React.ComponentProps<"input"> & {
+  label?: string;
+  error?: string;
+};
+
+const InputWithError = ({ label, error, className, placeholder, type, name, defaultValue, ...props }: InputWithErrorProps) => {
   const id = useId();
   return (
     <div className="*:not-first:mt-2">

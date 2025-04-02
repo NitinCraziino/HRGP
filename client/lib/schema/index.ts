@@ -16,6 +16,11 @@ export const signupSchema = z.object({
     companyName: z.string().min(1, { message: "Company name is required" }),
     companyType: z.string().min(1, { message: "Company type is required" }),
     industry: z.string().min(1, { message: "Industry is required" }),
+    address: z.string().min(1, { message: "Address is required" }),
+    postalCode: z.string().min(1, { message: "Postal code is required" }),
+    country: z.string().min(1, { message: "Country is required" }),
+    state: z.string().min(1, { message: "State is required" }),
+    city: z.string().min(1, { message: "City is required" }),
 }).refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",
     path: ["confirmPassword"],
