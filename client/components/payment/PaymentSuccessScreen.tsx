@@ -12,14 +12,14 @@ const PaymentSuccessScreen = ({ redirectDelay = 4000 }: PaymentSuccessScreenProp
 
     useEffect(() => {
         const redirectTimer = setTimeout(() => {
-            router.push("/signin");
+            // router.push("/signin");
         }, redirectDelay);
 
         return () => clearTimeout(redirectTimer);
     }, [router, redirectDelay]);
 
     return (
-        <div className="flex-grow flex flex-col items-center justify-center py-10 md:py-5 px-4 font-bold" >
+        <div className="flex-grow flex flex-col items-center justify-center px-4 font-bold mt-36" >
             <div className="rounded-full bg-green-500 p-4 w-20 h-20 flex items-center justify-center mb-8">
                 <svg className="h-16 w-16 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
