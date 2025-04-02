@@ -61,7 +61,6 @@
                 "IN_p_isautomatedJobCode": false,
                 "IN_p_isautomatedInvoiceNo": false,
                 "IN_p_isrecruitForCustomers": true,
-                "IN_p_companyAddressId": 200,
                 "OUT_p_isSuccess": "@isSuccess",
                 "OUT_p_error": "@error",
                 "OUT_p_companyId": "@companyId"
@@ -80,7 +79,7 @@
                 "IN_p_isUserConcent": true,
                 "IN_p_userStatus": "Online",
                 "IN_p_roleId": 5,
-                "IN_p_primaryPhone": "1234567890",
+                "IN_p_primaryPhoneNumber": "1234567890",
                 "IN_p_PrimaryEmail": "john.doe@example.com",
                 "IN_p_secondaryPhoneNumber": "0987654321",
                 "IN_p_secondaryEmail": "john.alt@example.com",
@@ -88,66 +87,63 @@
                 "OUT_p_userId": "@userId",
                 "OUT_p_isSuccess": "@isSuccess"
             },
+			{
+            "name": "usp_InsertCompanyPaymentDetails",
+            "params": {
+                "IN_p_userId": 0,
+                "IN_p_companyId": 0,
+                "IN_p_stripeCustomerId": "string",
+                "IN_p_stripeSubscriptionId": "string",
+                "IN_p_signUpOn": "1900-01-01 00:00:00",
+                "OUT_p_error": "@error",
+                "OUT_p_isSuccess": "@isSuccess"
+            },
             {
-                "name": "usp_InsertCompanyPaymentDetails",
-                "params": {
-                    "IN_p_userId": 0,
-                    "IN_p_companyId": 0,
-                    "IN_p_stripeCustomerId": "string",
-                    "IN_p_stripeSubscriptionId": "string",
-                    "IN_p_signUpOn": "1900-01-01 00:00:00",
-                    "OUT_p_error": "@error",
-                    "OUT_p_isSuccess": "@isSuccess"
-                },
-                {
-                    "name": "usp_InsertCompaniesBranchDetails",
-                    "params": {
-                        "IN_p_userId": 0,
-                        "IN_p_companyId": 0,
-                        "IN_p_branchAddress": "string",
-                        "IN_p_addressType": "string" ("Primary",
-                        "Branch"),
-                        "IN_p_countryId": 0,
-                        "IN_p_stateId": 0,
-                        "IN_p_cityId": 0,
-                        "IN_p_pincode": "98984873",
-                        "OUT_p_error": "@error",
-                        "OUT_p_isSuccess": "@isSuccess",
-                        "OUT_p_CompanyBranchDetailsId": "@CompanyBranchDetailsId"
-                    },
-                    {
-                        "name": "usp_InsertTwilioDetails",
-                        "params": {
-                            "IN_p_userId": 0,
-                            "IN_p_companyId": 0,
-                            "IN_p_twilioAccountSid": "string",
-                            "IN_p_isTwilioApproved": 0,
-                            "OUT_p_error": "@error",
-                            "OUT_p_isSuccess": "@isSuccess",
-                            "OUT_p_TwilioDetailsId": "@TwilioDetailsId"
-                        },
-                        {
-                            "name": "usp_UpdateCompanyPurchasedPhones",
-                            "params": {
-                                "IN_p_userId": 0,
-                                "IN_p_phoneId": 0,
-                                "IN_p_employeeId": 0,
-                                "IN_p_phoneStatus": "string" ("Active",
-                                "InActive"),
-                                "IN_p_isemployeeAssignment": 0,
-                                1,
-                                "IN_p_removedOn": "1900-01-01 00:00:00",
-                                "OUT_p_error": "@error",
-                                "OUT_p_isSuccess": "@isSuccess"
-                            },
-                            {
-                                "name": "usp_UpdateCompanyforUser",
-                                "params": {
-                                    "IN_p_userId": 0,
-                                    "IN_p_companyId": 0,
-                                    "OUT_p_error": "@error",
-                                    "OUT_p_isSuccess": "@isSuccess"
-                                }
-                            }
-                        ]
-                    }
+            "name": "usp_InsertCompaniesBranchDetails",
+            "params": {
+                "IN_p_userId": 0,
+                "IN_p_companyId": 0,
+                "IN_p_branchAddress": "string",
+                "IN_p_addressType": "string" ("Primary","Branch"),
+                "IN_p_countryId": 0,
+                "IN_p_stateId": 0,
+                "IN_p_cityId": 0,
+                "IN_p_pincode": "98984873",
+                "OUT_p_error": "@error",
+                "OUT_p_isSuccess": "@isSuccess",
+                "OUT_p_CompanyBranchDetailsId": "@CompanyBranchDetailsId"
+            },
+            {
+            "name": "usp_InsertTwilioDetails",
+            "params": {
+                "IN_p_userId": 0,
+                "IN_p_companyId": 0,
+                "IN_p_twilioAccountSid": "string",
+                "IN_p_isTwilioApproved": 0,
+                "OUT_p_error": "@error",
+                "OUT_p_isSuccess": "@isSuccess",
+                "OUT_p_TwilioDetailsId": "@TwilioDetailsId"
+            },
+            {
+            "name": "usp_UpdateCompanyPurchasedPhones",
+            "params": {
+                "IN_p_userId": 0,
+                "IN_p_phoneId": 0,
+                "IN_p_employeeId":0,
+                "IN_p_phoneStatus": "string" ("Active","InActive"),
+                "IN_p_isemployeeAssignment": 0,1,
+                "IN_p_removedOn": "1900-01-01 00:00:00",
+                "OUT_p_error": "@error",
+                "OUT_p_isSuccess": "@isSuccess"
+            },
+            {
+            "name": "usp_UpdateCompanyforUser",
+            "params": {
+                "IN_p_userId": 0,
+                "IN_p_companyId": 0,
+                "OUT_p_error": "@error",
+                "OUT_p_isSuccess": "@isSuccess"
+            }
+        }
+    ]
+}

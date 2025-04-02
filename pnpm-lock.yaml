@@ -132,6 +132,9 @@ importers:
 
   server:
     dependencies:
+      axios:
+        specifier: ^1.8.4
+        version: 1.8.4
       bcryptjs:
         specifier: ^3.0.2
         version: 3.0.2
