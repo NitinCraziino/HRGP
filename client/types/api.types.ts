@@ -3,7 +3,6 @@ export type SigninData = {
     password: string;
 };
 
-
 export type SignupData = {
     firstName: string;
     lastName: string;
@@ -25,3 +24,12 @@ export type SignupResponse = {
     companyId: string;
     stripeCustomerId: string;
 };
+
+export interface CreateSubscriptionProps {
+    paymentMethodId: string;
+    customerId: string;
+    companyId: string;
+    email: string;
+    name: string;
+    phone: string;
+}

@@ -35,7 +35,7 @@ export interface IUser {
     modifiedDate?: string;
     activeStatus?: string;
     createdDate?: string;
-    primaryPhone?: string;
+    primaryPhoneNumber?: string;
     secondaryPhone?: string;
     stripeCustomerId?: string;
 }

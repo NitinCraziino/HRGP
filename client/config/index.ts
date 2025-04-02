@@ -1,2 +1,4 @@
 export const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:8000";
-export const STRIPE_PUBLISHABLE_KEY = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || "pk_test_51N0002J99kKj9sbUWTWFUIBr00OWRKmku0";
+export const STRIPE_PUBLISHABLE_KEY = process.env.NEXT_PUBLIC_STIPE_PUBLISHABLE_KEY;
+
+

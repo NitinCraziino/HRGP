@@ -17,8 +17,8 @@ export const EXPRESS_SESSION_SECRET = process.env.EXPRESS_SESSION_SECRET || "";
 export const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || "";
 export const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET || "";
 
-export const STRIPE_API_KEY = process.env.STRIPE_API_KEY || "";
-export const STRIPE_SECRET = process.env.STRIPE_SECRET || "";
+export const STRIPE_API_KEY = process.env.STRIPE_API_KEY;
+export const STRIPE_SECRET = process.env.STRIPE_SECRET;
 export const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET || "";
 
 export const HRGP_TWILIO_NUMBER_PRICE_ID = process.env.HRGP_TWILIO_NUMBER_PRICE_ID || "";

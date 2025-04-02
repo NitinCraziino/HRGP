@@ -25,6 +25,7 @@ export default class PaymentService {
     constructor() { }
 
     async createCustomer({ email, name, phone }: CustomerPayload): Promise<Stripe.Customer> {
+        //@ts-ignore
         return this.tryCatch<Stripe.Customer>(async () => {
             const customer = await stripe.customers.create({ email, name, phone });
             return customer;
@@ -51,6 +52,7 @@ export default class PaymentService {
                 trial_period_days: 30,
                 expand: ["latest_invoice.payment_intent"],
             });
+
 
             return subscription;
         });
