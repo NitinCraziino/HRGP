@@ -1,17 +1,16 @@
 import { FieldErrors, UseFormRegister, UseFormSetValue, UseFormSetError, useWatch, Control } from "react-hook-form";
-import { z } from "zod";
-import { signupSchema } from "@/lib/schema";
+import { SignupSchemaType } from "@/lib/schema";
 import { InputWithError } from "../ui/input";
 import { useEffect, useState } from "react";
 import { getLocationByPostalCode } from "@/lib/api/public";
 import LoadingOverlay from "../LoadingOverlay";
 
 type AddressInputsProps = {
-    register: UseFormRegister<z.infer<typeof signupSchema>>;
-    errors: FieldErrors<z.infer<typeof signupSchema>>;
-    setValue: UseFormSetValue<z.infer<typeof signupSchema>>;
-    setError: UseFormSetError<z.infer<typeof signupSchema>>;
-    control: Control<z.infer<typeof signupSchema>>;
+    register: UseFormRegister<SignupSchemaType>;
+    errors: FieldErrors<SignupSchemaType>;
+    setValue: UseFormSetValue<SignupSchemaType>;
+    setError: UseFormSetError<SignupSchemaType>;
+    control: Control<SignupSchemaType>;
 };
 
 const AddressInputs = ({ register, errors, setValue, setError, control }: AddressInputsProps) => {
@@ -36,6 +35,10 @@ const AddressInputs = ({ register, errors, setValue, setError, control }: Addres
                 setError("postalCode", {
                     message: error?.response?.data?.message || "Invalid postal code",
                 });
+                setValue("address", "");
+                setValue("country", "");
+                setValue("state", "");
+                setValue("city", "");
                 setIsDisabled(false);
             } finally {
                 setIsLoading(false);
@@ -47,7 +50,7 @@ const AddressInputs = ({ register, errors, setValue, setError, control }: Addres
 
     return (
         <>
-            {isLoading && <LoadingOverlay />}
+            {true && <LoadingOverlay />}
             <InputWithError
                 label="Postal Code"
                 error={errors.postalCode?.message}

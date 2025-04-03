@@ -2,12 +2,11 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { InputWithError } from "../ui/input";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { Checkbox } from "../ui/checkbox";
-import { signupSchema } from "@/lib/schema";
+import { signupSchema, SignupSchemaType } from "@/lib/schema";
 import { PhoneInputComponent } from "../ui/phoneinput";
 import { useState, useCallback } from "react";
 import { cn } from "@/lib/utils";
@@ -123,7 +122,7 @@ const SignupForm = () => {
 
     const { mutate: signup, isPending } = useSignup();
 
-    const onSubmit = useCallback((data: z.infer<typeof signupSchema>) => {
+    const onSubmit = useCallback((data: SignupSchemaType) => {
         try {
             signup({
                 firstName: data.firstName,
