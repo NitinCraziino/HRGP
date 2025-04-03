@@ -186,6 +186,7 @@ const MultipleSelector = ({
   const [open, setOpen] = React.useState(false);
   const [onScrollbar, setOnScrollbar] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
+  const [isMaxSelected, setIsMaxSelected] = React.useState(false);
   const dropdownRef = React.useRef<HTMLDivElement>(null); // Added this
 
   const [selected, setSelected] = React.useState<Option[]>(value || []);
@@ -207,10 +208,26 @@ const MultipleSelector = ({
     }
   };
 
+  const handleSelect = (option: Option) => {
+    const newOptions = [...selected, option];
+    setSelected(newOptions);
+    onChange?.(newOptions);
+
+    if (newOptions.length === maxSelected) {
+      onMaxSelected?.(newOptions.length);
+      setIsMaxSelected(true);
+      setOpen(false);
+      inputRef.current?.focus();
+      return;
+    }
+    setIsMaxSelected(false);
+  };
+
   const handleUnselect = React.useCallback(
     (option: Option) => {
       const newOptions = selected.filter((s) => s.value !== option.value);
       setSelected(newOptions);
+      setIsMaxSelected(false);
       onChange?.(newOptions);
     },
     [onChange, selected],
@@ -416,7 +433,7 @@ const MultipleSelector = ({
     >
       <div
         className={cn(
-          "border-input focus-within:border-ring focus-within:ring-ring/50 has-aria-invalid:ring-destructive/20 dark:has-aria-invalid:ring-destructive/40 has-aria-invalid:border-destructive relative rounded-md border text-sm transition-[color,box-shadow] outline-none focus-within:ring-[3px] has-disabled:pointer-events-none has-disabled:cursor-not-allowed has-disabled:opacity-50",
+          "border-input py-1 focus-within:border-ring focus-within:ring-ring/50 has-aria-invalid:ring-destructive/20 dark:has-aria-invalid:ring-destructive/40 has-aria-invalid:border-destructive relative rounded-md border text-sm transition-[color,box-shadow] outline-none focus-within:ring-[3px] has-disabled:pointer-events-none has-disabled:cursor-not-allowed has-disabled:opacity-50",
           {
             "p-1": selected.length !== 0,
             "cursor-text": !disabled && selected.length !== 0,
@@ -524,7 +541,7 @@ const MultipleSelector = ({
           )}
           data-state={open ? "open" : "closed"}
         >
-          {open && (
+          {open && !isMaxSelected && (
             <CommandList
               className="bg-popover text-popover-foreground shadow-lg outline-hidden"
               onMouseLeave={() => {
@@ -557,16 +574,7 @@ const MultipleSelector = ({
                                 e.preventDefault();
                                 e.stopPropagation();
                               }}
-                              onSelect={() => {
-                                if (selected.length >= maxSelected) {
-                                  onMaxSelected?.(selected.length);
-                                  return;
-                                }
-                                setInputValue("");
-                                const newOptions = [...selected, option];
-                                setSelected(newOptions);
-                                onChange?.(newOptions);
-                              }}
+                              onSelect={() => handleSelect(option)}
                               className={cn(
                                 "cursor-pointer",
                                 option.disable &&

@@ -31,7 +31,7 @@ const InputWithError = ({ label, error, className, placeholder, type, name, defa
       {label && <Label htmlFor={id}>{label}</Label>}
       <Input
         id={id}
-        className={cn(className, "py-6")}
+        className={cn("py-6 px-4 w-full", className)}
         placeholder={placeholder}
         type={type}
         name={name}

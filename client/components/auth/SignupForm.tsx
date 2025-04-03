@@ -62,7 +62,7 @@ const positions = [
 const SignupForm = () => {
     const [phone, setPhone] = useState("+1234567890");
     const [phoneError, setPhoneError] = useState("");
-    const [terms, setTerms] = useState(false);
+    const [terms, setTerms] = useState(true);
     const [termsError, setTermsError] = useState("");
     const [tabs, setTabs] = useState(1);
     const router = useRouter();
@@ -164,14 +164,14 @@ const SignupForm = () => {
                                 error={errors.firstName?.message}
                                 type="text"
                                 placeholder="First Name"
-                                className="py-3 px-4 w-full"
+                                className="py-6 px-4 w-full"
                                 {...register("firstName")}
                             />
                             <InputWithError
                                 error={errors.lastName?.message}
                                 type="text"
                                 placeholder="Last Name"
-                                className="py-3 px-4 w-full"
+                                className="py-6 px-4 w-full"
                                 {...register("lastName")}
                             />
                         </div>
@@ -180,7 +180,7 @@ const SignupForm = () => {
                             error={errors.email?.message}
                             type="email"
                             placeholder="Email"
-                            className="py-3 px-4 w-full"
+                            className="py-6 px-4 w-full"
                             {...register("email")}
                         />
 
@@ -189,14 +189,14 @@ const SignupForm = () => {
                                 error={errors.password?.message}
                                 type="password"
                                 placeholder="Password"
-                                className="py-3 px-4 w-full"
+                                className="py-6 px-4 w-full"
                                 {...register("password")}
                             />
                             <InputWithError
                                 error={errors.confirmPassword?.message}
                                 type="password"
                                 placeholder="Confirm Password"
-                                className="py-3 px-4 w-full"
+                                className="py-6 px-4 w-full"
                                 {...register("confirmPassword")}
                             />
                         </div>
@@ -295,7 +295,7 @@ const SignupForm = () => {
                                     defaultOptions={companyTypes}
                                     onChange={(values) => setValue("companyType", values[0]?.value)}
                                     creatable
-                                    maxSelected={1}
+                                    maxSelected={4}
                                     emptyIndicator={<p className="text-gray-500 text-sm">No company type found</p>}
                                 />
                                 {errors.companyType?.message && (

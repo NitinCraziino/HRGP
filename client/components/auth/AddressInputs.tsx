@@ -52,28 +52,28 @@ const AddressInputs = ({ register, errors, setValue, setError, control }: Addres
                 label="Postal Code"
                 error={errors.postalCode?.message}
                 placeholder="Postal Code"
-                className="py-3 px-4 w-full"
+                className="py-0 px-4 w-full"
                 {...register("postalCode")}
             />
             <InputWithError
                 label="Address"
                 error={errors.address?.message}
                 placeholder="Address"
-                className="py-3 px-4 w-full"
+                className="py-0 px-4 w-full"
                 {...register("address")}
             />
             <InputWithError
                 label="City"
                 error={errors.city?.message}
                 placeholder="City"
-                className="py-3 px-4 w-full"
+                className="py-0 px-4 w-full"
                 {...register("city")}
             />
             <InputWithError
                 label="State"
                 error={errors.state?.message}
                 placeholder="State"
-                className="py-3 px-4 w-full"
+                className="py-0 px-4 w-full"
                 {...register("state")}
                 disabled={isDisabled}
             />
@@ -81,7 +81,7 @@ const AddressInputs = ({ register, errors, setValue, setError, control }: Addres
                 label="Country"
                 error={errors.country?.message}
                 placeholder="Country"
-                className="py-3 px-4 w-full"
+                className="py-0 px-4 w-full"
                 {...register("country")}
                 disabled={isDisabled}
             />
