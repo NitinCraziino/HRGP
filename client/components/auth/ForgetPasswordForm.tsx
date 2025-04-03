@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, memo } from "react";
 import { InputWithError } from "../ui/input";
 import ButtonWithLoading from "../ButtonWithLoading";
 import useForgotPassword from "@/hooks/api/auth/useForgotPassword";
@@ -14,6 +14,7 @@ import { Button } from "../ui/button";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
+// Schema for password reset form with validation rules
 const forgotPasswordFormSchema = z.object({
     email: z.string().email(),
     otp: z.string().length(6),
@@ -28,11 +29,13 @@ const ForgetPasswordForm = () => {
     const [otpExpiryTime, setOtpExpiryTime] = useState(60);
     const [stage, setStage] = useState<"email" | "otp" | "password">("email");
     const router = useRouter();
+
     const {
         register,
         formState: { errors },
         trigger,
-        getValues
+        getValues,
+        setError
     } = useForm<z.infer<typeof forgotPasswordFormSchema>>({
         resolver: zodResolver(forgotPasswordFormSchema),
         defaultValues: {
@@ -62,17 +65,27 @@ const ForgetPasswordForm = () => {
     const { mutate: verifyVerificationCode, isPending: isVerifyVerificationCodeLoading } = useVerifyVerificationCode();
     const { mutate: resetPassword, isPending: isResetPasswordLoading } = useResetPassword();
 
-    const handleResendCode = () => {
+
+    const handleResendCode = useCallback(() => {
         resendVerificationCode({ email: getValues("email") }, {
             onSuccess: () => {
-                setOtpExpiryTime(60); // Reset timer
+                setOtpExpiryTime(60);
+                toast.success("Verification code sent to your email");
+            },
+            onError: (error: any) => {
+                toast.error(error.response.data.message || "Something went wrong");
             }
         });
-    };
+    }, [resendVerificationCode, getValues]);
 
-    const handleSubmitClick = async (e: React.FormEvent<HTMLButtonElement>) => {
+    /**
+     * Handles form submission for all stages
+     * Validates inputs and triggers appropriate API calls based on current stage
+     */
+    const handleSubmitClick = useCallback(async (e: React.FormEvent<HTMLButtonElement>) => {
         e.preventDefault();
 
+        // Email stage: Validate email and request OTP and send the code to the email
         if (stage === "email") {
             const isEmailValid = await trigger("email");
             if (isEmailValid) {
@@ -81,10 +94,17 @@ const ForgetPasswordForm = () => {
                         setStage("otp");
                         toast.success("Verification code sent to your email");
                         setOtpExpiryTime(60);
+                    },
+                    onError: (error: any) => {
+                        const errorMessage = error.response.data.message || "Something went wrong";
+                        setError("email", { message: errorMessage });
+                        toast.error(errorMessage);
                     }
                 });
             }
-        } else if (stage === "otp") {
+        }
+        // OTP stage: Validate OTP code and verify the code and then move to the password stage
+        else if (stage === "otp") {
             const isOtpValid = await trigger("otp");
             if (isOtpValid) {
                 verifyVerificationCode({
@@ -94,37 +114,49 @@ const ForgetPasswordForm = () => {
                     onSuccess: () => {
                         setStage("password");
                         toast.success("Verification code verified");
+                    },
+                    onError: (error: any) => {
+                        const errorMessage = error.response.data.message || "Something went wrong";
+                        setError("otp", { message: errorMessage });
+                        toast.error(errorMessage);
                     }
                 });
             }
-        } else if (stage === "password") {
+        }
+        // Password stage: Validate and reset password and update the password and then redirect to the signin page
+        else if (stage === "password") {
             const isPasswordValid = await trigger(["password", "confirmPassword"]);
             if (isPasswordValid) {
                 resetPassword({
                     email: getValues("email"),
                     verificationCode: getValues("otp"),
-                    password: getValues("password")
+                    newPassword: getValues("password")
                 }, {
                     onSuccess: () => {
                         toast.success("Password reset successfully");
                         router.push("/signin");
+                    },
+                    onError: (error: any) => {
+                        const errorMessage = error.response.data.message || "Something went wrong";
+                        setError("password", { message: errorMessage });
+                        toast.error(errorMessage);
                     }
                 });
             }
         }
-    };
+    }, [forgotPassword, verifyVerificationCode, resetPassword, getValues, stage, router, trigger, setError]);
 
-    const getButtonText = () => {
+    const getButtonText = useCallback(() => {
         if (stage === "email") return "Send Code";
         if (stage === "otp") return "Verify Code";
         return "Reset Password";
-    };
+    }, [stage]);
 
-    const isButtonLoading = () => {
+    const isButtonLoading = useCallback(() => {
         if (stage === "email") return isForgotPasswordLoading;
         if (stage === "otp") return isVerifyVerificationCodeLoading;
         return isResetPasswordLoading;
-    };
+    }, [stage, isForgotPasswordLoading, isVerifyVerificationCodeLoading, isResetPasswordLoading]);
 
     return (
         <form className="space-y-4 w-full" onSubmit={(e) => e.preventDefault()}>
@@ -202,4 +234,4 @@ const ForgetPasswordForm = () => {
     );
 };
 
-export default ForgetPasswordForm;
+export default memo(ForgetPasswordForm);

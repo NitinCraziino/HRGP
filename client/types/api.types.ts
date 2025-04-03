@@ -74,7 +74,7 @@ export interface VerifyVerificationCodeData {
 
 export interface ResetPasswordData {
     email: string;
-    password: string;
+    newPassword: string;
     verificationCode: string;
 }
 
