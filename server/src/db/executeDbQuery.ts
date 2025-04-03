@@ -12,10 +12,11 @@ import { InternalServerError } from "../types/CustomError";
 
 export const executeDbQuery = async <T>(queryFn: () => Promise<T>, serviceName: string, isSP: boolean = true): Promise<T> => {
     try {
-        const result = await queryFn();
-        console.log(serviceName, "result", result);
+        let result = await queryFn();
         // @ts-ignore
-        return isSP ? result[1][0] : result && result.length > 0 ? result[0] : null;
+        result = isSP ? result[1][0] : result && result.length > 0 ? result[0] : null;
+        console.log(serviceName, "result", result);
+        return result;
     } catch (error) {
         console.log(error);
         throw new InternalServerError(error instanceof Error ? error.message : "Database Query Failed", serviceName);

@@ -13,6 +13,11 @@ export type SignupData = {
     companyType: string;
     industryId: string;
     positionTitle: string;
+    postalCode: string;
+    country: string;
+    state: string;
+    city: string;
+    address: string;
 };
 
 export type SignupResponse = {

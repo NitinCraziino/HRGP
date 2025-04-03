@@ -1,4 +1,4 @@
-import { executeDbQueryDirect } from "../../utils";
+import { executeDbQueryDirect } from "../executeDbQuery";
 import ICompany from "../../types/ICompany";
 import query from "../query";
 import { IUserWithCompany } from "../../types/IUser";

@@ -1,4 +1,4 @@
-import { executeDbQuerySP } from "../../utils";
+import { executeDbQuerySP } from "../executeDbQuery";
 import query from "../query";
 import { ValidationError } from "../../types/CustomError";
 import { QueryResponse } from "../../types";

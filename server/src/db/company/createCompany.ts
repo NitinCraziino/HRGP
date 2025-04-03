@@ -1,5 +1,5 @@
 import query from "../query";
-import { executeDbQuery } from "../../utils";
+import { executeDbQuery } from "../executeDbQuery";
 import { ValidationError } from "../../types/CustomError";
 import { QueryResponse } from "../../types";
 

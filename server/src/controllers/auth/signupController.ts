@@ -9,6 +9,14 @@ import updateStripeCustomerSubscription from "../../db/stripe/updateStripeCustom
 import createEmployee from "../../db/employee/createEmployee";
 import { z } from "zod";
 import updateCompanyId from "../../db/user/updateCompanyId";
+import findCountry from "../../db/address/findCountry";
+import findState from "../../db/address/findState";
+import findCity from "../../db/address/findCity";
+import createAddress from "../../db/address/createAddress";
+import createCountry from "../../db/address/createCountry";
+import createState from "../../db/address/createState";
+import createCity from "../../db/address/createCity";
+
 
 const signupController = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -31,8 +39,20 @@ const signupController = async (req: Request, res: Response, next: NextFunction)
             industryId: validatedData.industryId,
         });
 
-        // update the user's company id
+        // update the user with the company id
         await updateCompanyId(userId, companyId);
+
+        // process the address 
+        await processAddress({
+            userId: userId,
+            companyId: companyId,
+            branchAddress: validatedData.address,
+            addressType: "Primary",
+            country: validatedData.country,
+            state: validatedData.state,
+            city: validatedData.city,
+            postalCode: validatedData.postalCode
+        });
 
         // create a new employee
         await createEmployee({
@@ -84,6 +104,43 @@ const signupController = async (req: Request, res: Response, next: NextFunction)
 
 export default signupController;
 
+type Address = {
+    userId: number;
+    companyId: number;
+    branchAddress: string;
+    addressType: string;
+    country: string;
+    state: string;
+    city: string;
+    postalCode: string;
+};
+
+const processAddress = async (data: Address) => {
+    let countryId = (await findCountry(data.country))?.countryId;
+    if (!countryId) {
+        countryId = await createCountry(data.country);
+    }
+    let stateId = (await findState(data.state, countryId))?.stateId;
+    if (!stateId) {
+        stateId = await createState(data.state, countryId);
+    }
+    let cityId = (await findCity(data.city, stateId))?.cityId;
+    if (!cityId) {
+        cityId = await createCity(data.city, stateId);
+    }
+
+    await createAddress({
+        userId: data.userId.toString(),
+        companyId: data.companyId.toString(),
+        branchAddress: data.branchAddress,
+        addressType: data.addressType,
+        pincode: data.postalCode,
+        countryId,
+        stateId,
+        cityId,
+    });
+};
+
 
 // Zod schema definition for validation
 const signupSchema = z.object({
@@ -96,4 +153,9 @@ const signupSchema = z.object({
     companyType: z.string().min(1, "Company type must be between 1 and 100 characters").max(100),
     industryId: z.string().min(1, "Industry ID must be between 1 and 100 characters").max(100),
     positionTitle: z.string().min(1, "Position title must be between 1 and 100 characters").max(100),
+    postalCode: z.string().min(1, "Postal code must be between 1 and 100 characters").max(100),
+    country: z.string().min(1, "Country must be between 1 and 100 characters").max(100),
+    state: z.string().min(1, "State must be between 1 and 100 characters").max(100),
+    city: z.string().min(1, "City must be between 1 and 100 characters").max(100),
+    address: z.string().min(1, "Address must be between 1 and 100 characters").max(100)
 });

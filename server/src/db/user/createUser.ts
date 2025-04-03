@@ -1,6 +1,6 @@
 import query from "../query";
 import { ValidationError, ConflictError } from "../../types/CustomError";
-import { executeDbQuery } from "../../utils";
+import { executeDbQuery } from "../executeDbQuery";
 import { QueryResponse } from "../../types";
 
 type UserData = {

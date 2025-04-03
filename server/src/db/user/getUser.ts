@@ -1,6 +1,6 @@
 import query from "../query";
 import IUser from "../../types/IUser";
-import { executeDbQueryDirect } from "../../utils";
+import { executeDbQueryDirect } from "../executeDbQuery";
 
 export const getUserByEmail = async (email: string) => {
     return executeDbQueryDirect<IUser>(async () => {

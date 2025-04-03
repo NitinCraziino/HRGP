@@ -135,6 +135,11 @@ const SignupForm = () => {
                 companyType: data.companyType,
                 industryId: data.industry,
                 positionTitle: data.positionTitle,
+                postalCode: data.postalCode,
+                country: data.country,
+                state: data.state,
+                city: data.city,
+                address: data.address
             }, {
                 onError: (error: any) => {
                     toast.error(error.response?.data?.message || "Something went wrong");
