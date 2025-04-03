@@ -2,7 +2,7 @@ import { FieldErrors, UseFormRegister, UseFormSetValue, UseFormSetError, useWatc
 import { SignupSchemaType } from "@/lib/schema";
 import { InputWithError } from "../ui/input";
 import { useEffect, useState } from "react";
-import { getLocationByPostalCode } from "@/lib/api/public";
+import { getLocationByPostalCode } from "@/lib/api/public-routes";
 import LoadingOverlay from "../LoadingOverlay";
 
 type AddressInputsProps = {

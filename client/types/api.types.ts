@@ -3,6 +3,10 @@ export type SigninData = {
     password: string;
 };
 
+export interface MessageResponse {
+    message: string;
+}
+
 export type SignupData = {
     firstName: string;
     lastName: string;
@@ -57,4 +61,23 @@ export interface CreateSubscriptionProps {
     name: string;
     phone: string;
     userId: string;
+}
+
+export interface ForgotPasswordData {
+    email: string;
+}
+
+export interface VerifyVerificationCodeData {
+    email: string;
+    verificationCode: string;
+}
+
+export interface ResetPasswordData {
+    email: string;
+    password: string;
+    verificationCode: string;
+}
+
+export interface ResendVerificationCodeData {
+    email: string;
 }

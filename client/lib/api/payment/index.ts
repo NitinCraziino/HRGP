@@ -1,5 +1,6 @@
 import { CreateSubscriptionProps } from "@/types/api.types";
 import api from "..";
+import { paymentRoutes } from "@/config/api";
 
 export const createSubscription = async ({
     paymentMethodId,
@@ -10,7 +11,7 @@ export const createSubscription = async ({
     phone,
     userId
 }: CreateSubscriptionProps) => {
-    const response = await api.post("/payment/create-subscription", {
+    const response = await api.post(paymentRoutes.createSubscription, {
         paymentMethodId,
         customerId,
         companyId,
