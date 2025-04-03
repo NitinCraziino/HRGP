@@ -23,3 +23,7 @@ export const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET || "";
 
 export const HRGP_TWILIO_NUMBER_PRICE_ID = process.env.HRGP_TWILIO_NUMBER_PRICE_ID || "";
 export const HRGP_SUBSCRIPTION_PRICE_ID = process.env.HRGP_SUBSCRIPTION_PRICE_ID || "";
+
+export const MAILGUN_API_KEY = process.env.MAILGUN_API_KEY || "";
+export const MAILGUN_DOMAIN = process.env.MAILGUN_DOMAIN || "";
+export const MAILGUN_FROM_EMAIL = process.env.MAILGUN_FROM_EMAIL || "";

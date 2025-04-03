@@ -33,7 +33,7 @@
         {
             "name": "usp_UpsertEmployee",
             "params": {
-                "INOUT_p_companyId": "@companyId",
+                "IN_p_companyId": "@companyId",
                 "IN_p_userId": 2,
                 "IN_p_employeeCode": "EMP1234",
                 "IN_p_managerId": 10,
@@ -143,6 +143,43 @@
                 "IN_p_companyId": 0,
                 "OUT_p_error": "@error",
                 "OUT_p_isSuccess": "@isSuccess"
+            },
+            {
+            "name": "usp_UpdateUserPassword",
+            "params": {
+                "IN_p_userId": 0,
+                "IN_p_hashedPassword": "hashed_password_value",
+                "OUT_p_error": "@error",
+                "OUT_p_isSuccess": "@isSuccess"
+            },
+            {
+            "name": "usp_InsertCities",
+            "params": {
+                "IN_p_userId": 0,
+                "IN_p_cityName": "name of city",
+                "IN_p_stateId": 0,
+                "OUT_p_error": "@error",
+                "OUT_p_isSuccess": "@isSuccess",
+                "OUT_p_cityId": "@isSuccess"
+            },
+            {
+            "name": "usp_InsertStates",
+            "params": {
+                "IN_p_userId": 0,
+                "IN_p_stateName": "name of state",
+                "IN_p_countryId": 0,
+                "OUT_p_error": "@error",
+                "OUT_p_isSuccess": "@isSuccess",
+                "OUT_p_cityId": "@isSuccess"
+            },
+            {
+            "name": "usp_InsertCountries",
+            "params": {
+                "IN_p_userId": 0,
+                "IN_p_countryName": "name of country",
+                "OUT_p_error": "@error",
+                "OUT_p_isSuccess": "@isSuccess",
+                "OUT_p_countryId": "@isSuccess"
             }
         }
     ]
