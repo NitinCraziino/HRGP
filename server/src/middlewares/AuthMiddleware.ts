@@ -5,7 +5,7 @@ import { UnauthorizedError } from "../types/CustomError";
 const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
     try {
         // @ts-ignore
-        const authHeader = req.headers.authoriation || req.headers.Authorization;
+        const authHeader = req.headers.authorization || req.headers.Authorization;
         if (!authHeader) {
             throw new UnauthorizedError();
         }

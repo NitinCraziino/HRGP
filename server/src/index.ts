@@ -1,6 +1,6 @@
 import express from "express";
 import { PORT } from "./config";
-import { errorHandler } from "./middlewares/ErrorHandler";
+import { errorHandler } from "./middlewares/errorHandler";
 import router from "./routes";
 import middlewares from "./middlewares";
 import configurePassport from "./config/configurePassport";
@@ -9,10 +9,8 @@ const app = express();
 // All common middlewares are defined in the middlewares file
 app.use(middlewares);
 
-// All routes are defined in the routes file
 app.use("/api", router);
 
-// Error handler middleware
 app.use(errorHandler);
 
 app.listen(PORT, () => {
