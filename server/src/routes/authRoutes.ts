@@ -7,6 +7,7 @@ import googleAuthController from "../controllers/auth/googleAuthController";
 import forgotPasswordController from "../controllers/auth/forgotPasswordController";
 import verifyVerificationCodeController from "../controllers/auth/verifyVerificationCodeController";
 import resetPasswordController from "../controllers/auth/resetPasswordController";
+import resendVerificationCodeController from "../controllers/auth/resendVerificationCode";
 
 const router = Router();
 
@@ -19,5 +20,6 @@ router.get("/google/callback", passport.authenticate("google", { failureRedirect
 router.post("/forgot-password", forgotPasswordController);
 router.post("/verify-verification-code", verifyVerificationCodeController);
 router.post("/reset-password", resetPasswordController);
+router.post("/resend-verification-code", resendVerificationCodeController);
 
 export default router;

@@ -18,7 +18,7 @@ const resetPasswordController = async (req: Request, res: Response, next: NextFu
         }
 
         // TODO delete the otp from the db
-        // await deleteOtp(email, verificationCode);
+        // await deleteOtp(email);
 
         const hashedPassword = await bcrypt.hash(newPassword, 10);
         await updatePassword(email, hashedPassword);

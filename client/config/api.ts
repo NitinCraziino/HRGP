@@ -1,8 +1,9 @@
+import { SERVER_URL } from ".";
+
 export const authRoutes = {
     signup: `/auth/signup`,
     signin: `/auth/signin`,
-    google: `/auth/google`,
-    googleCallback: `/auth/google/callback`,
+    google: `${SERVER_URL}/auth/google`,
     forgotPassword: `/auth/forgot-password`,
     verifyVerificationCode: `/auth/verify-verification-code`,
     resetPassword: `/auth/reset-password`,

@@ -17,15 +17,6 @@
                 "always use useQuery for fetching data from api though an hook",
                 "use Emojis in commit messages and error and toast messages"
             ]
-        },
-        {
-            "name": "Git Commit Messages",
-            "description": "Always write clear and concise git commit messages.",
-            "sequential": true,
-            "steps": [
-                "Write a commit message explaining the main changes made only the overview of the changes.",
-                "Use present tense in the commit message."
-            ]
         }
     ]
 }
