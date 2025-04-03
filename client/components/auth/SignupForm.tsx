@@ -252,6 +252,7 @@ const SignupForm = () => {
                                     onChange={(values) => setValue("companyName", values[0]?.value)}
                                     creatable
                                     maxSelected={1}
+                                    hidePlaceholderWhenSelected
                                     emptyIndicator={<p className="text-gray-500 text-sm">No company found</p>}
                                 />
                                 {errors.companyName?.message && (
@@ -265,6 +266,7 @@ const SignupForm = () => {
                                     defaultOptions={positions}
                                     onChange={(values) => setValue("positionTitle", values[0]?.value)}
                                     creatable
+                                    hidePlaceholderWhenSelected
                                     maxSelected={1}
                                     emptyIndicator={<p className="text-gray-500 text-sm">No position found</p>}
                                 />
@@ -279,6 +281,7 @@ const SignupForm = () => {
                                     options={industries}
                                     placeholder="Select Industry"
                                     defaultOptions={industries}
+                                    hidePlaceholderWhenSelected
                                     onChange={(values) => setValue("industry", values[0]?.value)}
                                     creatable
                                     maxSelected={1}
@@ -295,6 +298,7 @@ const SignupForm = () => {
                                     defaultOptions={companyTypes}
                                     onChange={(values) => setValue("companyType", values[0]?.value)}
                                     creatable
+                                    hidePlaceholderWhenSelected
                                     maxSelected={4}
                                     emptyIndicator={<p className="text-gray-500 text-sm">No company type found</p>}
                                 />
