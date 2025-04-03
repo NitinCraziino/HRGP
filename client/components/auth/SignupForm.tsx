@@ -69,10 +69,9 @@ const SignupForm = () => {
     const {
         register,
         handleSubmit,
-        formState: { errors, },
+        formState: { errors, isSubmitting },
         setValue,
         trigger,
-        getValues,
         setError,
         control
     } = useForm({
@@ -162,7 +161,7 @@ const SignupForm = () => {
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 w-full">
 
                 {tabs === 1 && (
-                    <>
+                    <div className="pb-14 space-y-4">
                         <div className="grid grid-cols-2 gap-4">
                             <InputWithError
                                 error={errors.firstName?.message}
@@ -243,7 +242,7 @@ const SignupForm = () => {
                         >
                             Next
                         </Button>
-                    </>
+                    </div>
                 )}
                 {tabs === 2 && (
                     <div className="space-y-4">
@@ -331,7 +330,7 @@ const SignupForm = () => {
                             <Button
                                 type="submit"
                                 className={cn("py-2 px-8 rounded bg-green-700 hover:bg-green-500 text-sm float-right", isPending && "opacity-50 cursor-not-allowed")}
-                                disabled={isPending}
+                                disabled={isPending || isSubmitting}
                             >
                                 Submit
                             </Button>

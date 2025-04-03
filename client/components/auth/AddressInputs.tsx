@@ -50,7 +50,7 @@ const AddressInputs = ({ register, errors, setValue, setError, control }: Addres
 
     return (
         <>
-            {true && <LoadingOverlay />}
+            {isLoading && <LoadingOverlay />}
             <InputWithError
                 label="Postal Code"
                 error={errors.postalCode?.message}
