@@ -33,11 +33,11 @@ export default createSubscription;
 
 
 const subscriptionSchema = z.object({
-    paymentMethodId: z.string().min(1, "Payment method ID is required"),
-    customerId: z.string().min(1, "Customer ID is required"),
-    companyId: z.string().min(1, "Company ID is required"),
-    email: z.string().email("Invalid email format"),
-    name: z.string().min(1, "Name is required"),
-    phone: z.string().min(1, "Phone is required"),
-    userId: z.string().min(1, "User ID is required"),
+    paymentMethodId: z.string({ required_error: "Payment method ID is required" }),
+    customerId: z.string({ required_error: "Customer ID is required" }),
+    companyId: z.string({ required_error: "Company ID is required" }),
+    email: z.string({ required_error: "Email is required" }).email("Invalid email format"),
+    name: z.string({ required_error: "Name is required" }),
+    phone: z.string({ required_error: "Phone is required" }),
+    userId: z.string({ required_error: "User ID is required" }),
 });

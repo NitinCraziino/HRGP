@@ -38,9 +38,9 @@ const resetPasswordController = async (req: Request, res: Response, next: NextFu
 };
 
 const resetPasswordSchema = z.object({
-    verificationCode: z.string(),
-    newPassword: z.string().min(8, "Password must be at least 8 characters long"),
-    email: z.string().email("Invalid email"),
+    verificationCode: z.string({ required_error: "Verification code is required" }),
+    newPassword: z.string({ required_error: "New password is required" }).min(8, "Password must be at least 8 characters long"),
+    email: z.string({ required_error: "Email is required" }).email("Invalid email"),
 });
 
 export default resetPasswordController;

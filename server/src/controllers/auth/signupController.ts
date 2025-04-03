@@ -144,18 +144,18 @@ const processAddress = async (data: Address) => {
 
 // Zod schema definition for validation
 const signupSchema = z.object({
-    primaryEmail: z.string().email("Invalid primary email"),
-    primaryPhone: z.string(),
-    password: z.string().min(8, "Password must be at least 8 characters long"),
-    firstName: z.string().min(1, "First name must be between 1 and 50 characters").max(50),
-    lastName: z.string().min(1, "Last name must be between 1 and 50 characters").max(50),
-    companyName: z.string().min(1, "Company name must be between 1 and 100 characters").max(100),
-    companyType: z.string().min(1, "Company type must be between 1 and 100 characters").max(100),
-    industryId: z.string().min(1, "Industry ID must be between 1 and 100 characters").max(100),
-    positionTitle: z.string().min(1, "Position title must be between 1 and 100 characters").max(100),
-    postalCode: z.string().min(1, "Postal code must be between 1 and 100 characters").max(100),
-    country: z.string().min(1, "Country must be between 1 and 100 characters").max(100),
-    state: z.string().min(1, "State must be between 1 and 100 characters").max(100),
-    city: z.string().min(1, "City must be between 1 and 100 characters").max(100),
-    address: z.string().min(1, "Address must be between 1 and 100 characters").max(100)
+    primaryEmail: z.string({ required_error: "Primary email is required" }).email("Invalid primary email"),
+    primaryPhone: z.string({ required_error: "Primary phone is required" }),
+    password: z.string({ required_error: "Password is required" }).min(8, "Password must be at least 8 characters long"),
+    firstName: z.string({ required_error: "First name is required" }).min(1, "First name must be between 1 and 50 characters").max(50),
+    lastName: z.string({ required_error: "Last name is required" }).min(1, "Last name must be between 1 and 50 characters").max(50),
+    companyName: z.string({ required_error: "Company name is required" }).min(1, "Company name must be between 1 and 100 characters").max(100),
+    companyType: z.string({ required_error: "Company type is required" }).min(1, "Company type must be between 1 and 100 characters").max(100),
+    industryId: z.string({ required_error: "Industry ID is required" }).min(1, "Industry ID must be between 1 and 100 characters").max(100),
+    positionTitle: z.string({ required_error: "Position title is required" }).min(1, "Position title must be between 1 and 100 characters").max(100),
+    postalCode: z.string({ required_error: "Postal code is required" }).min(1, "Postal code must be between 1 and 100 characters").max(100),
+    country: z.string({ required_error: "Country is required" }).min(1, "Country must be between 1 and 100 characters").max(100),
+    state: z.string({ required_error: "State is required" }).min(1, "State must be between 1 and 100 characters").max(100),
+    city: z.string({ required_error: "City is required" }).min(1, "City must be between 1 and 100 characters").max(100),
+    address: z.string({ required_error: "Address is required" }).min(1, "Address must be between 1 and 100 characters").max(100)
 });
