@@ -7,17 +7,17 @@ interface Response extends QueryResponse {
     countryId: string;
 }
 
-const createCountry = async (country: string) => {
-    // const result = await executeDbQuerySP<Response>(async () => {
-    //     return await query("CALL usp_InsertCountry(?, @outParam1, @outParam2); SELECT @outParam1 AS error, @outParam2 AS isSuccess;", [country]);
-    // }, "createCountry");
+const createCountry = async (userId: number, country: string) => {
+    const params = [userId, country];
+    const result = await executeDbQuerySP<Response>(async () => {
+        return await query("CALL usp_InsertCountries(?, ?, @outParam1, @outParam2, @outParam3); SELECT @outParam1 AS isSuccess, @outParam2 AS error, @outParam3 AS countryId;", params);
+    }, "createCountry");
 
-    // if (result.isSuccess !== 1) {
-    //     throw new ValidationError(result.error, "createCountry");
-    // }
+    if (result.isSuccess !== 1) {
+        throw new ValidationError(result.error, "createCountry");
+    }
 
-    // return result.countryId;
-    return "1";
+    return result.countryId;
 };
 
 export default createCountry;

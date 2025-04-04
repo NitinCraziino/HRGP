@@ -5,9 +5,8 @@ import createUser from "../../db/user/createUser";
 import bcrypt from "bcryptjs";
 import { paymentService } from "../../services/PaymentService";
 import createCompany from "../../db/company/createCompany";
-import updateStripeCustomerSubscription from "../../db/stripe/updateStripeCustomerSubscription";
 import createEmployee from "../../db/employee/createEmployee";
-import { z } from "zod";
+import updateStripeCustomerSubscription from "../../db/stripe/updateStripeCustomerSubscription";
 import updateCompanyId from "../../db/user/updateCompanyId";
 import findCountry from "../../db/address/findCountry";
 import findState from "../../db/address/findState";
@@ -16,6 +15,7 @@ import createAddress from "../../db/address/createAddress";
 import createCountry from "../../db/address/createCountry";
 import createState from "../../db/address/createState";
 import createCity from "../../db/address/createCity";
+import { z } from "zod";
 
 
 const signupController = async (req: Request, res: Response, next: NextFunction) => {
@@ -118,15 +118,15 @@ type Address = {
 const processAddress = async (data: Address) => {
     let countryId = (await findCountry(data.country))?.countryId;
     if (!countryId) {
-        countryId = await createCountry(data.country);
+        countryId = await createCountry(data.userId, data.country);
     }
     let stateId = (await findState(data.state, countryId))?.stateId;
     if (!stateId) {
-        stateId = await createState(data.state, countryId);
+        stateId = await createState(data.userId, data.state, countryId);
     }
     let cityId = (await findCity(data.city, stateId))?.cityId;
     if (!cityId) {
-        cityId = await createCity(data.city, stateId);
+        cityId = await createCity(data.userId, data.city, stateId);
     }
 
     await createAddress({
@@ -140,6 +140,20 @@ const processAddress = async (data: Address) => {
         cityId,
     });
 };
+
+// ! for testing the processAddress function
+// (async () => {
+//     await processAddress({
+//         userId: 1,
+//         companyId: 1,
+//         branchAddress: "a23a2342aa, Kerala 673614, India",
+//         addressType: "Primary",
+//         country: "aa234we2aa",
+//         state: "aa234we2aa",
+//         city: "aa234we2aa",
+//         postalCode: "6736131334"
+//     });
+// })();
 
 
 // Zod schema definition for validation

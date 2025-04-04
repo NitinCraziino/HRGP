@@ -8,7 +8,7 @@ type CityResponse = {
 
 const findCity = async (city: string, stateId: string) => {
     const result = await executeDbQueryDirect<CityResponse>(async () => {
-        return await query("SELECT * FROM tblCities WHERE city = ? AND stateId = ?", [city, stateId]);
+        return await query("SELECT * FROM Cities WHERE cityName = ? AND stateId = ?", [city, stateId]);
     }, "findCity");
 
     return result;

@@ -8,10 +8,8 @@ type CountryResponse = {
 
 const findCountry = async (country: string) => {
     const result = await executeDbQueryDirect<CountryResponse>(async () => {
-        return await query("SELECT * FROM tblCountries WHERE country = ?", [country]);
+        return await query("SELECT * FROM Countries WHERE countryName = ?", [country]);
     }, "findCountry");
-
-    console.log(result);
 
     return result;
 };

@@ -7,17 +7,17 @@ interface Response extends QueryResponse {
     cityId: string;
 }
 
-const createCity = async (city: string, stateId: string) => {
-    // const result = await executeDbQuerySP<Response>(async () => {
-    //     return await query("CALL usp_InsertCity(?, ?, @outParam1, @outParam2); SELECT @outParam1 AS error, @outParam2 AS isSuccess;", [city, stateId]);
-    // }, "createCity");
+const createCity = async (userId: number, city: string, stateId: string) => {
+    const params = [userId, city, stateId];
+    const result = await executeDbQuerySP<Response>(async () => {
+        return await query("CALL usp_InsertCities(?, ?, ?, @outParam1, @outParam2, @outParam3); SELECT @outParam1 AS isSuccess, @outParam2 AS error, @outParam3 AS cityId;", params);
+    }, "createCity");
 
-    // if (result.isSuccess !== 1) {
-    //     throw new ValidationError(result.error, "createCity");
-    // }
+    if (result.isSuccess !== 1) {
+        throw new ValidationError(result.error, "createCity");
+    }
 
-    // return result.cityId;
-    return "1";
+    return result.cityId;
 };
 
 export default createCity;          

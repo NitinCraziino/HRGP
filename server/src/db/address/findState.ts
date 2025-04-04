@@ -8,7 +8,7 @@ type StateResponse = {
 
 const findState = async (state: string, countryId: string) => {
     const result = await executeDbQueryDirect<StateResponse>(async () => {
-        return await query("SELECT * FROM tblStates WHERE state = ? AND countryId = ?", [state, countryId]);
+        return await query("SELECT * FROM States WHERE stateName = ? AND countryId = ?", [state, countryId]);
     }, "findState");
 
     return result;
