@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { memo } from "react";
 import useIsPublicRoutes from "@/hooks/useIsPublicRoutes";
 
-const Header = () => {
+const PublicHeader = () => {
     const pathname = usePathname();
     const isMobile = useIsMobile();
     const showLinks = pathname.includes('/signin');
@@ -23,4 +23,4 @@ const Header = () => {
     );
 };
 
-export default memo(Header);
+export default memo(PublicHeader);

@@ -4,7 +4,7 @@ import Link from 'next/link';
 import React from 'react';
 import useIsPublicRoutes from '@/hooks/useIsPublicRoutes';
 
-const Footer = () => {
+const PublicFooter = () => {
     const isPublicRoute = useIsPublicRoutes();
     if (!isPublicRoute) return null;
     return (
@@ -26,4 +26,4 @@ const Footer = () => {
     );
 };
 
-export default Footer;
+export default PublicFooter;

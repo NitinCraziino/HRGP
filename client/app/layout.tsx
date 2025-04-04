@@ -6,6 +6,8 @@ import PublicHeader from "@/components/layout/PublicHeader";
 import PublicFooter from "@/components/layout/PublicFooter";
 import { Toaster } from "@/components/ui/sonner";
 import { RootLayoutProps } from "@/types/props";
+import NavBar from "@/components/layout/NavBar";
+import Footer from "@/components/layout/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,10 +20,16 @@ const RootLayout = ({ children }: RootLayoutProps) => {
       <body
         className={`${geistSans.variable} antialiased `}
       >
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        />
         <QueryProvider>
           <PublicHeader />
           <PublicNavBar />
+          <NavBar />
           {children}
+          <Footer />
           <PublicFooter />
           <Toaster
             position="top-right"

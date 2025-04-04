@@ -1,14 +1,14 @@
 import Image from "next/image";
 import ForgetPasswordForm from "@/components/auth/ForgetPasswordForm";
 import { memo } from "react";
-import Container from "@/components/hoc/Container";
 import WithoutAuth from "@/components/hoc/WithoutAuth";
+import PublicPageContainer from "@/components/hoc/PublicPageContainer";
 
 const ForgetPassword = () => {
     return (
         <WithoutAuth>
             <div className="container h-full py-[20px] sm:py-24 flex items-center px-4 md:px-8">
-                <Container className="mx-auto max-w-6xl w-full">
+                <PublicPageContainer className="mx-auto max-w-6xl w-full">
                     <div className="grid md:grid-cols-2 gap-8 items-center ml-20">
                         {/* Left side - Image */}
                         <div className="hidden md:flex justify-center ">
@@ -31,7 +31,7 @@ const ForgetPassword = () => {
                             <ForgetPasswordForm />
                         </div>
                     </div>
-                </Container>
+                </PublicPageContainer>
             </div>
         </WithoutAuth>
     );

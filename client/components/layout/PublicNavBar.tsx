@@ -5,7 +5,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import useIsPublicRoutes from "@/hooks/useIsPublicRoutes";
-const NavBar = () => {
+import { memo } from "react";
+
+const PublicNavBar = () => {
     const pathname = usePathname();
     const showLinks = pathname !== '/signin';
     const isPublicRoute = useIsPublicRoutes();
@@ -46,4 +48,4 @@ const NavBar = () => {
     );
 };
 
-export default NavBar;
+export default memo(PublicNavBar);

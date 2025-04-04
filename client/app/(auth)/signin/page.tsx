@@ -2,14 +2,14 @@ import Image from "next/image";
 import SigninForm from "@/components/auth/SigninForm";
 import { memo } from "react";
 import OAuthButtons from "@/components/auth/OAuthButtons";
-import Container from "@/components/hoc/Container";
 import WithoutAuth from "@/components/hoc/WithoutAuth";
+import PublicPageContainer from "@/components/hoc/PublicPageContainer";
 
 const Signin = () => {
     return (
         <WithoutAuth>
             <div className="container h-full py-[20px] sm:py-24 flex items-center px-4 md:px-8">
-                <Container className="mx-auto max-w-6xl w-full">
+                <PublicPageContainer className="mx-auto max-w-6xl w-full">
                     <div className="grid md:grid-cols-2 gap-8 items-center">
                         {/* Left side - Image */}
                         <div className="hidden md:flex justify-center">
@@ -33,7 +33,7 @@ const Signin = () => {
                             <SigninForm />
                         </div>
                     </div>
-                </Container>
+                </PublicPageContainer>
             </div>
         </WithoutAuth>
     );

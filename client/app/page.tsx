@@ -1,10 +1,10 @@
-import Container from "@/components/hoc/Container";
+import PrivateContainer from "@/components/hoc/PrivateContainer";
 
 const page = () => {
   return (
-    <Container>
+    <PrivateContainer>
       <div>page</div>
-    </Container>
+    </PrivateContainer>
   );
 };
 
