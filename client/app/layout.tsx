@@ -1,9 +1,9 @@
 import { Geist } from "next/font/google";
 import "../styles/globals.css";
 import QueryProvider from "@/components/providers/QueryProvider";
-import NavBar from "@/components/layout/NavBar";
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
+import PublicNavBar from "@/components/layout/PublicNavBar";
+import PublicHeader from "@/components/layout/PublicHeader";
+import PublicFooter from "@/components/layout/PublicFooter";
 import { Toaster } from "@/components/ui/sonner";
 import { RootLayoutProps } from "@/types/props";
 
@@ -19,10 +19,10 @@ const RootLayout = ({ children }: RootLayoutProps) => {
         className={`${geistSans.variable} antialiased `}
       >
         <QueryProvider>
-          <Header />
-          <NavBar />
+          <PublicHeader />
+          <PublicNavBar />
           {children}
-          <Footer />
+          <PublicFooter />
           <Toaster
             position="top-right"
             richColors

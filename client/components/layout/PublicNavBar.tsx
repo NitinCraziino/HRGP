@@ -4,10 +4,12 @@ import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-
+import useIsPublicRoutes from "@/hooks/useIsPublicRoutes";
 const NavBar = () => {
     const pathname = usePathname();
     const showLinks = pathname !== '/signin';
+    const isPublicRoute = useIsPublicRoutes();
+    if (!isPublicRoute) return null;
     return (
         <header className="bg-white border-b py-1 px-2 md:px-4">
             <div className="max-w-6xl mx-auto flex items-center justify-between flex-wrap">

@@ -1,7 +1,12 @@
+'use client';
+
 import Link from 'next/link';
 import React from 'react';
+import useIsPublicRoutes from '@/hooks/useIsPublicRoutes';
 
 const Footer = () => {
+    const isPublicRoute = useIsPublicRoutes();
+    if (!isPublicRoute) return null;
     return (
         <footer className="border-t py-2 px-4 md:px-6 bg-white mt-auto">
             <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center text-xs text-gray-600 text-center">
