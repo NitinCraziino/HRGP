@@ -4,12 +4,12 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Mail } from "lucide-react";
-import { SidebarProvider, SidebarTrigger } from "./SideBar";
+import { SidebarProvider, SidebarTrigger } from "./PrivateSideBar";
 import DropdownNavItem from "./DropDownNavItem";
 import ActionIcon from "./ActionIcon";
 import { ATS_ITEMS, EMS_ITEMS, HISTORY_ITEMS, TOOLS_ITEMS } from "@/constants/nav";
 
-const NavBar = () => {
+const PrivateNavBar = () => {
     const [openDropdown, setOpenDropdown] = useState<"ATS" | "EMS" | "CALENDAR" | "HISTORY" | "TOOLS" | null>(null);
     const handleCloseDropdown = () => {
         setOpenDropdown(null);
@@ -158,6 +158,6 @@ const NavBar = () => {
     );
 };
 
-export default NavBar;
+export default PrivateNavBar;
 
 

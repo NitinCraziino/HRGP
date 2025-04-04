@@ -1,6 +1,6 @@
 import { memo } from "react";
 
-const Footer = () => {
+const PrivateFooter = () => {
     const date = new Date();
     const year = date.getFullYear();
     return (
@@ -10,4 +10,4 @@ const Footer = () => {
     );
 };
 
-export default memo(Footer);
+export default memo(PrivateFooter);

@@ -6,8 +6,8 @@ import PublicHeader from "@/components/layout/PublicHeader";
 import PublicFooter from "@/components/layout/PublicFooter";
 import { Toaster } from "@/components/ui/sonner";
 import { RootLayoutProps } from "@/types/props";
-import NavBar from "@/components/layout/NavBar";
-import Footer from "@/components/layout/Footer";
+import PrivateNavBar from "@/components/layout/PrivateNavBar";
+import PrivateFooter from "@/components/layout/PrivateFooter";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,9 +27,9 @@ const RootLayout = ({ children }: RootLayoutProps) => {
         <QueryProvider>
           <PublicHeader />
           <PublicNavBar />
-          <NavBar />
+          <PrivateNavBar />
           {children}
-          <Footer />
+          <PrivateFooter />
           <PublicFooter />
           <Toaster
             position="top-right"
