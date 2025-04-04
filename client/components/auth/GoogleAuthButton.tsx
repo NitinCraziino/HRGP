@@ -3,13 +3,13 @@
 import React from 'react';
 import { Button } from '../ui/button';
 import Image from 'next/image';
-import { authRoutes } from '@/config/api';
+import { SERVER_URL } from '@/config';
 
 const GoogleAuthButton = ({ isSignIn }: { isSignIn: boolean; }) => {
 
     const handleGoogleSignUp = async () => {
         try {
-            window.location.href = authRoutes.google;
+            window.location.href = `${SERVER_URL}/api/auth/google`;
         } catch (error) {
             console.error(error);
         };

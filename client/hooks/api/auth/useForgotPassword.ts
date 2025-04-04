@@ -1,10 +1,17 @@
 import { useMutation } from "@tanstack/react-query";
-import { forgotPassword } from "@/lib/api/auth";
-import { ForgotPasswordData } from "@/types/api.types";
+import { ForgotPasswordData } from "@/types/api";
+import { POST } from "@/lib/api";
+import { PostRoutes } from "@/types/api/PostRoutes";
 
 const useForgotPassword = () => {
     return useMutation({
-        mutationFn: (data: ForgotPasswordData) => forgotPassword(data)
+        mutationFn: async (data: ForgotPasswordData) => {
+            const response = await POST({
+                route: PostRoutes.ForgotPassword,
+                body: data,
+            });
+            return response;
+        }
     });
 };
 

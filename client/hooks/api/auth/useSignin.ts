@@ -1,7 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
-import { signin } from "@/lib/api/auth";
-import { SigninData } from "@/types/api.types";
+import { SigninData, SigninResponse } from "@/types/api";
 import useAuth from "@/hooks/states/useAuth";
+import { POST } from "@/lib/api";
+import { PostRoutes } from "@/types/api/PostRoutes";
 
 const useSignin = () => {
     const setUserToken = useAuth((state) => state.setUserToken);
@@ -9,7 +10,13 @@ const useSignin = () => {
     const setCompany = useAuth((state) => state.setCompany);
 
     return useMutation({
-        mutationFn: (data: SigninData) => signin(data),
+        mutationFn: async (data: SigninData) => {
+            const response = await POST<SigninResponse>({
+                route: PostRoutes.Signin,
+                body: data,
+            });
+            return response;
+        },
         onSuccess: (data) => {
             setUserToken(data.token);
             setUser(data.user);

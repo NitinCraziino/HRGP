@@ -1,11 +1,17 @@
-import { resetPassword } from "@/lib/api/auth";
-import { ResetPasswordData } from "@/types/api.types";
+import { POST } from "@/lib/api";
+import { ResetPasswordData } from "@/types/api";
+import { PostRoutes } from "@/types/api/PostRoutes";
 import { useMutation } from "@tanstack/react-query";
 
 const useResetPassword = () => {
     return useMutation({
-        mutationFn: (data: ResetPasswordData) => resetPassword(data)
+        mutationFn: async (data: ResetPasswordData) => {
+            const response = await POST({
+                route: PostRoutes.ResetPassword,
+                body: data,
+            });
+            return response;
+        }
     });
 };
-
 export default useResetPassword;                

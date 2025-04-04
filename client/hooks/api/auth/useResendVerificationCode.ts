@@ -1,10 +1,17 @@
-import { resendVerificationCode } from "@/lib/api/auth";
-import { ResendVerificationCodeData } from "@/types/api.types";
+import { ResendVerificationCodeData } from "@/types/api";
 import { useMutation } from "@tanstack/react-query";
+import { POST } from "@/lib/api";
+import { PostRoutes } from "@/types/api/PostRoutes";
 
 const useResendVerificationCode = () => {
     return useMutation({
-        mutationFn: (data: ResendVerificationCodeData) => resendVerificationCode(data)
+        mutationFn: async (data: ResendVerificationCodeData) => {
+            const response = await POST({
+                route: PostRoutes.ResendVerificationCode,
+                body: data,
+            });
+            return response;
+        }
     });
 };
 

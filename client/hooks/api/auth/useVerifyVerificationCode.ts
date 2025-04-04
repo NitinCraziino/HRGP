@@ -1,10 +1,20 @@
-import { verifyVerificationCode } from "@/lib/api/auth";
-import { VerifyVerificationCodeData } from "@/types/api.types";
+import { POST } from "@/lib/api";
+import { VerifyVerificationCodeData } from "@/types/api";
+import { PostRoutes } from "@/types/api/PostRoutes";
 import { useMutation } from "@tanstack/react-query";
 
 const useVerifyVerificationCode = () => {
     return useMutation({
-        mutationFn: (data: VerifyVerificationCodeData) => verifyVerificationCode(data)
+        mutationFn: async ({ email, verificationCode }: VerifyVerificationCodeData) => {
+            const response = await POST({
+                route: PostRoutes.VerifyVerificationCode,
+                body: {
+                    email,
+                    verificationCode,
+                },
+            });
+            return response;
+        }
     });
 };
 

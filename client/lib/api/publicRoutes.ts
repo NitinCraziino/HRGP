@@ -1,5 +1,5 @@
-import api from "..";
-import { addressRoutes } from "@/config/api";
+import { GetRoutesWithParams } from "@/types/api/GetRoutes";
+import { GET } from ".";
 
 type Location = {
     formattedAddress: string;
@@ -11,6 +11,9 @@ type Location = {
 };
 
 export const getLocationByPostalCode = async (postalCode: string): Promise<Location> => {
-    const response = await api.get(`${addressRoutes.getAddress}/${postalCode}`);
-    return response.data;
+    const response = await GET<Location>({
+        route: GetRoutesWithParams.GetAddress,
+        params: { postalCode }
+    });
+    return response;
 };

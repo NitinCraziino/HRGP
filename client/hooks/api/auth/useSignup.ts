@@ -1,14 +1,20 @@
-import { signup } from "@/lib/api/auth";
 import { useMutation } from "@tanstack/react-query";
-import { SignupData } from "@/types/api.types";
+import { SignupData, SignupResponse } from "@/types/api";
 import useAuth from "@/hooks/states/useAuth";
+import { POST } from "@/lib/api";
+import { PostRoutes } from "@/types/api/PostRoutes";
 
 const useSignup = () => {
     const setUser = useAuth((state) => state.setUser);
     return useMutation({
-        mutationFn: (data: SignupData) => signup(data),
+        mutationFn: async (data: SignupData) => {
+            const response = await POST<SignupResponse>({
+                route: PostRoutes.Signup,
+                body: data,
+            });
+            return response;
+        },
         onSuccess: (data) => {
-            console.log('data', data);
             setUser(data);
         }
     });

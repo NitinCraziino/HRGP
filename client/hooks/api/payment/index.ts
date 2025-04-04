@@ -1,9 +1,18 @@
-import { createSubscription } from "@/lib/api/payment";
-import { CreateSubscriptionProps } from "@/types/api.types";
+import { CreateSubscriptionProps } from "@/types/api";
 import { useMutation } from "@tanstack/react-query";
+import { POST } from "@/lib/api";
+import { PostRoutes } from "@/types/api/PostRoutes";
 
-export const useCreateSubscription = () => {
+const useCreateSubscription = () => {
     return useMutation({
-        mutationFn: (data: CreateSubscriptionProps) => createSubscription(data)
+        mutationFn: async (data: CreateSubscriptionProps) => {
+            const response = await POST({
+                route: PostRoutes.CreateSubscription,
+                body: data,
+            });
+            return response;
+        }
     });
 };
+
+export default useCreateSubscription;

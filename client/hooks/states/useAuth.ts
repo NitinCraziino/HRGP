@@ -2,7 +2,7 @@
 
 import { create } from "zustand";
 import { getItemLocalStorage, setItemLocalStorage } from "@/lib/utils";
-import { SigninResponse } from "@/types/api.types";
+import { SigninResponse } from "@/types/api";
 
 interface AuthState {
     isAuthenticated: boolean;
