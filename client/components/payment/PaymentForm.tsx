@@ -4,7 +4,7 @@ import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import ButtonWithLoading from "../ButtonWithLoading";
 import { memo, useState } from "react";
 import useAuth from "@/hooks/states/useAuth";
-import { useCreateSubscription } from "@/hooks/api/payment";
+import useCreateSubscription from "@/hooks/api/payment";
 import { toast } from "sonner";
 
 const PaymentForm = ({ setIsPaymentSuccess }: { setIsPaymentSuccess: (isPaymentSuccess: boolean) => void; }) => {

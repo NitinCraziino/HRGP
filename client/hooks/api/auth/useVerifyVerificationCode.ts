@@ -1,7 +1,11 @@
 import { POST } from "@/lib/api";
-import { VerifyVerificationCodeData } from "@/types/api";
 import { PostRoutes } from "@/types/api/PostRoutes";
 import { useMutation } from "@tanstack/react-query";
+
+interface VerifyVerificationCodeData {
+    email: string;
+    verificationCode: string;
+}
 
 const useVerifyVerificationCode = () => {
     return useMutation({

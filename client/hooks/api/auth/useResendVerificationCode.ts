@@ -1,7 +1,10 @@
-import { ResendVerificationCodeData } from "@/types/api";
 import { useMutation } from "@tanstack/react-query";
 import { POST } from "@/lib/api";
 import { PostRoutes } from "@/types/api/PostRoutes";
+
+interface ResendVerificationCodeData {
+    email: string;
+}
 
 const useResendVerificationCode = () => {
     return useMutation({

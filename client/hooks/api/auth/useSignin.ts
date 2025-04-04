@@ -1,8 +1,31 @@
 import { useMutation } from "@tanstack/react-query";
-import { SigninData, SigninResponse } from "@/types/api";
 import useAuth from "@/hooks/states/useAuth";
 import { POST } from "@/lib/api";
 import { PostRoutes } from "@/types/api/PostRoutes";
+
+interface SigninData {
+    email: string;
+    password: string;
+};
+
+interface SigninResponse {
+    token: string;
+    user: {
+        userId: string;
+        firstName: string;
+        lastName: string;
+        primaryEmail: string;
+        companyId: string;
+        primaryPhone: string;
+        stripeCustomerId?: string;
+    };
+    company: {
+        companyId: string;
+        companyName: string;
+        companyType: string;
+        companyAbout: string;
+    };
+};
 
 const useSignin = () => {
     const setUserToken = useAuth((state) => state.setUserToken);

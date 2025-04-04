@@ -1,7 +1,11 @@
 import { useMutation } from "@tanstack/react-query";
-import { ForgotPasswordData } from "@/types/api";
 import { POST } from "@/lib/api";
 import { PostRoutes } from "@/types/api/PostRoutes";
+
+interface ForgotPasswordData {
+    email: string;
+}
+
 
 const useForgotPassword = () => {
     return useMutation({

@@ -1,7 +1,16 @@
-import { CreateSubscriptionProps } from "@/types/api";
 import { useMutation } from "@tanstack/react-query";
 import { POST } from "@/lib/api";
 import { PostRoutes } from "@/types/api/PostRoutes";
+
+interface CreateSubscriptionProps {
+    paymentMethodId: string;
+    customerId: string;
+    companyId: string;
+    email: string;
+    name: string;
+    phone: string;
+    userId: string;
+}
 
 const useCreateSubscription = () => {
     return useMutation({

@@ -6,8 +6,8 @@ import PaymentSuccessScreen from "@/components/payment/PaymentSuccessScreen";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { STRIPE_PUBLISHABLE_KEY } from "@/config";
-import WithUser from "@/components/hoc/WithUser";
 import { useState } from "react";
+import WithStripeCustomer from "@/components/hoc/WithStripeCustomer";
 
 const stripePromise = loadStripe(STRIPE_PUBLISHABLE_KEY!);
 
@@ -15,7 +15,7 @@ const PaymentPage = () => {
     const [isPaymentSuccess, setIsPaymentSuccess] = useState(false);
 
     return (
-        <WithUser>
+        <WithStripeCustomer>
             <div className="min-h-[calc(100vh-160px)] w-full overflow-y-auto">
                 <div className="container mx-auto px-4 py-8 md:py-12 lg:py-16">
                     {isPaymentSuccess ? (
@@ -88,7 +88,7 @@ const PaymentPage = () => {
                     )}
                 </div>
             </div>
-        </WithUser>
+        </WithStripeCustomer>
     );
 };
 
