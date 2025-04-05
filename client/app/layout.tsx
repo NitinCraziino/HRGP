@@ -8,6 +8,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { RootLayoutProps } from "@/types/props";
 import PrivateNavBar from "@/components/layout/PrivateNavBar";
 import PrivateFooter from "@/components/layout/PrivateFooter";
+import LoadingOverlay from "@/components/LoadingOverlay";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,6 +30,7 @@ const RootLayout = ({ children }: RootLayoutProps) => {
           <PublicNavBar />
           <PrivateNavBar />
           {children}
+          <LoadingOverlay />
           <PrivateFooter />
           <PublicFooter />
           <Toaster

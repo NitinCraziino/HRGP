@@ -1,8 +1,12 @@
+"use client";
+
 import { Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { memo, useEffect } from "react";
+import useIsLoading from "@/hooks/states/useIsLoading";
 
 const LoadingOverlay = ({ className }: { className?: string; }) => {
+    const isLoading = useIsLoading((state) => state.isLoading);
     useEffect(() => {
         document.body.style.overflow = 'hidden';
 
@@ -10,6 +14,8 @@ const LoadingOverlay = ({ className }: { className?: string; }) => {
             document.body.style.overflow = 'unset';
         };
     }, []);
+
+    if (!isLoading) return null;
     return (
         <div
             className={cn(

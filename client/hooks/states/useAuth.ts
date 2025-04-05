@@ -2,17 +2,18 @@
 
 import { create } from "zustand";
 import { getItemLocalStorage, setItemLocalStorage } from "@/lib/utils";
-import { SigninResponse } from "@/types/api";
+import { AuthStateUser } from "@/types";
+import { AuthStateCompany } from "@/types";
 
-interface AuthState {
+export interface AuthState {
     isAuthenticated: boolean;
     userToken: string | null;
-    user: SigninResponse['user'] | null;
-    company: SigninResponse['company'] | null;
+    user: AuthStateUser | null;
+    company: AuthStateCompany | null;
     setUserToken: (token: string) => void;
     logout: () => void;
-    setUser: (user: SigninResponse['user']) => void;
-    setCompany: (company: SigninResponse['company']) => void;
+    setUser: (user: AuthStateUser) => void;
+    setCompany: (company: AuthStateCompany) => void;
 }
 
 const useAuth = create<AuthState>((set) => {

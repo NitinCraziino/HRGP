@@ -3,8 +3,7 @@ import { SignupSchemaType } from "@/lib/schema";
 import { InputWithError } from "../ui/input";
 import { useEffect, useState } from "react";
 import { getLocationByPostalCode } from "@/lib/api/publicRoutes";
-import LoadingOverlay from "../LoadingOverlay";
-
+import useIsLoading from "@/hooks/states/useIsLoading";
 type AddressInputsProps = {
     register: UseFormRegister<SignupSchemaType>;
     errors: FieldErrors<SignupSchemaType>;
@@ -14,8 +13,8 @@ type AddressInputsProps = {
 };
 
 const AddressInputs = ({ register, errors, setValue, setError, control }: AddressInputsProps) => {
-    const [isLoading, setIsLoading] = useState(false);
     const [isDisabled, setIsDisabled] = useState(false);
+    const setIsLoading = useIsLoading((state) => state.setIsLoading);
 
     const postalCode = useWatch({ control, name: "postalCode" });
 
@@ -50,7 +49,6 @@ const AddressInputs = ({ register, errors, setValue, setError, control }: Addres
 
     return (
         <>
-            {isLoading && <LoadingOverlay />}
             <InputWithError
                 label="Postal Code"
                 error={errors.postalCode?.message}

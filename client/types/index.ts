@@ -41,3 +41,21 @@ export interface ICompany {
     isAutomatedInvoiceNo: boolean;
     isRecruitForCustomers: boolean;
 }
+
+export interface AuthStateUser {
+    userId: string;
+    firstName: string;
+    lastName: string;
+    primaryEmail: string;
+    companyId: string;
+    primaryPhone: string;
+    stripeCustomerId?: string;
+}
+
+export interface AuthStateCompany {
+    companyId: string;
+    companyName: string;
+    companyAbout: string;
+    companyType: string;
+    industryId: string;
+}
