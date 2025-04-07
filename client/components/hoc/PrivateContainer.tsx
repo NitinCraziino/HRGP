@@ -2,7 +2,7 @@ import { WrapperProps } from "@/types/props";
 
 const PrivateContainer = ({ children }: WrapperProps) => {
     return (
-        <main className="min-h-screen bg-[#E9E9F3] pt-16 sm:pt-24 px-3">
+        <main className="min-h-screen bg-[#E9E9F3] p-3">
             {children}
         </main>
     );
