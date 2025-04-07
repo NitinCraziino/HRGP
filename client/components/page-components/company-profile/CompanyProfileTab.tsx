@@ -36,7 +36,6 @@ const companyProfileFormSchema = z.object({
 
 const CompanyProfileTab = () => {
     const [isEditing, setIsEditing] = useState(false);
-    const [isPending, setIsPending] = useState(false);
 
     // Handle toggling of edit mode
     const toggleEdit = () => {
@@ -63,10 +62,6 @@ const CompanyProfileTab = () => {
 
     const onSubmit = (data: z.infer<typeof companyProfileFormSchema>) => {
         console.log('submitting data', data);
-        setIsPending(true);
-        setTimeout(() => {
-            setIsPending(false);
-        }, 2000);
     };
 
     return (
@@ -76,7 +71,7 @@ const CompanyProfileTab = () => {
                     {/* Overview Section */}
                     <div className="flex justify-between items-center mb-4">
                         <h2 className="text-2xl font-bold">Overview</h2>
-                        <Button variant="ghost" size="icon" onClick={toggleEdit}>
+                        <Button variant="ghost" type="button" size="icon" onClick={toggleEdit}>
                             {isEditing ? (
                                 <Check className="h-5 w-5" />
                             ) : (
@@ -153,6 +148,7 @@ const CompanyProfileTab = () => {
                                 </div>
                                 <Button
                                     variant="secondary"
+                                    type="button"
                                     size="sm"
                                     className="bg-teal-600 text-white hover:bg-teal-700 ml-2"
                                     onClick={() => navigator.clipboard.writeText(`https://hrgp.io/app/company/${getValues("companyUrl")}`)}
@@ -177,7 +173,7 @@ const CompanyProfileTab = () => {
 
                     {isEditing && (
                         <ButtonWithLoading
-                            isLoading={isPending}
+                            isLoading={isSubmitting}
                             type="submit"
                             className="mt-4 py-2 px-8 rounded bg-[#5d45f8] hover:bg-[#4a35d9] text-sm float-right min-w-[100px]"
                         >
