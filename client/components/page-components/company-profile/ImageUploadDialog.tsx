@@ -9,7 +9,6 @@ import {
     DialogFooter,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 
 interface Props {
@@ -17,7 +16,6 @@ interface Props {
     onClose: () => void;
     onUpload: (file: File) => void;
     title?: string;
-    description?: string;
     dimensions?: string;
     maxFileSize?: number;
     allowedTypes?: string[];
@@ -28,10 +26,9 @@ const ImageUploadDialog = ({
     onClose,
     onUpload,
     title = "Upload Image",
-    description,
     dimensions,
     maxFileSize = 5,
-    allowedTypes = ["JPG", "JPEG", "PNG"],
+    allowedTypes = ["jpg", "jpeg", "png"],
 }: Props) => {
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [selectedFileSize, setSelectedFileSize] = useState<string>("");
@@ -75,15 +72,14 @@ const ImageUploadDialog = ({
 
     return (
         <Dialog open={isOpen} onOpenChange={handleClose}>
-            <DialogContent className="sm:max-w-md">
-                <DialogHeader>
+            <DialogContent className="sm:max-w-md min-w-[900px]">
+                <DialogHeader className="border-b border-gray-200">
                     <DialogTitle>{title}</DialogTitle>
-                    {description && <DialogDescription>{description}</DialogDescription>}
+                    <DialogDescription />
                 </DialogHeader>
 
                 <div className="grid gap-4 py-4">
                     <div className="grid gap-2">
-                        <Label htmlFor="image-upload">Upload {title.toLowerCase()}</Label>
                         <Input
                             id="image-upload"
                             type="file"
@@ -95,11 +91,11 @@ const ImageUploadDialog = ({
                         <div className="text-sm text-gray-500 mt-1">
                             {dimensions && <div>Dimension: {dimensions}</div>}
                             <div>File Size: {maxFileSize} mb max</div>
-                            <div>Allowed File Types: {allowedTypes.join(", ")}</div>
+                            <div>Allowed File Types: <span className="uppercase">{allowedTypes.join(", ")}</span></div>
                         </div>
 
                         {selectedFileSize && (
-                            <div className="text-sm mt-1">
+                            <div className="text-md font-bold text-gray-500 mt-1">
                                 Selected File Size: {selectedFileSize}
                             </div>
                         )}
