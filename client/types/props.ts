@@ -11,4 +11,5 @@ export type RootLayoutProps = {
 
 export type WrapperProps = {
     children: ReactNode;
+    className?: string;
 };
