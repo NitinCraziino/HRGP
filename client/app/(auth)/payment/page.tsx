@@ -1,8 +1,8 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import CardDetailsForm from "@/components/payment/PaymentForm";
-import PaymentSuccessScreen from "@/components/payment/PaymentSuccessScreen";
+import CardDetailsForm from "@/components/page-components/payment/PaymentForm";
+import PaymentSuccessScreen from "@/components/page-components/payment/PaymentSuccessScreen";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { STRIPE_PUBLISHABLE_KEY } from "@/config";
