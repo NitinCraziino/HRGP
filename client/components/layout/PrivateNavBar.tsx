@@ -100,7 +100,7 @@ const PrivateNavBar = () => {
                                         <div className="flex items-center space-x-2 text-xs sm:text-sm">
                                             <Link href={'/profile'} className="rounded-full h-8 w-8 flex items-center justify-center">
                                                 <Image
-                                                    src="/assets/icons/user-placeholder.jpg"
+                                                    src="/assets/images/user-placeholder.jpg"
                                                     alt="User Icon"
                                                     width={28}
                                                     height={28}

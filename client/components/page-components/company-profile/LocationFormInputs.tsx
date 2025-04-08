@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { getLocationByPostalCode } from "@/lib/api/publicRoutes";
 import useIsLoading from "@/hooks/states/useIsLoading";
 import { LocationFormInputs } from "./LocationsSection";
-import ButtonWithLoading from "@/components/ButtonWithLoading";
+import ButtonWithLoading from "@/components/common/ButtonWithLoading";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 type LocationFormInputsProps = {

@@ -1,7 +1,7 @@
 'use client';
 import useAuth from "@/hooks/states/useAuth";
 import { memo, useEffect, useState } from "react";
-import PageSkeleton from "../PageSkeleton";
+import PageSkeleton from "../common/PageSkeleton";
 import { notFound } from "next/navigation";
 import { WrapperProps } from "@/types/props";
 

@@ -10,7 +10,7 @@ import { signinSchema } from "@/lib/schema";
 import useSignin from "@/hooks/api/auth/useSignin";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import ButtonWithLoading from "../ButtonWithLoading";
+import ButtonWithLoading from "@/components/common/ButtonWithLoading";
 
 const SigninForm = () => {
     const router = useRouter();

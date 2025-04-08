@@ -1,8 +1,8 @@
 import { cn } from "@/lib/utils";
 import { memo } from "react";
-import { PublicPageContainerProps } from "@/types/props";
+import { PublicPageContainerContainerProps } from "@/types/props";
 
-const PublicPageContainer = ({ children, className }: PublicPageContainerProps) => {
+const PublicPageContainer = ({ children, className }: PublicPageContainerContainerProps) => {
     return (
         <div className={cn(`max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 `, className)} >
             {children}

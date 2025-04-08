@@ -1,19 +1,41 @@
+'use client';
+
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import PageHeader from '@/components/layout/PageHeader';
 import PrivateContainer from "@/components/hoc/PrivateContainer";
-import BannerSection from '@/components/page-components/company-profile/BannerSection';
+import ProfileBannerSection from '@/components/common/ProfileBannerSection';
 import CompanyProfileTab from "@/components/page-components/company-profile/CompanyProfileTab";
 import CompanySettingsTab from "@/components/page-components/company-profile/CompanySettingsTab";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useState } from "react";
 
 const CompanyProfilePage = () => {
+    const [profileImage, setProfileImage] = useState<File | null>(null);
+    const [bannerImage, setBannerImage] = useState<File | null>(null);
+
+    const handleProfileUpload = (file: File) => {
+        setProfileImage(file);
+    };
+
+    const handleBannerUpload = (file: File) => {
+        setBannerImage(file);
+    };
+
     return (
         <>
             <ScrollArea className="h-screen">
                 <PageHeader title="Company Profile" />
                 <PrivateContainer className="flex flex-col h-full">
                     <div className="flex-none">
-                        <BannerSection />
+                        <ProfileBannerSection
+                            name="HRGP LLC"
+                            description="Computer Software"
+                            location="Sagamore Beach, Massachusetts, United States"
+                            logo="/assets/images/hrgp-logo.png"
+                            banner="/assets/images/banner-1.jpg"
+                            handleProfileUpload={handleProfileUpload}
+                            handleBannerUpload={handleBannerUpload}
+                        />
                     </div>
 
                     {/* Tabs Section */}

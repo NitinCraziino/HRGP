@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback, memo } from "react";
 import { InputWithError } from "../ui/input";
-import ButtonWithLoading from "../ButtonWithLoading";
+import ButtonWithLoading from "@/components/common/ButtonWithLoading";
 import useForgotPassword from "@/hooks/api/auth/useForgotPassword";
 import useResendVerificationCode from "@/hooks/api/auth/useResendVerificationCode";
 import useVerifyVerificationCode from "@/hooks/api/auth/useVerifyVerificationCode";

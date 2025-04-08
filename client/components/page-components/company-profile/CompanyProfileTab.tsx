@@ -10,7 +10,7 @@ import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import ButtonWithLoading from "@/components/ButtonWithLoading";
+import ButtonWithLoading from "@/components/common/ButtonWithLoading";
 
 const INDUSTRY_OPTIONS = [
     { value: "technology", label: "Technology" },

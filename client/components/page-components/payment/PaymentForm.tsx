@@ -1,7 +1,7 @@
 'use client';
 
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import ButtonWithLoading from "../ButtonWithLoading";
+import ButtonWithLoading from "@/components/common/ButtonWithLoading";
 import { memo, useState } from "react";
 import useAuth from "@/hooks/states/useAuth";
 import useCreateSubscription from "@/hooks/api/payment";

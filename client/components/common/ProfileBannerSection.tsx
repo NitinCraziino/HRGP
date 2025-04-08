@@ -6,42 +6,39 @@ import Image from 'next/image';
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import ImageUploadDialog from './ImageUploadDialog';
+import ImageUploadDialog from '@/components/common/ImageUploadDialog';
 
-const BannerSection = () => {
+type BannerSectionProps = {
+    name: string;
+    description: string;
+    location?: string;
+    logo: string;
+    banner: string;
+    handleProfileUpload: (file: File) => void;
+    handleBannerUpload: (file: File) => void;
+};
+
+const BannerSection = ({
+    name,
+    description,
+    location,
+    logo,
+    banner,
+    handleProfileUpload,
+    handleBannerUpload,
+}: BannerSectionProps) => {
     const [isProfileDialogOpen, setIsProfileDialogOpen] = useState(false);
     const [isBannerDialogOpen, setIsBannerDialogOpen] = useState(false);
-    const [profileImage, setProfileImage] = useState("/assets/images/hrgp-logo.png");
-    const [bannerImage, setBannerImage] = useState("/assets/images/banner-1.jpg");
-
-
-    const handleProfileUpload = (file: File) => {
-        // In a real application, you would upload the file to your server
-        // and then update the image URL after successful upload
-        console.log("Uploading profile image:", file.name);
-
-        // For demo purposes, create a local object URL
-        const objectUrl = URL.createObjectURL(file);
-        setProfileImage(objectUrl);
-    };
-
-    const handleBannerUpload = (file: File) => {
-        console.log("Uploading banner image:", file.name);
-
-        // For demo purposes, create a local object URL
-        const objectUrl = URL.createObjectURL(file);
-        setBannerImage(objectUrl);
-    };
 
     return (
         <Card className="shadow-md max-w-6xl mx-auto border-0 overflow-hidden">
             {/* Cover Image Section with Edit Button */}
-            <div className="relative">
-                <div className="h-60 bg-blue-900 relative top-0">
+            <div className="relative top-0">
+                <div className="h-60 bg-blue-900 relative -top-6">
                     <Image
-                        src="/assets/images/banner-1.jpg"
+                        src={banner}
                         alt="Company Cover"
-                        className="w-full h-full object-cover"
+                        className="w-full h-auto max-h-72 object-cover"
                         width={1200}
                         height={300}
                     />
@@ -62,10 +59,10 @@ const BannerSection = () => {
                     <div className="relative">
                         <Avatar className="h-40 w-40 border-4 border-white bg-white">
                             <AvatarImage
-                                src="/assets/images/hrgp-logo.png"
+                                src={logo}
                                 alt="Company Logo"
                             />
-                            <AvatarFallback>HRGP</AvatarFallback>
+                            <AvatarFallback>{name.charAt(0)}</AvatarFallback>
                         </Avatar>
 
                         {/* Edit Logo Button */}
@@ -82,12 +79,12 @@ const BannerSection = () => {
             </div>
 
             {/* Company Info Section */}
-            <div className=" pl-60">
-                <h1 className="text-2xl font-medium text-blue-950">HRGP LLC</h1>
-                <p className="text-gray-400 text-sm mt-1">Computer Software</p>
-                <p className="text-gray-600 text-sm mt-1">
-                    Sagamore Beach, Massachusetts, United States
-                </p>
+            <div className="pl-60 mt-5">
+                <h1 className="text-2xl font-medium text-blue-950">{name}</h1>
+                <p className="text-gray-400 text-sm mt-1">{description}</p>
+                {location && <p className="text-gray-600 text-sm mt-1">
+                    {location}
+                </p>}
             </div>
 
             <ImageUploadDialog

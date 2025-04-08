@@ -3,7 +3,7 @@
 import useAuth from "@/hooks/states/useAuth";
 import { notFound } from "next/navigation";
 import { useEffect, memo, useState } from "react";
-import PageSkeleton from "../PageSkeleton";
+import PageSkeleton from "../common/PageSkeleton";
 
 const WithStripeCustomer = ({ children }: { children: React.ReactNode; }) => {
     const { user, userToken } = useAuth();

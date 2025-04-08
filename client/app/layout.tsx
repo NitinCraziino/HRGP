@@ -8,7 +8,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { RootLayoutProps } from "@/types/props";
 import PrivateNavBar from "@/components/layout/PrivateNavBar";
 import PrivateFooter from "@/components/layout/PrivateFooter";
-import LoadingOverlay from "@/components/LoadingOverlay";
+import LoadingOverlay from "@/components/common/LoadingOverlay";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
