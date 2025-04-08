@@ -35,4 +35,5 @@ export const APPLICATION_LINKS = [
     ...EMS_ITEMS,
     ...HISTORY_ITEMS,
     ...TOOLS_ITEMS,
+    { label: "User Profile", link: "/user-profile" },
 ];
