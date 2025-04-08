@@ -26,6 +26,7 @@ const buttonVariants = cva(
         sm: "h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5",
         lg: "h-10 rounded-md px-6 has-[>svg]:px-4",
         icon: "size-9",
+        xs: "h-6 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5",
       },
     },
     defaultVariants: {
@@ -42,7 +43,7 @@ export type ButtonProps = React.ComponentProps<"button"> &
     loaderClassName?: string;
     children: React.ReactNode;
     className?: string;
-    size?: "default" | "sm" | "lg" | "icon";
+    size?: "default" | "sm" | "lg" | "icon" | "xs";
     variant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link";
   };
 

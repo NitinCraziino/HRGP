@@ -30,7 +30,7 @@ const templates: Template[] = [
 const page = () => {
     return (
         <ScrollArea className='h-full'>
-            <PrivateContainer>
+            <PrivateContainer className='pb-80'>
                 <div className="p-6 space-y-6 bg-white rounded-lg">
                     <div className="flex justify-between items-center">
                         <h1 className="email-2xl font-bold">Templates</h1>

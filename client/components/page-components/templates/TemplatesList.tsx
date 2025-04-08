@@ -36,7 +36,7 @@ const TemplatesList = ({ templates }: TemplatesListProps) => {
                                 <TableCell className="p-4">
                                     <div className="flex gap-2">
                                         <Link
-                                            href={`/templates/${template.id}`}
+                                            href={`/edit-template/${template.id}`}
                                             className="hover:bg-indigo-100 rounded-full"
                                         >
                                             <Button
