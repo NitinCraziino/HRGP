@@ -139,7 +139,7 @@ const PhoneSection = ({
             ) : (
                 <>
                     <div className="overflow-x-auto">
-                        <Table className="border mx-4 ">
+                        <Table className="border mx-4">
                             <TableHeader className="bg-gray-200 hover:bg-gray-200">
                                 <TableRow>
                                     <TableHead className="p-4 font-medium text-gray-600">Phone Number</TableHead>
@@ -151,7 +151,7 @@ const PhoneSection = ({
                                     <TableRow key={index} className="border-t">
                                         <TableCell className="p-4">
                                             {phone.phone}
-                                            {phone.isPrimary && <span className="text-red-500">*</span>}
+                                            {phone.isPrimary && <span className="text-red-500 font-bold">*</span>}
                                         </TableCell>
                                         <TableCell className="p-4">
                                             <div className="flex gap-2">

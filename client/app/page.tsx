@@ -5,7 +5,6 @@ import React from 'react';
 const page = () => {
   return (
     <>
-      <PageHeader title="Home" />
       <PrivateContainer>
         <div className=" bg-white rounded-lg shadow-sm">
           <div className="flex items-center gap-2 mb-6 border-b border-gray-200 pb-4 pt-4">

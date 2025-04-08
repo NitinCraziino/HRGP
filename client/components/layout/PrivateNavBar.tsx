@@ -96,9 +96,9 @@ const PrivateNavBar = () => {
 
                                 {/* User and Action Icons */}
                                 <div className="flex items-center pr-4 sm:pr-2">
-                                    <div className="flex items-center mr-4">
+                                    <Link href={'/user-profile'} className="flex items-center mr-4">
                                         <div className="flex items-center space-x-2 text-xs sm:text-sm">
-                                            <Link href={'/profile'} className="rounded-full h-8 w-8 flex items-center justify-center">
+                                            <div className="rounded-full h-8 w-8 flex items-center justify-center">
                                                 <Image
                                                     src="/assets/images/user-placeholder.jpg"
                                                     alt="User Icon"
@@ -106,10 +106,10 @@ const PrivateNavBar = () => {
                                                     height={28}
                                                     className="rounded-full"
                                                 />
-                                            </Link>
+                                            </div>
                                             <span className="text-xs sm:text-sm font-medium">Minimal Access</span>
                                         </div>
-                                    </div>
+                                    </Link>
                                     <div className="flex items-center space-x-2">
                                         <ActionIcon
                                             link="/help"

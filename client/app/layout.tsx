@@ -31,7 +31,6 @@ const RootLayout = ({ children }: RootLayoutProps) => {
           <PrivateNavBar />
           {children}
           <LoadingOverlay />
-          <PrivateFooter />
           <PublicFooter />
           <Toaster
             position="top-right"

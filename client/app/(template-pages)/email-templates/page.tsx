@@ -33,7 +33,7 @@ const page = () => {
             <PrivateContainer className='pb-80'>
                 <div className="p-6 space-y-6 bg-white rounded-lg">
                     <div className="flex justify-between items-center">
-                        <h1 className="email-2xl font-bold">Templates</h1>
+                        <h1 className="text-2xl font-bold">Templates</h1>
                         <Link href="/add-template">
                             <Button className='bg-indigo-600 text-white hover:bg-indigo-700 rounded-xs'>
                                 Add New Template

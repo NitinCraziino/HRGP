@@ -136,7 +136,7 @@ const EmailSection = ({
             ) : (
                 <>
                     <div className="overflow-x-auto">
-                        <Table className="border mx-4 ">
+                        <Table className="border mx-4">
                             <TableHeader className="bg-gray-200 hover:bg-gray-200">
                                 <TableRow>
                                     <TableHead className="p-4 font-medium text-gray-600">Email Address</TableHead>
@@ -148,7 +148,7 @@ const EmailSection = ({
                                     <TableRow key={index} className="border-t">
                                         <TableCell className="p-4">
                                             {email.address}
-                                            {email.isPrimary && <span className="text-red-500">*</span>}
+                                            {email.isPrimary && <span className="text-red-500 font-bold">*</span>}
                                         </TableCell>
                                         <TableCell className="p-4">
                                             <div className="flex gap-2">
