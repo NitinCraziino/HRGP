@@ -1,7 +1,6 @@
 'use client';
 
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import PageHeader from '@/components/layout/PageHeader';
 import PrivateContainer from "@/components/hoc/PrivateContainer";
 import ProfileBannerSection from '@/components/common/ProfileBannerSection';
 import CompanyProfileTab from "@/components/page-components/company-profile/CompanyProfileTab";
@@ -24,7 +23,6 @@ const CompanyProfilePage = () => {
     return (
         <>
             <ScrollArea className="h-screen">
-                <PageHeader title="Company Profile" />
                 <PrivateContainer className="flex flex-col h-full">
                     <div className="flex-none">
                         <ProfileBannerSection

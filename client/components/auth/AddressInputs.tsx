@@ -4,6 +4,7 @@ import { InputWithError } from "../ui/input";
 import { useEffect, useState } from "react";
 import { getLocationByPostalCode } from "@/lib/api/publicRoutes";
 import useIsLoading from "@/hooks/states/useIsLoading";
+
 type AddressInputsProps = {
     register: UseFormRegister<SignupSchemaType>;
     errors: FieldErrors<SignupSchemaType>;

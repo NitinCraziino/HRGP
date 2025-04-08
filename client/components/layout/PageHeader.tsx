@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import { useMemo } from "react";
 import Link from "next/link";
 import { APPLICATION_LINKS } from "@/constants/nav";
+import useIsPublicRoutes from "@/hooks/useIsPublicRoutes";
 
 interface PageHeaderProps {
     title?: string;
@@ -20,6 +21,11 @@ const PageHeader = ({
     showBreadcrumbs = true
 }: PageHeaderProps) => {
     const pathname = usePathname();
+    const isPublicPage = useIsPublicRoutes();
+
+    if (isPublicPage) {
+        return null;
+    }
 
     const breadcrumbItems = useMemo(() => {
         // If custom breadcrumbs are provided, use those
@@ -92,7 +98,7 @@ const PageHeader = ({
     const pageTitle = title || (breadcrumbItems.length > 0 ? breadcrumbItems[breadcrumbItems.length - 1].label : "");
 
     return (
-        <nav className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 py-4 bg-white pt-16 sm:pt-24 px-5">
+        <nav className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 py-4 bg-white pt-[70px] sm:pt-24 px-5">
             <h1 className="text-2xl font-bold">{pageTitle}</h1>
 
             {showBreadcrumbs && (
