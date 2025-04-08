@@ -1,8 +1,50 @@
-import React from 'react';
+import PrivateContainer from '@/components/hoc/PrivateContainer';
+import TemplatesList from '@/components/page-components/templates/TemplatesList';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
+import type { Template } from '@/types';
+import { ScrollArea } from '@/components/ui/scroll-area';
+
+const templates: Template[] = [
+    {
+        id: '1',
+        name: 'Text Template 1',
+        content: 'Text Template 1 content',
+        type: 'text',
+    },
+    {
+        id: '2',
+        name: ' text Template 2',
+        content: ' text Template 2 content',
+        type: 'text',
+    },
+    {
+        id: '3',
+        name: ' text Template 3',
+        content: ' text Template 3 content',
+        type: 'text',
+    },
+
+];
 
 const page = () => {
     return (
-        <div>page</div>
+        <ScrollArea className='h-full'>
+            <PrivateContainer>
+                <div className="p-6 space-y-6 bg-white rounded-lg">
+                    <div className="flex justify-between items-center">
+                        <h1 className="text-2xl font-bold">Templates</h1>
+                        <Link href="/add-template">
+                            <Button className='bg-indigo-600 text-white hover:bg-indigo-700 rounded-xs'>
+                                Add New Template
+                            </Button>
+                        </Link>
+                    </div>
+
+                    <TemplatesList templates={templates} />
+                </div>
+            </PrivateContainer>
+        </ScrollArea>
     );
 };
 

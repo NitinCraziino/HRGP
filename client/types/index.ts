@@ -59,3 +59,13 @@ export interface AuthStateCompany {
     companyType: string;
     industryId: string;
 }
+
+
+export type TemplateType = "text" | "email";
+
+export interface Template {
+    id: string;
+    name: string;
+    type: TemplateType;
+    content: string;
+}
