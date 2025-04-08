@@ -48,7 +48,13 @@ const UserProfilePage = () => {
                             { address: "john.doe@example.com", isPrimary: false },
                         ]}
                     />
-                    <PhoneSection />
+                    <PhoneSection
+                        initialPhones={[
+                            { phone: "+1234567890", isPrimary: true },
+                            { phone: "+1234567890", isPrimary: false },
+                            { phone: "+1234567890", isPrimary: false },
+                        ]}
+                    />
                 </div>
 
             </PrivateContainer>

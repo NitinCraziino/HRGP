@@ -6,6 +6,7 @@ import { InputWithError } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import EditButton from "./EditButton";
+import PaginationSection from "../../common/PaginationSection";
 
 const EmailSection = ({
     initialEmails,
@@ -176,45 +177,12 @@ const EmailSection = ({
                             </TableBody>
                         </Table>
                     </div>
-                    <div className="p-4 flex justify-end text-sm text-gray-500">
-                        <div className="flex items-center gap-4">
-                            <span>{emails.length > 0 ? `1-${emails.length} of ${emails.length}` : "0-0 of 0"}</span>
-                            <div className="flex gap-1">
-                                <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    disabled
-                                    className="h-6 w-6 p-0 opacity-50"
-                                >
-                                    ⟨⟨
-                                </Button>
-                                <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    disabled
-                                    className="h-6 w-6 p-0 opacity-50"
-                                >
-                                    ⟨
-                                </Button>
-                                <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    disabled
-                                    className="h-6 w-6 p-0 opacity-50"
-                                >
-                                    ⟩
-                                </Button>
-                                <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    disabled
-                                    className="h-6 w-6 p-0 opacity-50"
-                                >
-                                    ⟩⟩
-                                </Button>
-                            </div>
-                        </div>
-                    </div>
+                    <PaginationSection
+                        currentPage={1}
+                        totalItems={emails.length}
+                        itemsPerPage={10}
+                        onPageChange={() => { }}
+                    />
                 </>
             )}
         </div>
