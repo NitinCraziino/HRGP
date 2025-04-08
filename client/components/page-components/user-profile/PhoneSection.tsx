@@ -7,6 +7,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import EditButton from "./EditButton";
 import PaginationSection from "../../common/PaginationSection";
+import { PhoneInputComponent } from "@/components/ui/phoneinput";
 
 const PhoneSection = ({
     initialPhones,
@@ -27,6 +28,8 @@ const PhoneSection = ({
         isPrimary: false,
         editIndex: null
     });
+
+    const [phoneError, setPhoneError] = useState("");
 
     const toggleFormMode = () => {
         // If form is open, close it. If closed, open it in add mode
@@ -69,13 +72,13 @@ const PhoneSection = ({
         if (!formMode.phone) return;
 
         if (formMode.mode === 'add') {
-            // Add a new email
+            // Add a new phone
             setPhones([...phones, {
                 phone: formMode.phone,
                 isPrimary: formMode.isPrimary
             }]);
         } else if (formMode.mode === 'edit' && formMode.editIndex !== null) {
-            // Update existing email
+            // Update existing phone
             const newPhones = [...phones];
             newPhones[formMode.editIndex] = {
                 phone: formMode.phone,
@@ -92,12 +95,13 @@ const PhoneSection = ({
             isPrimary: false,
             editIndex: null
         });
+        setPhoneError("");
     };
 
     return (
         <div className="bg-gray-50 rounded-lg border shadow-sm">
             <div className="flex justify-between items-center p-4 ">
-                <h2 className="font-medium text-lg">Email(s)</h2>
+                <h2 className="font-medium text-lg">Phone(s)</h2>
                 <EditButton isEditing={formMode.isOpen} toggleEdit={toggleFormMode} />
             </div>
 
@@ -107,13 +111,12 @@ const PhoneSection = ({
                     handleSubmit();
                 }}>
                     <div className="mb-4">
-                        <label className="block mb-2 text-sm">Email</label>
-                        <InputWithError
-                            type="email"
-                            placeholder="Phone"
-                            value={formMode.phone}
-                            onChange={(e) => setFormMode({ ...formMode, phone: e.target.value })}
-                            className="w-full"
+                        <label className="block mb-2 text-sm">Phone Number</label>
+                        <PhoneInputComponent
+                            placeholder="Phone Number"
+                            error={phoneError}
+                            phone={formMode.phone}
+                            setPhone={(phone) => setFormMode({ ...formMode, phone: phone })}
                         />
                     </div>
                     <div className="flex items-center mb-4">
@@ -139,7 +142,7 @@ const PhoneSection = ({
                         <Table className="border mx-4 ">
                             <TableHeader className="bg-gray-200 hover:bg-gray-200">
                                 <TableRow>
-                                    <TableHead className="p-4 font-medium text-gray-600">Email Address</TableHead>
+                                    <TableHead className="p-4 font-medium text-gray-600">Phone Number</TableHead>
                                     <TableHead className="p-4 font-medium text-gray-600">Action</TableHead>
                                 </TableRow>
                             </TableHeader>
