@@ -6,6 +6,7 @@ import type { Template } from "@/types";
 import { useState } from "react";
 import Link from "next/link";
 import { DeleteTemplateDialog } from "./DeleteTemplateDialog";
+import PaginationSection from "@/components/common/PaginationSection";
 
 interface TemplatesListProps {
     templates: Template[];
@@ -61,6 +62,13 @@ const TemplatesList = ({ templates }: TemplatesListProps) => {
                     </TableBody>
                 </Table>
             </div>
+
+            <PaginationSection
+                currentPage={1}
+                totalItems={templates.length}
+                itemsPerPage={10}
+                onPageChange={() => { }}
+            />
 
             <DeleteTemplateDialog
                 template={deletingTemplate}
