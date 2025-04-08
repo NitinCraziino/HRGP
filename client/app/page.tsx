@@ -1,4 +1,4 @@
-import PageHeader from '@/components/layout/PageHeader';
+import PageHeader from '@/components/layout/PrivatePageHeader';
 import PrivateContainer from '@/components/hoc/PrivateContainer';
 import React from 'react';
 

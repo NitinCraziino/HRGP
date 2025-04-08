@@ -10,14 +10,12 @@ import { Input, DatePicker } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import Image from "next/image";
-import PageHeader from "@/components/layout/PageHeader";
 
 const CandidatesPage = () => {
     const [activeOnly, setActiveOnly] = useState(true);
 
     return (
         <>
-            <PageHeader title="Candidates" />
             <PrivateContainer>
                 <div className=" bg-white rounded-lg shadow-sm">
                     <div className="flex items-center gap-2 mb-6 border-b border-gray-200 pb-4 pt-4">

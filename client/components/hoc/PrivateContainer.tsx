@@ -1,11 +1,20 @@
 import { cn } from "@/lib/utils";
-import { WrapperProps } from "@/types/props";
+import PrivatePageHeader, { PrivatePageHeaderProps } from "../layout/PrivatePageHeader";
+import { ScrollArea } from "@radix-ui/react-scroll-area";
 
-const PrivateContainer = ({ children, className }: WrapperProps) => {
+interface PrivateContainerProps extends PrivatePageHeaderProps {
+    children: React.ReactNode;
+    className?: string;
+}
+
+const PrivateContainer = ({ children, className, ...props }: PrivateContainerProps) => {
     return (
-        <main className={cn("min-h-screen bg-[#E9E9F3] p-3 py-2", className)}>
-            {children}
-        </main>
+        <ScrollArea className={'h-screen'}>
+            <PrivatePageHeader {...props} />
+            <div className={cn("bg-[#E9E9F3] h-full p-3 py-3", className)}>
+                {children}
+            </div>
+        </ScrollArea>
     );
 };
 

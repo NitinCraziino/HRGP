@@ -9,7 +9,6 @@ import { RootLayoutProps } from "@/types/props";
 import PrivateNavBar from "@/components/layout/PrivateNavBar";
 import PrivateFooter from "@/components/layout/PrivateFooter";
 import LoadingOverlay from "@/components/LoadingOverlay";
-import PageHeader from "@/components/layout/PageHeader";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,7 +29,6 @@ const RootLayout = ({ children }: RootLayoutProps) => {
           <PublicHeader />
           <PublicNavBar />
           <PrivateNavBar />
-          <PageHeader />
           {children}
           <LoadingOverlay />
           <PrivateFooter />
