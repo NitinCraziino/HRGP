@@ -11,6 +11,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import ButtonWithLoading from "@/components/common/ButtonWithLoading";
+import UrlInput from "./UrlInput";
 
 const INDUSTRY_OPTIONS = [
     { value: "technology", label: "Technology" },
@@ -26,12 +27,13 @@ const COMPANY_TYPE_OPTIONS = [
     { value: "non-profit", label: "Non-Profit" },
 ];
 
-const companyProfileFormSchema = z.object({
+export const companyProfileFormSchema = z.object({
     companyName: z.string().min(1, { message: "Company Name is required" }),
     industry: z.string().min(1, { message: "Industry is required" }),
     aboutUs: z.string().min(1, { message: "About Us is required" }),
     companyType: z.string().min(1, { message: "Company Type is required" }),
     companyUrl: z.string().min(1, { message: "Company URL is required" }),
+    jobOpeningsUrl: z.string().min(1, { message: "Job Openings URL is required" }),
 });
 
 const CompanyProfileTab = () => {
@@ -57,6 +59,7 @@ const CompanyProfileTab = () => {
             aboutUs: "We are a company that provides HR solutions to businesses.",
             companyType: "company",
             companyUrl: "hrgp",
+            jobOpeningsUrl: "hrgp"
         },
     });
 
@@ -132,34 +135,23 @@ const CompanyProfileTab = () => {
                     </div>
 
                     {/* Company Profile */}
-                    <div className="mb-6 text-lg ">
-                        <h3 className="text-sm font-semibold mb-2">Company Profile</h3>
-                        <div className="flex flex-col space-y-2 min-h-[50px]">
-                            <div className="flex items-center text-gray-600">
-                                <span>https://hrgp.io/app/company/</span>
-                                <div className="flex-1 ml-2">
-                                    <InputWithError
-                                        {...register("companyUrl")}
-                                        error={errors.companyUrl?.message}
-                                        placeholder="Enter Company Public URL"
-                                        disabled={!isEditing}
-                                        className={`${!isEditing ? 'bg-gray-50 min-h-[50px] cursor-not-allowed border-gray-200' : ''} py-1 px-2 h-8`}
-                                    />
-                                </div>
-                                <Button
-                                    variant="secondary"
-                                    type="button"
-                                    size="sm"
-                                    className="bg-teal-600 text-white hover:bg-teal-700 ml-2"
-                                    onClick={() => navigator.clipboard.writeText(`https://hrgp.io/app/company/${getValues("companyUrl")}`)}
-                                >
-                                    <Copy className="h-4 w-4 mr-1" />
-                                    Copy
-                                </Button>
-                            </div>
-                        </div>
-                    </div>
+                    <UrlInput
+                        baseUrl="https://hrgp.io/app/company"
+                        urlField="jobOpeningsUrl"
+                        isEditing={isEditing}
+                        register={register}
+                        errors={errors}
+                        getValues={getValues}
+                    />
 
+                    <UrlInput
+                        baseUrl="https://hrgp.io/app/company"
+                        urlField="companyUrl"
+                        isEditing={isEditing}
+                        register={register}
+                        errors={errors}
+                        getValues={getValues}
+                    />
                     {/* About Us */}
                     <div className="mb-6">
                         <InputWithError
