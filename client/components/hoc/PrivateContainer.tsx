@@ -9,12 +9,12 @@ interface PrivateContainerProps extends PrivatePageHeaderProps {
 
 const PrivateContainer = ({ children, className, ...props }: PrivateContainerProps) => {
     return (
-        <ScrollArea className={'h-screen'}>
+        <main>
             <PrivatePageHeader {...props} />
             <div className={cn("bg-[#E9E9F3] h-full p-3 py-3", className)}>
                 {children}
             </div>
-        </ScrollArea>
+        </main>
     );
 };
 

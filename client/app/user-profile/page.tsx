@@ -6,6 +6,7 @@ import { useState } from "react";
 import AboutSection from "@/components/page-components/user-profile/AboutSection";
 import EmailSection from "@/components/page-components/user-profile/EmailSection";
 import PhoneSection from "@/components/page-components/user-profile/PhoneSection";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const UserProfilePage = () => {
     const [profileImage, setProfileImage] = useState<File | null>(null);
@@ -20,8 +21,8 @@ const UserProfilePage = () => {
     };
 
     return (
-        <>
-            <PrivateContainer className="flex flex-col">
+        <ScrollArea className="h-screen">
+            <PrivateContainer className="flex flex-col h-full">
                 <div className="flex-none">
                     <ProfileBannerSection
                         name="John Doe"
@@ -51,7 +52,7 @@ const UserProfilePage = () => {
                 </div>
 
             </PrivateContainer>
-        </>
+        </ScrollArea>
     );
 };
 

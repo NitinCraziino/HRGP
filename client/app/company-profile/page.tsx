@@ -5,6 +5,7 @@ import PrivateContainer from "@/components/hoc/PrivateContainer";
 import ProfileBannerSection from '@/components/common/ProfileBannerSection';
 import CompanyProfileTab from "@/components/page-components/company-profile/CompanyProfileTab";
 import CompanySettingsTab from "@/components/page-components/company-profile/CompanySettingsTab";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { useState } from "react";
 
 const CompanyProfilePage = () => {
@@ -20,7 +21,7 @@ const CompanyProfilePage = () => {
     };
 
     return (
-        <>
+        <ScrollArea className="h-screen">
             <PrivateContainer className="flex flex-col h-full">
                 <div className="flex-none">
                     <ProfileBannerSection
@@ -61,7 +62,7 @@ const CompanyProfilePage = () => {
                     </div>
                 </Tabs>
             </PrivateContainer>
-        </>
+        </ScrollArea>
     );
 };
 
