@@ -42,10 +42,10 @@ const UserProfilePage = () => {
                         startDate="2020-01-01"
                     />
                     <EmailSection
-                        emails={[
-                            "john.doe@example.com",
-                            "john.doe@example.com",
-                            "john.doe@example.com",
+                        initialEmails={[
+                            { address: "john.doe@example.com", isPrimary: true },
+                            { address: "john.doe@example.com", isPrimary: false },
+                            { address: "john.doe@example.com", isPrimary: false },
                         ]}
                     />
                     <PhoneSection />
