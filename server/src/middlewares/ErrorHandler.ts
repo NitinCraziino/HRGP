@@ -9,8 +9,8 @@ export const errorHandler = (err: CustomError, req: Request, res: Response, next
     let message = err.message || "Internal Server Error";
 
     if (err instanceof ZodError) {
-        statusCode = StatusCode.BAD_REQUEST;
-        message = err.message;
+        res.status(StatusCode.BAD_REQUEST).json({ message: err.errors.map((error) => error.message).join(", ") });
+        return;
     }
 
     logger.error(err);

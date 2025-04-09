@@ -23,7 +23,7 @@ const AddCardDialogContent = ({ open, onClose }: AddCardDialogProps) => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (!stripe || !elements) {
+        if (!stripe || !elements || !user) {
             return;
         }
 
@@ -40,17 +40,20 @@ const AddCardDialogContent = ({ open, onClose }: AddCardDialogProps) => {
             const { paymentMethod, error } = await stripe.createPaymentMethod({
                 type: "card",
                 card: cardElement,
+                billing_details: {
+                    name: user.firstName + " " + user.lastName,
+                    email: user.primaryEmail,
+                    phone: user.primaryPhone
+                },
             });
 
-            if (error) {
-                throw new Error(error.message || "Failed to create payment method.");
+            if (error || !paymentMethod) {
+                throw new Error(error?.message || "Failed to create payment method.");
             }
 
-            if (paymentMethod) {
 
-                onClose();
-                toast.success("Card added successfully.");
-            }
+
+
         } catch (error: any) {
             setErrorMessage(error.message || "Something went wrong");
             toast.error(error.message || "Something went wrong");
@@ -59,7 +62,6 @@ const AddCardDialogContent = ({ open, onClose }: AddCardDialogProps) => {
         }
     };
 
-    console.log(user);
 
 
     return (

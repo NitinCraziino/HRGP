@@ -21,6 +21,12 @@ type CreateSubscriptionPayload = {
     phone: string;
 };
 
+type AddNewCardPayload = {
+    paymentMethodId: string;
+    customerId: string;
+    isPrimary: boolean;
+};
+
 export default class PaymentService {
     constructor() { }
 
@@ -65,6 +71,20 @@ export default class PaymentService {
             const invoice = event.data.object as Stripe.Invoice;
 
             return { invoice, eventType: event.type };
+        });
+    }
+
+    async addNewCard({ paymentMethodId, customerId, isPrimary }: AddNewCardPayload): Promise<Stripe.PaymentMethod> {
+        return this.tryCatch<Stripe.PaymentMethod>(async () => {
+            const paymentMethod = await stripe.paymentMethods.attach(paymentMethodId, { customer: customerId });
+
+            if (isPrimary) {
+                await stripe.customers.update(customerId, {
+                    invoice_settings: { default_payment_method: paymentMethodId },
+                });
+            }
+
+            return paymentMethod;
         });
     }
 
