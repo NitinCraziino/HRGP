@@ -1,11 +1,12 @@
 import { sign, TokenExpiredError, verify } from "jsonwebtoken";
-import { TOKEN_SECRET } from "../config";
+import { NODE_ENV, TOKEN_SECRET } from "../config";
 import { TokenPayload } from "../types";
 import { UnauthorizedError } from "../types/CustomError";
 
 export default class JwtService {
     createToken(payload: TokenPayload): string {
-        return sign(payload, TOKEN_SECRET, { expiresIn: "7h" });
+        const exp = NODE_ENV === 'production' ? "7h" : "10d";
+        return sign(payload, TOKEN_SECRET, { expiresIn: exp });
     }
 
     verifyToken(token: string): TokenPayload {
