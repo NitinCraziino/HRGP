@@ -9,10 +9,9 @@ import { toast } from "sonner";
 type AddCardDialogProps = {
     open: boolean;
     onClose: () => void;
-    onAddCard?: (paymentMethod: any) => void;
 };
 
-const AddCardDialogContent = ({ open, onClose, onAddCard }: AddCardDialogProps) => {
+const AddCardDialogContent = ({ open, onClose }: AddCardDialogProps) => {
     const stripe = useStripe();
     const elements = useElements();
     const [isPrimary, setIsPrimary] = useState(true);
@@ -45,8 +44,8 @@ const AddCardDialogContent = ({ open, onClose, onAddCard }: AddCardDialogProps) 
                 throw new Error(error.message || "Failed to create payment method.");
             }
 
-            if (paymentMethod && onAddCard) {
-                onAddCard({ ...paymentMethod, isPrimary });
+            if (paymentMethod) {
+
                 onClose();
                 toast.success("Card added successfully.");
             }
