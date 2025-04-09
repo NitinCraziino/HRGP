@@ -6,10 +6,10 @@ const getCustomerIdByCompanyId = async (companyId: string) => {
     const customer = await executeDbQueryDirect(async () => {
         const result = await query<any>("SELECT * FROM CompanyPaymentDetails WHERE companyId = ?", [companyId]);
         return result;
-    }, "getCustomerIdByUserId");
+    }, "getCustomerIdByCompanyId");
 
     if (!customer) {
-        throw new ValidationError("Customer not found", "getCustomerIdByUserId");
+        throw new ValidationError("Customer not found", "getCustomerIdByCompanyId");
     }
 
     return customer.stripeCustomerId;
