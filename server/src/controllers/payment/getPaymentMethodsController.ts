@@ -17,9 +17,9 @@ const getPaymentMethodsController = async (req: Request, res: Response, next: Ne
         const filteredPaymentMethods = paymentMethods.map(paymentMethod => {
             return {
                 id: paymentMethod.id,
-                last4: paymentMethod.card?.last4,
-                expDate: `${paymentMethod.card?.exp_month}/${paymentMethod.card?.exp_year}`,
-                name: paymentMethod.billing_details?.name,
+                cardNumber: paymentMethod.card?.last4,
+                expiryDate: `${paymentMethod.card?.exp_month}/${paymentMethod.card?.exp_year}`,
+                cardHolderName: paymentMethod.billing_details?.name,
                 isPrimary: paymentMethod.id === stripeCustomer.invoice_settings?.default_payment_method
             };
         });

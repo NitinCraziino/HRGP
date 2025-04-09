@@ -13,7 +13,7 @@ type Location = {
 export const getLocationByPostalCode = async (postalCode: string): Promise<Location> => {
     const response = await GET<Location>({
         route: GetRoutesWithParams.GetAddress,
-        params: { postalCode }
+        params: { id: postalCode }
     });
     return response;
 };

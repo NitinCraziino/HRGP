@@ -1,6 +1,6 @@
 import axios from "axios";
 import { SERVER_URL } from "@/config";
-import { DeleteParams, GetParams, PatchParams, PostParams, PutParams } from "@/types/api";
+import { DeleteParams, GetParams, PatchParams, PostParams, PutParams, Params } from "@/types/api";
 
 const api = axios.create({
     baseURL: `${SERVER_URL}/api`,
@@ -20,32 +20,31 @@ api.interceptors.request.use((config) => {
 
 export default api;
 
-export const GET = async <T>({ route, params }: GetParams) => {
-    const url = params ? `${route}/${params.postalCode}` : route;
-    const response = await api.get<T>(url);
+export const GET = async <T>({ route, params, url }: GetParams) => {
+    const response = await api.get<T>(getRequestUrl(route, params, url));
     return response.data;
 };
 
-export const POST = async <T>({ route, params, body }: PostParams) => {
-    const url = params ? `${route}/${params.postalCode}` : route;
-    const response = await api.post<T>(url, body);
+export const POST = async <T>({ route, params, body, url }: PostParams) => {
+    const response = await api.post<T>(getRequestUrl(route, params, url), body);
     return response.data;
 };
 
-export const PUT = async <T>({ route, params, body }: PutParams) => {
-    const url = params ? `${route}/${params.postalCode}` : route;
-    const response = await api.put<T>(url, body);
+export const PUT = async <T>({ route, params, body, url }: PutParams) => {
+    const response = await api.put<T>(getRequestUrl(route, params, url), body);
     return response.data;
 };
 
-export const DELETE = async <T>({ route, params }: DeleteParams) => {
-    const url = params ? `${route}/${params.postalCode}` : route;
-    const response = await api.delete<T>(url);
+export const DELETE = async <T>({ route, params, url }: DeleteParams) => {
+    const response = await api.delete<T>(getRequestUrl(route, params, url));
     return response.data;
 };
 
-export const PATCH = async <T>({ route, params }: PatchParams) => {
-    const url = params ? `${route}/${params.postalCode}` : route;
-    const response = await api.patch<T>(url);
+export const PATCH = async <T>({ route, params, url }: PatchParams) => {
+    const response = await api.patch<T>(getRequestUrl(route, params, url));
     return response.data;
+};
+
+const getRequestUrl = (route: string, params?: Params, url?: string) => {
+    return url ? url : params ? `${route}/${params.id}` : route;
 };

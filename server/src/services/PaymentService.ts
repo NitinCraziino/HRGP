@@ -108,6 +108,12 @@ export default class PaymentService {
         });
     }
 
+    async deletePaymentMethod(methodId: string): Promise<void> {
+        return this.tryCatch<void>(async () => {
+            await stripe.paymentMethods.detach(methodId);
+        });
+    }
+
     private async tryCatch<T>(fn: () => Promise<T>): Promise<T> {
         try {
             return await fn();

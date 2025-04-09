@@ -4,33 +4,40 @@ import { PutRoutes, PutRoutesWithParams } from "./PutRoutes";
 import { DeleteRoutes, DeleteRoutesWithParams } from "./DeleteRoutes";
 import { PatchRoutes, PatchRoutesWithParams } from "./PatchRoutes";
 
+export type Params = Record<string, string>;
+
 export interface PostParams {
     route: PostRoutes | PostRoutesWithParams;
-    params?: Record<string, string>;
+    params?: Params;
     body?: Record<string, any>;
+    url?: string;
 };
 
 export interface GetParams {
     route: GetRoutes | GetRoutesWithParams;
-    params?: Record<string, string>;
+    params?: Params;
+    url?: string;
 };
 
 export interface PutParams {
     route: PutRoutes | PutRoutesWithParams;
-    params?: Record<string, string>;
+    params?: Params;
     body?: Record<string, any>;
+    url?: string;
 };
 
 export interface DeleteParams {
     route: DeleteRoutes | DeleteRoutesWithParams;
-    params?: Record<string, string>;
+    params?: Params;
     body?: Record<string, any>;
+    url?: string;
 };
 
 export interface PatchParams {
     route: PatchRoutes | PatchRoutesWithParams;
-    params?: Record<string, string>;
+    params?: Params;
     body?: Record<string, any>;
+    url?: string;
 };
 
 export interface MessageResponse {

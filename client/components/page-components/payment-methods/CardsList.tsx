@@ -1,32 +1,33 @@
 "use client";
 
-import { useState } from "react";
-import { memo } from "react";
+import { memo, useState } from "react";
+import useGetPaymentMethods from "@/hooks/api/payment/useGetPaymentMethods";
 import { Button } from "@/components/ui/button";
+import DeleteCardDialog from "./DeleteCardDialog";
+import { Card } from "@/types";
+import useDeletePaymentMethod from "@/hooks/api/payment/useDeletePaymentMethod";
+import { toast } from "sonner";
 
-type Card = {
-    id: string;
-    cardNumber: string;
-    expiryDate: string;
-    cardHolderName: string;
-    isPrimary: boolean;
-};
 
 const CardsList = () => {
-    const [deletingCard, setDeletingCard] = useState<Card | null>(null);
-    const [cards, setCards] = useState<Card[]>([{
-        id: "1",
-        cardNumber: "1234567890123456",
-        expiryDate: "01/24",
-        cardHolderName: "John Doe",
-        isPrimary: true,
-    }, {
-        id: "2",
-        cardNumber: "1234567890123456",
-        expiryDate: "01/24",
-        cardHolderName: "John Doe",
-        isPrimary: false,
-    }]);
+    const { data, isLoading, error } = useGetPaymentMethods();
+    const cards = data || [];
+    const [deletingMethod, setDeletingMethod] = useState<Card | null>(null);
+    const { mutate: deletePaymentMethod, isPending } = useDeletePaymentMethod();
+    if (isLoading) return <div>Loading...</div>;
+    if (error) return <div>Error: {error.message}</div>;
+
+    const handleDelete = (method: Card) => {
+        if (isPending || method.isPrimary) return;
+        deletePaymentMethod(method.id, {
+            onSuccess: () => {
+                toast.success("Card deleted successfully");
+            },
+            onError: (error) => {
+                toast.error(error.message);
+            }
+        });
+    };
 
     return (
         <div className="border rounded-none overflow-hidden">
@@ -51,7 +52,7 @@ const CardsList = () => {
                     {cards.length > 0 && cards.map((card) => (
                         <tr key={card.id} className="hover:bg-gray-50 border-b">
                             <td className="p-4 ">
-                                **** **** **** {card.cardNumber.slice(-4)}
+                                **** **** **** {card.cardNumber}
                             </td>
                             <td className="p-4 ">{card.expiryDate}</td>
                             <td className="p-4 ">{card.cardHolderName}</td>
@@ -62,27 +63,28 @@ const CardsList = () => {
                                 <div className="flex gap-2">
                                     {!card.isPrimary && (
                                         <Button
-                                            variant="outline"
-                                            size="sm"
-                                            onClick={() => { }}
+                                            variant="ghost"
+                                            size="icon"
+                                            className="bg-indigo-600 text-white hover:text-white rounded-full hover:bg-indigo-700"
+                                            onClick={() => setDeletingMethod(card)}
                                         >
-                                            Set Primary
+                                            <i className="fas fa-trash-alt" />
                                         </Button>
                                     )}
-                                    <Button
-                                        variant="destructive"
-                                        size="sm"
-                                        onClick={() => { }}
-                                        disabled={card.isPrimary}
-                                    >
-                                        Delete
-                                    </Button>
                                 </div>
                             </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
+            {deletingMethod && (
+                <DeleteCardDialog
+                    isOpen={!!deletingMethod}
+                    onClose={() => setDeletingMethod(null)}
+                    onDelete={() => handleDelete(deletingMethod!)}
+                    method={deletingMethod!}
+                />
+            )}
         </div>
     );
 };

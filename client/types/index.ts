@@ -85,3 +85,11 @@ export type Permissions = {
     FILES: string;
     TOOLS: string;
 };
+
+export type Card = {
+    id: string;
+    cardNumber: string;
+    expiryDate: string;
+    cardHolderName: string;
+    isPrimary: boolean;
+};
