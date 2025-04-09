@@ -69,3 +69,19 @@ export interface Template {
     type: TemplateType;
     content: string;
 }
+
+export type Role = {
+    id: string;
+    name: string;
+    isOn: boolean;
+    hasHelp?: boolean;
+    permissions: Permissions;
+};
+
+
+export type Permissions = {
+    ATS: string;
+    EMS: string;
+    FILES: string;
+    TOOLS: string;
+};

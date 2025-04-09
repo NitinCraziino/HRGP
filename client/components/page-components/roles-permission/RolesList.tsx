@@ -5,13 +5,7 @@ import Link from "next/link";
 import DeleteRoleDialog from "./DeleteRoleDialog";
 import { Switch } from "@/components/ui/switch";
 import { CircleHelp, Pencil, Trash } from "lucide-react";
-
-export type Role = {
-    id: string;
-    name: string;
-    isOn: boolean;
-    hasHelp?: boolean;
-};
+import { Role } from "@/types";
 
 interface RolesListProps {
     roles: Role[];

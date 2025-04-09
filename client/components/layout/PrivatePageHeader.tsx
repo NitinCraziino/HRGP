@@ -109,7 +109,7 @@ const PrivatePageHeader = ({
                                     : ""
                                     }`}
                             >
-                                {item.label}
+                                {index === breadcrumbItems.length - 1 ? title ?? item.label : item.label}
                             </Link>
                         </div>
                     ))}
