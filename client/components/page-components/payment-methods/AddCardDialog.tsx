@@ -6,7 +6,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import useAuth from "@/hooks/states/useAuth";
-
+import useAddNewCard from "@/hooks/api/payment/useAddNewCard";
 type AddCardDialogProps = {
     open: boolean;
     onClose: () => void;
@@ -19,6 +19,7 @@ const AddCardDialogContent = ({ open, onClose }: AddCardDialogProps) => {
     const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
     const user = useAuth((state) => state.user);
+    const { mutate: addNewCard, isPending } = useAddNewCard();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -51,7 +52,18 @@ const AddCardDialogContent = ({ open, onClose }: AddCardDialogProps) => {
                 throw new Error(error?.message || "Failed to create payment method.");
             }
 
-
+            addNewCard({ paymentMethodId: paymentMethod.id, isPrimary },
+                {
+                    onSuccess: () => {
+                        toast.success("Card added successfully");
+                        onClose();
+                    },
+                    onError: (error: any) => {
+                        console.log(error);
+                        toast.error(error.message || "Something went wrong");
+                    }
+                }
+            );
 
 
         } catch (error: any) {

@@ -7,6 +7,7 @@ export enum PostRoutes {
     ResendVerificationCode = "/auth/resend-verification-code",
 
     CreateSubscription = "/payment/create-subscription",
+    AddNewCard = "/payment/add-new-card",
 }
 export enum PostRoutesWithParams {
     test = "/test",
