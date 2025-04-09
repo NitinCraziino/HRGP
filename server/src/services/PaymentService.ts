@@ -88,6 +88,25 @@ export default class PaymentService {
         });
     }
 
+    async getPaymentMethods(customerId: string): Promise<Stripe.PaymentMethod[]> {
+        return this.tryCatch<Stripe.PaymentMethod[]>(async () => {
+            const paymentMethods = await stripe.paymentMethods.list({
+                customer: customerId,
+                type: "card",
+            });
+            return paymentMethods.data;
+        });
+    }
+
+    async getStripeCustomer(customerId: string): Promise<Stripe.Customer> {
+        return this.tryCatch<Stripe.Customer>(async () => {
+            const customer = await stripe.customers.retrieve(customerId);
+            if (customer.deleted) {
+                throw new PaymentError('Customer has been deleted', 'PaymentService');
+            }
+            return customer;
+        });
+    }
 
     private async tryCatch<T>(fn: () => Promise<T>): Promise<T> {
         try {
