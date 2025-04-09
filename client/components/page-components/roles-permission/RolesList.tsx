@@ -4,8 +4,8 @@ import { useState } from "react";
 import { DataTable } from "@/components/common/DataTable";
 import { CircleHelp, Pencil } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
-import DeleteRoleDialog from "./DeleteRoleDialog";
-import { Role, Permissions } from "@/types";
+import { Role } from "@/types";
+import ConfirmDeleteDialog from "@/components/common/ConfirmDeleteDialog";
 
 const roles: Role[] = [
     {
@@ -99,11 +99,11 @@ const RolesList = () => {
                 />
             </div>
             {deletingRole && (
-                <DeleteRoleDialog
-                    role={deletingRole}
+                <ConfirmDeleteDialog
                     isOpen={!!deletingRole}
                     onClose={() => setDeletingRole(null)}
-                    onDelete={() => { }}
+                    onConfirm={() => { }}
+                    itemName={deletingRole.name}
                 />
             )}
         </>

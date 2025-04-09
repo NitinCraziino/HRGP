@@ -2,9 +2,9 @@
 
 import type { Template } from "@/types";
 import { useState } from "react";
-import { DeleteTemplateDialog } from "./DeleteTemplateDialog";
 import { DataTable, Column } from "@/components/common/DataTable";
 import { Pencil } from "lucide-react";
+import ConfirmDeleteDialog from "@/components/common/ConfirmDeleteDialog";
 
 interface TemplatesListProps {
     templates: Template[];
@@ -42,13 +42,14 @@ const TemplatesList = ({ templates }: TemplatesListProps) => {
                 }}
                 emptyState={<div>No templates found</div>}
             />
-
-            <DeleteTemplateDialog
-                template={deletingTemplate}
-                isOpen={!!deletingTemplate}
-                onClose={() => setDeletingTemplate(null)}
-                onDelete={() => { }}
-            />
+            {deletingTemplate && (
+                <ConfirmDeleteDialog
+                    isOpen={!!deletingTemplate}
+                    onClose={() => setDeletingTemplate(null)}
+                    onConfirm={() => { }}
+                    itemName={deletingTemplate?.name}
+                />
+            )}
         </>
     );
 };

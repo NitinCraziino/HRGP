@@ -2,12 +2,11 @@
 
 import { memo, useState } from "react";
 import useGetPaymentMethods from "@/hooks/api/payment/useGetPaymentMethods";
-import DeleteCardDialog from "./DeleteCardDialog";
 import { Card } from "@/types";
 import useDeletePaymentMethod from "@/hooks/api/payment/useDeletePaymentMethod";
 import { toast } from "sonner";
 import { Column, DataTable } from "@/components/common/DataTable";
-
+import ConfirmDeleteDialog from "@/components/common/ConfirmDeleteDialog";
 
 const CardsList = () => {
     const { data, isLoading, error, refetch } = useGetPaymentMethods();
@@ -62,11 +61,11 @@ const CardsList = () => {
             />
 
             {deletingMethod && (
-                <DeleteCardDialog
+                <ConfirmDeleteDialog
                     isOpen={!!deletingMethod}
                     onClose={() => setDeletingMethod(null)}
-                    onDelete={() => handleDelete(deletingMethod!)}
-                    method={deletingMethod!}
+                    onConfirm={() => handleDelete(deletingMethod)}
+                    itemName={`Card with the last 4 digits ${deletingMethod.cardNumber}`}
                 />
             )}
         </ >
