@@ -2,12 +2,15 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { InputWithError } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import EditButton from "./EditButton";
-import PaginationSection from "../../common/PaginationSection";
 import { PhoneInputComponent } from "@/components/ui/phoneinput";
+import { Column, DataTable } from "@/components/common/DataTable";
+
+type Phone = {
+    phone: string;
+    isPrimary: boolean;
+};
 
 const PhoneSection = ({
     initialPhones,
@@ -98,6 +101,8 @@ const PhoneSection = ({
         setPhoneError("");
     };
 
+    const columns = [{ header: "Phone Number", accessorKey: "phone" }];
+
     return (
         <div className="bg-gray-50 rounded-lg border shadow-sm">
             <div className="flex justify-between items-center p-4 ">
@@ -137,56 +142,30 @@ const PhoneSection = ({
                     </div>
                 </form>
             ) : (
-                <>
-                    <div className="overflow-x-auto">
-                        <Table className="border mx-4">
-                            <TableHeader className="bg-gray-200 hover:bg-gray-200">
-                                <TableRow>
-                                    <TableHead className="p-4 font-medium text-gray-600">Phone Number</TableHead>
-                                    <TableHead className="p-4 font-medium text-gray-600">Action</TableHead>
-                                </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                                {phones.map((phone, index) => (
-                                    <TableRow key={index} className="border-t">
-                                        <TableCell className="p-4">
-                                            {phone.phone}
-                                            {phone.isPrimary && <span className="text-red-500 font-bold">*</span>}
-                                        </TableCell>
-                                        <TableCell className="p-4">
-                                            <div className="flex gap-2">
-                                                <Button
-                                                    variant="ghost"
-                                                    size="sm"
-                                                    onClick={() => handleEditClick(phone.phone, phone.isPrimary, index)}
-                                                    className="bg-indigo-600 text-white hover:text-white rounded-full hover:bg-indigo-700"
-                                                >
-                                                    <i className="fas fa-pencil-alt" />
-                                                </Button>
-                                                {index > 0 && (
-                                                    <Button
-                                                        variant="ghost"
-                                                        size="sm"
-                                                        className="bg-indigo-600 text-white hover:text-white rounded-full hover:bg-indigo-700"
-                                                        onClick={() => handleDeletePhone(index)}
-                                                    >
-                                                        <i className="fas fa-trash-alt" />
-                                                    </Button>
-                                                )}
-                                            </div>
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </div>
-                    <PaginationSection
-                        currentPage={1}
-                        totalItems={phones.length}
-                        itemsPerPage={10}
-                        onPageChange={() => { }}
+                <div className="p-4">
+                    <DataTable
+                        data={phones}
+                        columns={columns as Column<Phone>[]}
+                        keyExtractor={(item) => item.phone}
+                        actions={{
+                            edit: {
+                                // TODO: Add edit action
+                                onClick: (phone) => handleEditClick(phone.phone, phone.isPrimary, 1),
+                            },
+                            delete: {
+                                // TODO: Add delete action
+                                onClick: (phone) => handleDeletePhone(1),
+                            },
+                        }}
+                        pagination={{
+                            currentPage: 1,
+                            totalItems: phones.length,
+                            itemsPerPage: 10,
+                            onPageChange: (page) => console.log("Page changed to", page),
+                        }}
+                        emptyState={<div>No phones found</div>}
                     />
-                </>
+                </div>
             )}
         </div>
     );

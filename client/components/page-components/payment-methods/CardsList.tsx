@@ -2,11 +2,11 @@
 
 import { memo, useState } from "react";
 import useGetPaymentMethods from "@/hooks/api/payment/useGetPaymentMethods";
-import { Button } from "@/components/ui/button";
 import DeleteCardDialog from "./DeleteCardDialog";
 import { Card } from "@/types";
 import useDeletePaymentMethod from "@/hooks/api/payment/useDeletePaymentMethod";
 import { toast } from "sonner";
+import { Column, DataTable } from "@/components/common/DataTable";
 
 
 const CardsList = () => {
@@ -29,54 +29,36 @@ const CardsList = () => {
         });
     };
 
+
+    const columns = [
+        {
+            header: "Card Number",
+            cell: (card: Card) => `**** **** **** ${card.cardNumber}`,
+        },
+        { header: "Expiry", accessorKey: "expiryDate" },
+        { header: "Name", accessorKey: "cardHolderName" },
+        {
+            header: "Primary",
+            cell: (card: Card) => (card.isPrimary ? "✅" : "❎"),
+        },
+    ];
+
     return (
-        <div className="border rounded-none overflow-hidden">
-            <table className="w-full border-collapse">
-                <thead className="bg-gray-200">
-                    <tr>
-                        <th className="p-4 font-medium text-gray-600 text-left border">Card Number</th>
-                        <th className="p-4 font-medium text-gray-600 text-left border">Expiry</th>
-                        <th className="p-4 font-medium text-gray-600 text-left border">Name</th>
-                        <th className="p-4 font-medium text-gray-600 text-left border">Primary</th>
-                        <th className="p-4 font-medium text-gray-600 border text-center">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {cards.length === 0 && (
-                        <tr>
-                            <td colSpan={5} className="p-4 border text-center">
-                                No cards found
-                            </td>
-                        </tr>
-                    )}
-                    {cards.length > 0 && cards.map((card) => (
-                        <tr key={card.id} className="hover:bg-gray-50 border-b">
-                            <td className="p-4 ">
-                                **** **** **** {card.cardNumber}
-                            </td>
-                            <td className="p-4 ">{card.expiryDate}</td>
-                            <td className="p-4 ">{card.cardHolderName}</td>
-                            <td className="p-4 ">
-                                {card.isPrimary ? "✅ Primary" : ""}
-                            </td>
-                            <td className="p-4 flex justify-center">
-                                <div className="flex gap-2">
-                                    {!card.isPrimary && (
-                                        <Button
-                                            variant="ghost"
-                                            size="icon"
-                                            className="bg-indigo-600 text-white hover:text-white rounded-full hover:bg-indigo-700"
-                                            onClick={() => setDeletingMethod(card)}
-                                        >
-                                            <i className="fas fa-trash-alt" />
-                                        </Button>
-                                    )}
-                                </div>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+        <>
+            <DataTable
+                data={cards}
+                columns={columns as Column<Card>[]}
+                keyExtractor={(item) => item.id}
+                actions={{
+                    delete: {
+                        onClick: (card) => setDeletingMethod(card),
+                        isHidden: (card) => card.isPrimary,
+                    },
+                }}
+                isLoading={false}
+                emptyState="No cards found"
+            />
+
             {deletingMethod && (
                 <DeleteCardDialog
                     isOpen={!!deletingMethod}
@@ -85,7 +67,7 @@ const CardsList = () => {
                     method={deletingMethod!}
                 />
             )}
-        </div>
+        </ >
     );
 };
 

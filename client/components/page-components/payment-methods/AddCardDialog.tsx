@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import useAuth from "@/hooks/states/useAuth";
 import useAddNewCard from "@/hooks/api/payment/useAddNewCard";
+
 type AddCardDialogProps = {
     open: boolean;
     onClose: () => void;
@@ -19,7 +20,7 @@ const AddCardDialogContent = ({ open, onClose }: AddCardDialogProps) => {
     const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
     const user = useAuth((state) => state.user);
-    const { mutate: addNewCard, isPending } = useAddNewCard();
+    const { mutate: addNewCard } = useAddNewCard();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();

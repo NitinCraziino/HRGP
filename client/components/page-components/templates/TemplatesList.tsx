@@ -1,12 +1,10 @@
 "use client";
 
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
 import type { Template } from "@/types";
 import { useState } from "react";
-import Link from "next/link";
 import { DeleteTemplateDialog } from "./DeleteTemplateDialog";
-import PaginationSection from "@/components/common/PaginationSection";
+import { DataTable, Column } from "@/components/common/DataTable";
+import { Pencil } from "lucide-react";
 
 interface TemplatesListProps {
     templates: Template[];
@@ -15,65 +13,40 @@ interface TemplatesListProps {
 const TemplatesList = ({ templates }: TemplatesListProps) => {
     const [deletingTemplate, setDeletingTemplate] = useState<Template | null>(null);
 
-    const handleCloseDeleteDialog = () => {
-        setDeletingTemplate(null);
-    };
+    const columns = [{ header: "Template Name", accessorKey: "name" }];
 
     return (
         <>
-            <div className="border rounded-none overflow-hidden">
-                <Table className="border">
-                    <TableHeader className="bg-gray-200 hover:bg-gray-200">
-                        <TableRow>
-                            <TableHead className="p-4 font-medium text-gray-600">Template Name</TableHead>
-                            <TableHead className="p-4 font-medium text-gray-600">Action</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {templates.map((template) => (
-                            <TableRow key={template.id}>
-                                <TableCell className="p-4">{template.name}</TableCell>
-                                <TableCell className="p-4">
-                                    <div className="flex gap-2">
-                                        <Link
-                                            href={`/edit-template/${template.id}`}
-                                            className="hover:bg-indigo-100 rounded-full"
-                                        >
-                                            <Button
-                                                variant="ghost"
-                                                size="icon"
-                                                className="bg-indigo-600 text-white hover:text-white rounded-full hover:bg-indigo-700"
-                                            >
-                                                <i className="fas fa-pencil-alt" />
-                                            </Button>
-                                        </Link>
-                                        <Button
-                                            variant="ghost"
-                                            size="icon"
-                                            className="bg-indigo-600 text-white hover:text-white rounded-full hover:bg-indigo-700"
-                                            onClick={() => setDeletingTemplate(template)}
-                                        >
-                                            <i className="fas fa-trash-alt" />
-                                        </Button>
-                                    </div>
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </div>
-
-            <PaginationSection
-                currentPage={1}
-                totalItems={templates.length}
-                itemsPerPage={10}
-                onPageChange={() => { }}
+            <DataTable
+                data={templates}
+                columns={columns as Column<Template>[]}
+                keyExtractor={(item) => item.id}
+                actions={{
+                    custom: [
+                        {
+                            icon: <Pencil className="h-4 w-4" />,
+                            onClick: (template) => {
+                                window.location.href = `/edit-template/${template.id}`;
+                            },
+                        },
+                    ],
+                    delete: {
+                        onClick: (template) => setDeletingTemplate(template),
+                    },
+                }}
+                pagination={{
+                    currentPage: 1,
+                    totalItems: templates.length,
+                    itemsPerPage: 10,
+                    onPageChange: (page) => console.log("Page changed to", page),
+                }}
+                emptyState={<div>No templates found</div>}
             />
 
             <DeleteTemplateDialog
                 template={deletingTemplate}
                 isOpen={!!deletingTemplate}
-                onClose={handleCloseDeleteDialog}
+                onClose={() => setDeletingTemplate(null)}
                 onDelete={() => { }}
             />
         </>

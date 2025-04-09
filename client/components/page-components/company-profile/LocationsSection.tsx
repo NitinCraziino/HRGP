@@ -1,12 +1,12 @@
 'use client';
-import { Pencil, Trash, X } from 'lucide-react';
+import { X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
-import { Table, TableHead, TableBody, TableRow, TableCell, TableHeader } from '@/components/ui/table'; // Import shadcn table components
 import { useState } from 'react';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import LocationFormInputs from './LocationFormInputs';
+import { DataTable, Column } from '@/components/common/DataTable';
 
 const locations = [
     {
@@ -82,6 +82,14 @@ const LocationsSection = () => {
         }
     };
 
+    const columns = [
+        { header: "Address Type", accessorKey: "addressType" },
+        { header: "Street Address", accessorKey: "address" },
+        { header: "City", accessorKey: "city" },
+        { header: "State", accessorKey: "state" },
+        { header: "Country", accessorKey: "country" },
+        { header: "Postal Code", accessorKey: "postalCode" },
+    ];
 
     return (
         <div className="mt-6">
@@ -93,63 +101,46 @@ const LocationsSection = () => {
                     onClick={handleEditMode}
                     className="bg-indigo-100 text-indigo-600 hover:bg-indigo-200 hover:text-indigo-800 rounded-full"
                 >
-                    {editMode.isEditing ? <i className='fas fa-times' /> : <i className='fas fa-plus' />}
+                    {editMode.isEditing ? <X className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
                 </Button>
             </div>
 
-            {!editMode.isEditing && (
-                <div className="overflow-x-auto">
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead className="text-left p-4 text-sm font-semibold">Address Type</TableHead>
-                                <TableHead className="text-left p-4 text-sm font-semibold">Street Address</TableHead>
-                                <TableHead className="text-left p-4 text-sm font-semibold">City</TableHead>
-                                <TableHead className="text-left p-4 text-sm font-semibold">State</TableHead>
-                                <TableHead className="text-left p-4 text-sm font-semibold">Country</TableHead>
-                                <TableHead className="text-left p-4 text-sm font-semibold">Postal Code</TableHead>
-                                <TableHead className="text-left p-4 text-sm font-semibold">Action</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {locations.map((location) => (
-                                <TableRow className="border-t" key={location.addressId}>
-                                    <TableCell className="p-4">{location.addressType}</TableCell>
-                                    <TableCell className="p-4">{location.address}</TableCell>
-                                    <TableCell className="p-4">{location.city}</TableCell>
-                                    <TableCell className="p-4">{location.state}</TableCell>
-                                    <TableCell className="p-4">{location.country}</TableCell>
-                                    <TableCell className="p-4">02562</TableCell>
-                                    <TableCell className="p-4">
-                                        <div className="flex space-x-2">
-                                            <Button
-                                                variant="ghost"
-                                                size="icon"
-                                                className="bg-indigo-600 hover:bg-indigo-700 text-white rounded-full h-8 w-8"
-                                                onClick={() => {
-                                                    reset();
-                                                    setEditMode({ isEditing: true, editLocation: location });
-                                                }}
-                                            >
-                                                <i className='fas fa-pencil-alt' />
-                                            </Button>
-                                            <Button
-                                                variant="ghost"
-                                                size="icon"
-                                                className="bg-indigo-600 hover:bg-indigo-700 text-white rounded-full h-8 w-8"
-                                            >
-                                                <i className='fas fa-trash-alt' />
-                                            </Button>
-                                        </div>
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </div>
-            )}
-
-            {editMode.isEditing && (
+            {!editMode.isEditing ? (
+                <DataTable
+                    data={locations}
+                    columns={columns as Column<LocationFormInputs>[]}
+                    keyExtractor={(item) => item.addressId}
+                    actions={{
+                        edit: {
+                            onClick: (location) => {
+                                reset();
+                                setEditMode({
+                                    isEditing: true,
+                                    editLocation: {
+                                        addressType: location.addressType,
+                                        address: location.address,
+                                        city: location.city,
+                                        state: location.state,
+                                        country: location.country,
+                                        postalCode: location.postalCode,
+                                    },
+                                });
+                            },
+                        },
+                        delete: {
+                            onClick: (location) => {
+                                console.log("Delete location", location);
+                            },
+                        },
+                    }}
+                    pagination={{
+                        currentPage: 1,
+                        totalItems: locations.length,
+                        itemsPerPage: 10,
+                        onPageChange: (page) => console.log("Page changed to", page),
+                    }}
+                />
+            ) : (
                 <LocationFormInputs
                     control={control}
                     errors={errors}

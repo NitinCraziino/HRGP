@@ -4,9 +4,14 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { InputWithError } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import EditButton from "./EditButton";
-import PaginationSection from "../../common/PaginationSection";
+import { Column } from "@/components/common/DataTable";
+import { DataTable } from "@/components/common/DataTable";
+
+type Email = {
+    address: string;
+    isPrimary: boolean;
+};
 
 const EmailSection = ({
     initialEmails,
@@ -59,9 +64,9 @@ const EmailSection = ({
         });
     };
 
-    const handleDeleteEmail = (index: number) => {
+    const handleDeleteEmail = (address: string) => {
         const newEmails = [...emails];
-        newEmails.splice(index, 1);
+        newEmails.splice(newEmails.findIndex(email => email.address === address), 1);
         setEmails(newEmails);
     };
 
@@ -93,6 +98,8 @@ const EmailSection = ({
             editIndex: null
         });
     };
+
+    const columns = [{ header: "Email", accessorKey: "address" }];
 
     return (
         <div className="bg-gray-50 rounded-lg border shadow-sm">
@@ -135,54 +142,28 @@ const EmailSection = ({
                 </form>
             ) : (
                 <>
-                    <div className="overflow-x-auto">
-                        <Table className="border mx-4">
-                            <TableHeader className="bg-gray-200 hover:bg-gray-200">
-                                <TableRow>
-                                    <TableHead className="p-4 font-medium text-gray-600">Email Address</TableHead>
-                                    <TableHead className="p-4 font-medium text-gray-600">Action</TableHead>
-                                </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                                {emails.map((email, index) => (
-                                    <TableRow key={index} className="border-t">
-                                        <TableCell className="p-4">
-                                            {email.address}
-                                            {email.isPrimary && <span className="text-red-500 font-bold">*</span>}
-                                        </TableCell>
-                                        <TableCell className="p-4">
-                                            <div className="flex gap-2">
-                                                <Button
-                                                    variant="ghost"
-                                                    size="sm"
-                                                    onClick={() => handleEditClick(email.address, email.isPrimary, index)}
-                                                    className="bg-indigo-600 text-white hover:text-white rounded-full hover:bg-indigo-700"
-                                                >
-                                                    <i className="fas fa-pencil-alt" />
-                                                </Button>
-                                                {index > 0 && (
-                                                    <Button
-                                                        variant="ghost"
-                                                        size="sm"
-                                                        className="bg-indigo-600 text-white hover:text-white rounded-full hover:bg-indigo-700"
-                                                        onClick={() => handleDeleteEmail(index)}
-                                                    >
-                                                        <i className="fas fa-trash-alt" />
-                                                    </Button>
-                                                )}
-                                            </div>
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
+                    <div className="p-4">
+                        <DataTable
+                            data={emails}
+                            columns={columns as Column<Email>[]}
+                            keyExtractor={(item) => item.address}
+                            actions={{
+                                edit: {
+                                    onClick: (email) => handleEditClick(email.address, email.isPrimary, 1),
+                                },
+                                delete: {
+                                    onClick: (email) => handleDeleteEmail(email.address),
+                                },
+                            }}
+                            pagination={{
+                                currentPage: 1,
+                                totalItems: emails.length,
+                                itemsPerPage: 10,
+                                onPageChange: (page) => console.log("Page changed to", page),
+                            }}
+                            emptyState={<div>No emails found</div>}
+                        />
                     </div>
-                    <PaginationSection
-                        currentPage={1}
-                        totalItems={emails.length}
-                        itemsPerPage={10}
-                        onPageChange={() => { }}
-                    />
                 </>
             )}
         </div>

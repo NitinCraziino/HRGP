@@ -43,16 +43,16 @@ const UserProfilePage = () => {
                     />
                     <EmailSection
                         initialEmails={[
-                            { address: "john.doe@example.com", isPrimary: true },
-                            { address: "john.doe@example.com", isPrimary: false },
-                            { address: "john.doe@example.com", isPrimary: false },
+                            { address: "john.dose@2example.com", isPrimary: true },
+                            { address: "john2.doe@example.com", isPrimary: false },
+                            { address: "john3.doe@example.com", isPrimary: false },
                         ]}
                     />
                     <PhoneSection
                         initialPhones={[
-                            { phone: "+1234567890", isPrimary: true },
-                            { phone: "+1234567890", isPrimary: false },
-                            { phone: "+1234567890", isPrimary: false },
+                            { phone: "+12345w67890", isPrimary: true },
+                            { phone: "+12345678ss90", isPrimary: false },
+                            { phone: "+12345678190", isPrimary: false },
                         ]}
                     />
                 </div>
