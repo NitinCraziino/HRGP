@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
-
+import useGetUserCardInfo from "@/hooks/api/user/useGetUserCardInfo";
 type AddCardDialogProps = {
     open: boolean;
     onClose: () => void;
@@ -17,6 +17,7 @@ const AddCardDialogContent = ({ open, onClose }: AddCardDialogProps) => {
     const [isPrimary, setIsPrimary] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
+    const { data: userCardInfo } = useGetUserCardInfo();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
