@@ -3,9 +3,9 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { InputWithError } from "../ui/input";
+import { InputWithError } from "@/components/ui/input";
 import Link from "next/link";
-import { Checkbox } from "../ui/checkbox";
+import { Checkbox } from "@/components/ui/checkbox";
 import { signinSchema } from "@/lib/schema";
 import useSignin from "@/hooks/api/auth/useSignin";
 import { useRouter } from "next/navigation";

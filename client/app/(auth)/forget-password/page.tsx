@@ -1,5 +1,5 @@
 import Image from "next/image";
-import ForgetPasswordForm from "@/components/auth/ForgetPasswordForm";
+import ForgetPasswordForm from "@/components/page-components/auth/ForgetPasswordForm";
 import { memo } from "react";
 import WithoutAuth from "@/components/hoc/WithoutAuth";
 import PublicPageContainer from "@/components/hoc/PublicPageContainer";

@@ -1,7 +1,7 @@
 import Image from "next/image";
-import SigninForm from "@/components/auth/SigninForm";
+import SigninForm from "@/components/page-components/auth/SigninForm";
 import { memo } from "react";
-import OAuthButtons from "@/components/auth/OAuthButtons";
+import OAuthButtons from "@/components/page-components/auth/OAuthButtons";
 import WithoutAuth from "@/components/hoc/WithoutAuth";
 import PublicPageContainer from "@/components/hoc/PublicPageContainer";
 

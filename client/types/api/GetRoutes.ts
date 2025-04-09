@@ -1,6 +1,7 @@
 export enum GetRoutes {
     GetUser = "/user",
-    GetAddress = "/address"
+    GetAddress = "/address",
+    GetUserCardInfo = "/user/card-info"
 }
 
 export enum GetRoutesWithParams {

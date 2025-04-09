@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { memo } from "react";
-import SignupForm from "@/components/auth/SignupForm";
-import OAuthButtons from "@/components/auth/OAuthButtons";
+import SignupForm from "@/components/page-components/auth/SignupForm";
+import OAuthButtons from "@/components/page-components/auth/OAuthButtons";
 import WithoutAuth from "@/components/hoc/WithoutAuth";
 
 const Signup = () => {

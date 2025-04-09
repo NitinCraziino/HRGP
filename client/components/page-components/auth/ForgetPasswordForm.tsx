@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback, memo } from "react";
-import { InputWithError } from "../ui/input";
+import { InputWithError } from "@/components/ui/input";
 import ButtonWithLoading from "@/components/common/ButtonWithLoading";
 import useForgotPassword from "@/hooks/api/auth/useForgotPassword";
 import useResendVerificationCode from "@/hooks/api/auth/useResendVerificationCode";
@@ -10,7 +10,7 @@ import useResetPassword from "@/hooks/api/auth/useResetPassword";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
