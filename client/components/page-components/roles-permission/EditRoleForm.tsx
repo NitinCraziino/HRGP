@@ -22,7 +22,7 @@ const EditRoleForm = ({ role }: { role: Role; }) => {
     };
 
     return (
-        <form className='p-6 space-y-6 bg-white rounded-lg shadow-sm mb-64'>
+        <form className='p-6 space-y-6 bg-white shadow-sm mb-64'>
             <div className='flex items-center'>
                 <Label className='text-lg font-medium w-32'>Role:</Label>
                 <Input

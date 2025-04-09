@@ -10,7 +10,7 @@ import {
     AlertDialogHeader,
     AlertDialogTitle
 } from "@/components/ui/alert-dialog";
-import { Role } from "./RolesList";
+import { Role } from "@/types";
 
 interface DeleteRoleDialogProps {
     role: Role | null;

@@ -1,18 +1,14 @@
-import PageHeader from '@/components/layout/PrivatePageHeader';
 import PrivateContainer from '@/components/hoc/PrivateContainer';
-import React from 'react';
 
 const page = () => {
   return (
-    <>
-      <PrivateContainer>
-        <div className=" bg-white rounded-lg shadow-sm">
-          <div className="flex items-center gap-2 mb-6 border-b border-gray-200 pb-4 pt-4">
-            <div>page</div>
-          </div>
+    <PrivateContainer>
+      <div className=" bg-white rounded-lg shadow-sm">
+        <div className="flex items-center gap-2 mb-6 border-b border-gray-200 pb-4 pt-4">
+          <div>page</div>
         </div>
-      </PrivateContainer>
-    </>
+      </div>
+    </PrivateContainer>
   );
 };
 

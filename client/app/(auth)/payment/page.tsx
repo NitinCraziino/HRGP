@@ -3,13 +3,9 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import CardDetailsForm from "@/components/page-components/payment/PaymentForm";
 import PaymentSuccessScreen from "@/components/page-components/payment/PaymentSuccessScreen";
-import { Elements } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
-import { STRIPE_PUBLISHABLE_KEY } from "@/config";
 import { useState } from "react";
 import WithStripeCustomer from "@/components/hoc/WithStripeCustomer";
-
-const stripePromise = loadStripe(STRIPE_PUBLISHABLE_KEY!);
+import StripElementWrapper from "@/components/common/StripElementWrapper";
 
 const PaymentPage = () => {
     const [isPaymentSuccess, setIsPaymentSuccess] = useState(false);
@@ -78,9 +74,9 @@ const PaymentPage = () => {
                                             If you have any questions or need assistance, our support team is here to help!
                                         </p>
 
-                                        <Elements stripe={stripePromise}>
+                                        <StripElementWrapper>
                                             <CardDetailsForm setIsPaymentSuccess={setIsPaymentSuccess} />
-                                        </Elements>
+                                        </StripElementWrapper>
                                     </div>
                                 </div>
                             </CardContent>
