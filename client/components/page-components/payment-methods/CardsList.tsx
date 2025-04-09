@@ -10,12 +10,10 @@ import { Column, DataTable } from "@/components/common/DataTable";
 
 
 const CardsList = () => {
-    const { data, isLoading, error } = useGetPaymentMethods();
+    const { data, isLoading, error, refetch } = useGetPaymentMethods();
     const cards = data || [];
     const [deletingMethod, setDeletingMethod] = useState<Card | null>(null);
     const { mutate: deletePaymentMethod, isPending } = useDeletePaymentMethod();
-    if (isLoading) return <div>Loading...</div>;
-    if (error) return <div>Error: {error.message}</div>;
 
     const handleDelete = (method: Card) => {
         if (isPending || method.isPrimary) return;
@@ -55,8 +53,12 @@ const CardsList = () => {
                         isHidden: (card) => card.isPrimary,
                     },
                 }}
-                isLoading={false}
+                isLoading={isLoading}
                 emptyState="No cards found"
+                error={error}
+                onRetry={() => {
+                    refetch();
+                }}
             />
 
             {deletingMethod && (
