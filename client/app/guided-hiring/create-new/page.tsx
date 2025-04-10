@@ -5,11 +5,10 @@ import InputWithError from '@/components/form-components/InputWithError';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import MultipleSelector from '@/components/form-components/MultiSelect';
-import { Label } from '@/components/ui/label';
+import SelectWithSearch from '@/components/form-components/SelectWithSearch';
 
 const page = () => {
-    const [positionTitle, setPositionTitle] = useState<string[]>([]);
+    const [positionTitle, setPositionTitle] = useState<string>('');
     const [workflowName, setWorkflowName] = useState('');
     const [errors, setErrors] = useState({
         positionTitle: '',
@@ -21,14 +20,14 @@ const page = () => {
                 <form className="flex flex-col space-y-4 justify-center items-center w-full">
                     <div className='grid grid-cols-2 gap-4 w-full'>
                         <div className='w-full'>
-                            <Label className='mb-2'>Position Title</Label>
-                            <MultipleSelector
-                                options={[]}
-                                defaultOptions={[]}
-                                maxSelected={1}
-                                className='h-10'
+                            <SelectWithSearch
+                                options={[{ value: '1', label: 'Position Title 1' }, { value: '2', label: 'Position Title 2' }]}
+                                onChange={(value) => setPositionTitle(value)}
+                                value={positionTitle}
+                                label='Position Title'
+                                error={errors.positionTitle}
                                 placeholder='Select Position Title'
-                                onChange={e => setPositionTitle(e.map(option => option.value))}
+                                emptyIndicator='No position titles found'
                             />
                         </div>
                         <InputWithError
