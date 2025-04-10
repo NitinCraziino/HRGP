@@ -23,6 +23,7 @@ const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
         next();
 
     } catch (error) {
+
         throw new UnauthorizedError(error instanceof Error ? error.message : "Unauthorized");
     }
 };

@@ -1,7 +1,7 @@
 import { sign, TokenExpiredError, verify } from "jsonwebtoken";
 import { NODE_ENV, TOKEN_SECRET } from "../config";
-import { TokenPayload } from "../types";
-import { UnauthorizedError } from "../types/CustomError";
+import { StatusCode, TokenPayload } from "../types";
+import { CustomError, UnauthorizedError } from "../types/CustomError";
 
 export default class JwtService {
     createToken(payload: TokenPayload): string {
@@ -14,9 +14,9 @@ export default class JwtService {
             return verify(token, TOKEN_SECRET) as TokenPayload;
         } catch (error) {
             if (error instanceof TokenExpiredError) {
-                throw new UnauthorizedError("Token expired");
+                throw new CustomError("Token expired", StatusCode.TOKEN_EXPIRED, "JwtService");
             }
-            throw new UnauthorizedError("Invalid token");
+            throw new UnauthorizedError("Invalid token", "JwtService");
         }
     }
 }

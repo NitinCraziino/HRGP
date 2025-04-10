@@ -8,6 +8,7 @@ export enum StatusCode {
     INTERNAL_SERVER_ERROR = 500,
     CONFLICT = 409,
     UNPROCESSABLE_ENTITY = 422,
+    TOKEN_EXPIRED = 498,
 }
 
 
