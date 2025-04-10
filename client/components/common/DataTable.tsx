@@ -1,60 +1,14 @@
 "use client";
 
-import type React from "react";
+import { ReactNode, useCallback, useMemo } from "react";
+import { useState } from "react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Pencil, Trash } from "lucide-react";
 import PaginationSection from "@/components/common/PaginationSection";
 import { cn } from "@/lib/utils";
-
-export type Column<T> = {
-    header: string;
-    accessorKey?: keyof T;
-    cell?: (item: T) => React.ReactNode;
-    className?: string;
-};
-
-export type ActionConfig<T> = {
-    edit?: {
-        onClick: (item: T) => void;
-        isDisabled?: (item: T) => boolean;
-        isHidden?: (item: T) => boolean;
-    };
-    delete?: {
-        onClick: (item: T) => void;
-        isDisabled?: (item: T) => boolean;
-        isHidden?: (item: T) => boolean;
-    };
-    custom?: Array<{
-        icon: React.ReactNode;
-        onClick: (item: T) => void;
-        isDisabled?: (item: T) => boolean;
-        isHidden?: (item: T) => boolean;
-        className?: string;
-    }>;
-};
-
-export type DataTableProps<T> = {
-    data: T[];
-    columns: Column<T>[];
-    actions?: ActionConfig<T>;
-    keyExtractor: (item: T) => string | number;
-    pagination?: {
-        currentPage: number;
-        totalItems: number;
-        itemsPerPage: number;
-        onPageChange: (page: number) => void;
-    };
-    className?: string;
-    tableClassName?: string;
-    headerClassName?: string;
-    rowClassName?: (item: T) => string;
-    emptyState?: React.ReactNode;
-    isLoading?: boolean;
-    error?: Error | string | any;
-    errorComponent?: React.ReactNode;
-    onRetry?: () => void;
-};
+import { ArrowUpDown, ArrowUp, ArrowDown } from "lucide-react";
+import { Column, DataTableProps, SortDirection, SortingState } from "@/types/props";
 
 export function DataTable<T>({
     data,
@@ -71,8 +25,68 @@ export function DataTable<T>({
     error,
     errorComponent,
     onRetry,
+    onSortChange,
+    defaultSorting,
+    manualSorting,
 }: DataTableProps<T>) {
     const hasActions = actions && (actions.edit || actions.delete || (actions.custom && actions.custom.length > 0));
+
+    // Sorting state
+    const [sorting, setSorting] = useState<SortingState>(defaultSorting || { column: null, direction: null });
+
+    // Handle column sort
+    const handleSort = useCallback((column: Column<T>) => {
+        if (!column.isSortable || !column.sortKey) return;
+
+        const sortKey = column.sortKey;
+        let direction: SortDirection = "asc";
+
+        if (sorting.column === sortKey) {
+            if (sorting.direction === "asc") {
+                direction = "desc";
+            } else if (sorting.direction === "desc") {
+                direction = null;
+            }
+        }
+
+        const newSorting = {
+            column: direction === null ? null : sortKey,
+            direction,
+        };
+
+        setSorting(newSorting);
+
+        if (onSortChange) {
+            onSortChange(sortKey, direction);
+        }
+    }, [sorting, onSortChange, columns]);
+
+    // Sort data if not manually sorted
+    const sortedData = useMemo(() => {
+        if (manualSorting || !sorting.column || !sorting.direction) {
+            return data;
+        }
+
+        return [...data].sort((a, b) => {
+            const column = columns.find((col) => col.sortKey === sorting.column);
+            if (!column || !column.accessorKey) return 0;
+
+            const aValue = a[column.accessorKey];
+            const bValue = b[column.accessorKey];
+
+            if (aValue === bValue) return 0;
+
+            // Handle different data types
+            if (typeof aValue === "string" && typeof bValue === "string") {
+                return sorting.direction === "asc" ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
+            }
+
+            if (aValue === null || aValue === undefined) return sorting.direction === "asc" ? -1 : 1;
+            if (bValue === null || bValue === undefined) return sorting.direction === "asc" ? 1 : -1;
+
+            return sorting.direction === "asc" ? (aValue < bValue ? -1 : 1) : bValue < aValue ? -1 : 1;
+        });
+    }, [data, columns, sorting, manualSorting]);
 
     // If there's an error, show the error state
     if (error) {
@@ -152,22 +166,47 @@ export function DataTable<T>({
                     <TableHeader className={cn("bg-gray-100 hover:bg-gray-200", headerClassName)}>
                         <TableRow>
                             {columns.map((column, index) => (
-                                <TableHead key={index} className={cn("p-4 font-bold text-gray-600", column.className)}>
-                                    {column.header}
+                                <TableHead
+                                    key={index}
+                                    className={cn(
+                                        "p-4 font-bold text-gray-600",
+                                        column.className,
+                                        column.isSortable && "cursor-pointer select-none",
+                                    )}
+                                    onClick={() => column.isSortable && handleSort(column)}
+                                >
+                                    <div className="flex items-center gap-1">
+                                        {column.header}
+                                        {column.isSortable && (
+                                            <div className="flex flex-col ml-1">
+                                                {sorting.column === column.sortKey ? (
+                                                    sorting.direction === "asc" ? (
+                                                        <ArrowUp className="h-5 w-5" />
+                                                    ) : sorting.direction === "desc" ? (
+                                                        <ArrowDown className="h-5 w-5" />
+                                                    ) : (
+                                                        <ArrowUpDown className="h-5 w-5 text-gray-400" />
+                                                    )
+                                                ) : (
+                                                    <ArrowUpDown className="h-5 w-5 text-gray-400" />
+                                                )}
+                                            </div>
+                                        )}
+                                    </div>
                                 </TableHead>
                             ))}
                             {hasActions && <TableHead className="p-4 font-bold text-gray-600 text-center">Actions</TableHead>}
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {data.length === 0 ? (
+                        {sortedData.length === 0 ? (
                             <TableRow>
                                 <TableCell colSpan={columns.length + (hasActions ? 1 : 0)} className="p-4 text-center">
                                     {emptyState || "No data found"}
                                 </TableCell>
                             </TableRow>
                         ) : (
-                            data.map((item) => (
+                            sortedData.map((item) => (
                                 <TableRow key={keyExtractor(item)} className={cn("border-t", rowClassName && rowClassName(item))}>
                                     {columns.map((column, columnIndex) => (
                                         <TableCell key={columnIndex} className="p-4">

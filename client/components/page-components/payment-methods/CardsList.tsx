@@ -5,7 +5,8 @@ import useGetPaymentMethods from "@/hooks/api/payment/useGetPaymentMethods";
 import { Card } from "@/types";
 import useDeletePaymentMethod from "@/hooks/api/payment/useDeletePaymentMethod";
 import { toast } from "sonner";
-import { Column, DataTable } from "@/components/common/DataTable";
+import { DataTable } from "@/components/common/DataTable";
+import { Column } from "@/types/props";
 import ConfirmDeleteDialog from "@/components/common/ConfirmDeleteDialog";
 
 const CardsList = () => {

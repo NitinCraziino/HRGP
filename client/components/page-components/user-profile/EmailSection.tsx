@@ -5,8 +5,8 @@ import { Button } from "@/components/ui/button";
 import { InputWithError } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import EditButton from "./EditButton";
-import { Column } from "@/components/common/DataTable";
 import { DataTable } from "@/components/common/DataTable";
+import { Column } from "@/types/props";
 
 type Email = {
     address: string;

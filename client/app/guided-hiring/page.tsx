@@ -4,7 +4,7 @@ import { DataTable } from '@/components/common/DataTable';
 import PrivateContainer from '@/components/hoc/PrivateContainer';
 import { Button } from '@/components/ui/button';
 import React from 'react';
-import { Column } from '@/components/common/DataTable';
+import { Column } from '@/types/props';
 
 type Workflow = {
     id: number;
@@ -15,24 +15,33 @@ type Workflow = {
 const workflows: Workflow[] = [
     {
         id: 1,
-        positionTitle: 'Software Engineer',
-        workflowName: 'Software Engineer Workflow',
+        positionTitle: 'Web Developer',
+        workflowName: 'Web Developer Workflow',
     },
     {
         id: 2,
         positionTitle: 'Software Engineer',
         workflowName: 'Software Engineer Workflow',
     },
+    {
+        id: 3,
+        positionTitle: 'Product Manager',
+        workflowName: 'Product Manager Workflow',
+    },
 ];
 
-const columns = [
+const columns: Column<Workflow>[] = [
     {
         header: 'Position Title',
         accessorKey: 'positionTitle',
+        isSortable: true,
+        sortKey: 'positionTitle',
     },
     {
         header: 'Workflow Title',
         accessorKey: 'workflowName',
+        isSortable: true,
+        sortKey: 'workflowName',
     },
 ];
 const page = () => {
@@ -48,7 +57,7 @@ const page = () => {
 
                 <DataTable
                     data={workflows}
-                    columns={columns as Column<Workflow>[]}
+                    columns={columns}
                     keyExtractor={(item) => item.id}
                     emptyState="No workflows found"
                     isLoading={false}

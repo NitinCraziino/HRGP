@@ -2,7 +2,8 @@
 
 import type { Template } from "@/types";
 import { useState } from "react";
-import { DataTable, Column } from "@/components/common/DataTable";
+import { DataTable } from "@/components/common/DataTable";
+import { Column } from "@/types/props";
 import { Pencil } from "lucide-react";
 import ConfirmDeleteDialog from "@/components/common/ConfirmDeleteDialog";
 

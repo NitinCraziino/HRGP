@@ -6,7 +6,8 @@ import { useState } from 'react';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import LocationFormInputs from './LocationFormInputs';
-import { DataTable, Column } from '@/components/common/DataTable';
+import { DataTable } from '@/components/common/DataTable';
+import { Column } from '@/types/props';
 
 const locations = [
     {

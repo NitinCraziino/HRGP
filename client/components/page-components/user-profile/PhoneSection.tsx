@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import EditButton from "./EditButton";
 import { PhoneInputComponent } from "@/components/ui/phoneinput";
-import { Column, DataTable } from "@/components/common/DataTable";
+import { DataTable } from "@/components/common/DataTable";
+import { Column } from "@/types/props";
 
 type Phone = {
     phone: string;
