@@ -5,6 +5,7 @@ import PrivateContainer from '@/components/hoc/PrivateContainer';
 import { Button } from '@/components/ui/button';
 import React from 'react';
 import { Column } from '@/types/props';
+import Link from 'next/link';
 
 type Workflow = {
     id: number;
@@ -50,9 +51,11 @@ const page = () => {
         <PrivateContainer className='pb-72'>
             <div className="p-6 space-y-6 bg-white">
                 <div className="flex justify-end items-center">
-                    <Button className='bg-indigo-600 text-white hover:bg-indigo-700 rounded-xs'>
-                        Add Guided Workflow
-                    </Button>
+                    <Link href='/guided-hiring/create-new'>
+                        <Button className='bg-indigo-600 text-white hover:bg-indigo-700 rounded-xs'>
+                            Add Guided Workflow
+                        </Button>
+                    </Link>
                 </div>
 
                 <DataTable

@@ -228,7 +228,7 @@ export function DataTable<T>({
                                                         onClick={() => actions.edit?.onClick(item)}
                                                         disabled={actions.edit.isDisabled?.(item)}
                                                     >
-                                                        <Pencil className="h-4 w-4" />
+                                                        <i className="fas fa-pencil-alt"></i>
                                                     </Button>
                                                 )}
                                                 {actions?.delete && (!actions.delete.isHidden || !actions.delete.isHidden?.(item)) && (
@@ -239,7 +239,7 @@ export function DataTable<T>({
                                                         onClick={() => actions.delete?.onClick(item)}
                                                         disabled={actions.delete.isDisabled?.(item)}
                                                     >
-                                                        <Trash className="h-4 w-4" />
+                                                        <i className="fas fa-trash"></i>
                                                     </Button>
                                                 )}
                                                 {actions?.custom &&
