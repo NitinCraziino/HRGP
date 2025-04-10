@@ -1,12 +1,13 @@
 'use client';
 
 import PrivateContainer from '@/components/hoc/PrivateContainer';
-import { InputWithError } from '@/components/ui/input';
+import InputWithError from '@/components/form-components/InputWithError';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import MultipleSelector from '@/components/inputs/MultiSelect';
+import MultipleSelector from '@/components/form-components/MultiSelect';
 import { Label } from '@/components/ui/label';
+
 const page = () => {
     const [positionTitle, setPositionTitle] = useState<string[]>([]);
     const [workflowName, setWorkflowName] = useState('');

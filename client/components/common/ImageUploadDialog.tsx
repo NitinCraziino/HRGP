@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-
+import Image from "next/image";
 interface Props {
     isOpen: boolean;
     onClose: () => void;
@@ -118,8 +118,10 @@ const ImageUploadDialog = ({
                                 </Button>
                             </div>
                             <div className="overflow-hidden rounded-md border border-gray-200">
-                                <img
+                                <Image
                                     src={previewUrl}
+                                    width={100}
+                                    height={100}
                                     alt="Preview"
                                     className="h-auto max-h-64 w-full object-contain"
                                 />

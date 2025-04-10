@@ -2,16 +2,17 @@
 import { TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Pencil, Copy, Check } from "lucide-react";
+import { Pencil, Check } from "lucide-react";
 import { useState } from "react";
 import LocationsSection from "./LocationsSection";
-import InputWithError from "@/components/inputs/InputWithError";
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
+import InputWithError from "@/components/form-components/InputWithError";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import ButtonWithLoading from "@/components/common/ButtonWithLoading";
-import UrlInput from "./UrlInput";
+import UrlAliasInput from "@/components/form-components/UrlAliasInput";
+import SelectWithSearch from "@/components/form-components/SelectWithSearch";
+import TextareaWithError from "@/components/form-components/TextAreaWithError";
 
 const INDUSTRY_OPTIONS = [
     { value: "technology", label: "Technology" },
@@ -95,47 +96,25 @@ const CompanyProfileTab = () => {
                     </div>
 
                     <div className="grid grid-cols-2 gap-4 mb-4">
-                        <Select
-                            disabled={!isEditing}
-                            value={watch("industry")}
-                            onValueChange={(value) => setValue("industry", value)}
-                        >
-                            <SelectTrigger className="w-full min-h-[50px]">
-                                <SelectValue placeholder="Select Industry" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {INDUSTRY_OPTIONS.map((option) => (
-                                    <SelectItem key={option.value} value={option.value}>
-                                        {option.label}
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
-
-                        <Select
-                            disabled={!isEditing}
+                        <SelectWithSearch
+                            options={COMPANY_TYPE_OPTIONS}
                             value={watch("companyType")}
-                            onValueChange={(value) => {
-                                setValue("companyType", value);
-                                console.log('companyType', value);
+                            label="Company Type"
+                            onChange={(value) => setValue("companyType", value)}
+                            disabled={!isEditing}
+                        />
 
-                            }}
-                        >
-                            <SelectTrigger id="companyType" className="w-full min-h-[50px]">
-                                <SelectValue placeholder="Select Company Type" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {COMPANY_TYPE_OPTIONS.map((option) => (
-                                    <SelectItem key={option.value} value={option.value}>
-                                        {option.label}
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
+                        <SelectWithSearch
+                            options={INDUSTRY_OPTIONS}
+                            value={watch("industry")}
+                            label="Industry"
+                            onChange={(value) => setValue("industry", value)}
+                            disabled={!isEditing}
+                        />
                     </div>
 
                     {/* Company Profile */}
-                    <UrlInput
+                    <UrlAliasInput
                         baseUrl="https://hrgp.io/app/company"
                         urlField="jobOpeningsUrl"
                         isEditing={isEditing}
@@ -144,7 +123,7 @@ const CompanyProfileTab = () => {
                         getValues={getValues}
                     />
 
-                    <UrlInput
+                    <UrlAliasInput
                         baseUrl="https://hrgp.io/app/company"
                         urlField="companyUrl"
                         isEditing={isEditing}
@@ -154,12 +133,12 @@ const CompanyProfileTab = () => {
                     />
                     {/* About Us */}
                     <div className="mb-6">
-                        <InputWithError
+                        <TextareaWithError
                             label="About Us"
                             {...register("aboutUs")}
                             disabled={!isEditing}
                             error={errors.aboutUs?.message}
-                            className={`${!isEditing ? 'bg-gray-50 cursor-not-allowed border-gray-200' : ''}`}
+                            className={`${!isEditing ? 'bg-gray-50 cursor-not-allowed border-gray-200 max-h-[100px]' : ''}`}
                         />
                     </div>
 

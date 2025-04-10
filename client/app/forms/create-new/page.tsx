@@ -1,9 +1,9 @@
 'use client';
 
-import SelectWithSearch from "@/components/inputs/SelectWithSearch";
+import SelectWithSearch from "@/components/form-components/SelectWithSearch";
 import PrivateContainer from "@/components/hoc/PrivateContainer";
 import { Checkbox } from "@/components/ui/checkbox";
-import InputWithError from "@/components/inputs/InputWithError";
+import InputWithError from "@/components/form-components/InputWithError";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 

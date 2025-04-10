@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import Image from "next/image";
-import DatePicker from "@/components/inputs/DatePicker";
+import DatePicker from "@/components/form-components/DatePicker";
 
 const CandidatesPage = () => {
     const [activeOnly, setActiveOnly] = useState(true);

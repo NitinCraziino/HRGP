@@ -2,7 +2,7 @@
 
 import type { FieldErrors, UseFormGetValues, UseFormRegister } from "react-hook-form";
 import type { z } from "zod";
-import type { companyProfileFormSchema } from "./CompanyProfileTab";
+import type { companyProfileFormSchema } from "../page-components/company-profile/CompanyProfileTab";
 import { Button } from "@/components/ui/button";
 import { CopyIcon } from "lucide-react";
 type UrlInputProps = {
@@ -14,7 +14,7 @@ type UrlInputProps = {
     getValues: UseFormGetValues<z.infer<typeof companyProfileFormSchema>>;
 };
 
-const UrlInput = ({ baseUrl, urlField, isEditing, register, errors, getValues }: UrlInputProps) => {
+const UrlAliasInput = ({ baseUrl, urlField, isEditing, register, errors, getValues }: UrlInputProps) => {
     return (
         <div className="mb-6">
             <h3 className="text-sm font-semibold mb-2">Company Profile</h3>
@@ -45,4 +45,4 @@ const UrlInput = ({ baseUrl, urlField, isEditing, register, errors, getValues }:
     );
 };
 
-export default UrlInput;
+export default UrlAliasInput;

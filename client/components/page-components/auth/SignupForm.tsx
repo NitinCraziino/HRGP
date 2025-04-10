@@ -2,19 +2,19 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import InputWithError from "@/components/inputs/InputWithError";
+import InputWithError from "@/components/form-components/InputWithError";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Checkbox } from "@/components/ui/checkbox";
 import { signupSchema, SignupSchemaType } from "@/lib/schema";
-import { PhoneInputComponent } from "@/components/inputs/PhoneInput";
+import { PhoneInputComponent } from "@/components/form-components/PhoneInput";
 import { useState, useCallback } from "react";
 import { cn } from "@/lib/utils";
 import useSignup from "@/hooks/api/auth/useSignup";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import AddressInputs from "./AddressInputs";
-import SelectWithSearch from "@/components/inputs/SelectWithSearch";
+import SelectWithSearch from "@/components/form-components/SelectWithSearch";
 
 const companyTypes = [
     { value: "Cooperative", },
@@ -151,7 +151,7 @@ const SignupForm = () => {
         } catch (error) {
             console.error('error', phone);
         }
-    }, [signup, phone]);
+    }, [signup, phone, router]);
 
     const handleBack = useCallback(() => {
         setTabs(1);

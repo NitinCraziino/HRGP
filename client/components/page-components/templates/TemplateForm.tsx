@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import InputWithError from "@/components/inputs/InputWithError";
-import TextareaWithError from "@/components/inputs/TextAreaWithError";
+import InputWithError from "@/components/form-components/InputWithError";
+import TextareaWithError from "@/components/form-components/TextAreaWithError";
 import { Card, CardContent } from "@/components/ui/card";
 import PrivateContainer from "@/components/hoc/PrivateContainer";
 import { ScrollArea } from "@/components/ui/scroll-area";

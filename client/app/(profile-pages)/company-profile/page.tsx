@@ -9,7 +9,9 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useState } from "react";
 
 const CompanyProfilePage = () => {
+    //eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [profileImage, setProfileImage] = useState<File | null>(null);
+    //eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [bannerImage, setBannerImage] = useState<File | null>(null);
 
     const handleProfileUpload = (file: File) => {

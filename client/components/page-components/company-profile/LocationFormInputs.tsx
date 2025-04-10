@@ -1,5 +1,5 @@
 import { FieldErrors, UseFormRegister, UseFormSetValue, UseFormSetError, useWatch, Control, UseFormGetValues, UseFormWatch } from "react-hook-form";
-import InputWithError from "@/components/inputs/InputWithError";
+import InputWithError from "@/components/form-components/InputWithError";
 import { useEffect, useState } from "react";
 import { getLocationByPostalCode } from "@/lib/api/publicRoutes";
 import useIsLoading from "@/hooks/states/useIsLoading";
@@ -52,7 +52,7 @@ const LocationFormInput = ({
             setValue("city", values.city);
             setValue("postalCode", values.postalCode);
         }
-    }, [values]);
+    }, [values, setValue]);
 
     useEffect(() => {
         if (!postalCode || postalCode.length < 4) return;
@@ -81,7 +81,7 @@ const LocationFormInput = ({
         }, 600); // 600ms debounce
 
         return () => clearTimeout(timeout);
-    }, [postalCode]);
+    }, [postalCode, setValue, isLoading, setIsLoading, setError, values]);
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();

@@ -18,7 +18,7 @@ const TextareaWithError = ({ label, error, className, placeholder, defaultValue,
             {label && <Label className={labelClassName} htmlFor={id}>{label}</Label>}
             <Textarea
                 id={id}
-                className={cn("py-6 px-4 w-full", className)}
+                className={cn("py-2 px-4 w-full", className)}
                 placeholder={placeholder}
                 defaultValue={defaultValue}
                 aria-invalid={error ? true : false}

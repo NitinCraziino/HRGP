@@ -1,6 +1,6 @@
 import { FieldErrors, UseFormRegister, UseFormSetValue, UseFormSetError, useWatch, Control } from "react-hook-form";
 import { SignupSchemaType } from "@/lib/schema";
-import InputWithError from "@/components/inputs/InputWithError";
+import InputWithError from "@/components/form-components/InputWithError";
 import { useEffect, useState } from "react";
 import { getLocationByPostalCode } from "@/lib/api/publicRoutes";
 import useIsLoading from "@/hooks/states/useIsLoading";

@@ -24,11 +24,11 @@ const PaymentPage = () => {
                             <CardContent>
                                 <div className="space-y-6">
                                     <div className="space-y-4">
-                                        <h2 className="font-semibold">Here's how it works:</h2>
+                                        <h2 className="font-semibold">Here&apos;s how it works:</h2>
                                         <ol className="list-decimal list-outside ml-5 text-sm space-y-4">
                                             <li>
                                                 <span className="font-semibold">No Immediate Charges:</span> Enter your credit card details to
-                                                start your trial. Rest assured, you won't be charged anything today.
+                                                start your trial. Rest assured, you won&apos;t be charged anything today.
                                             </li>
                                             <li>
                                                 <span className="font-semibold">Explore for 30 Days:</span> You can access our ATS for 30 days.
@@ -61,7 +61,7 @@ const PaymentPage = () => {
                                                 cancel your trial anytime within 30 days with one click.
                                             </li>
                                             <li>
-                                                <span className="font-semibold">Subscription Post-Trial:</span> If you don't cancel, you'll be
+                                                <span className="font-semibold">Subscription Post-Trial:</span> If you don&apos;t cancel, you&apos;ll be
                                                 charged $99 on the 31st day. This first charge will be prorated. Subsequent charges will occur on
                                                 the 1st of each month.
                                             </li>
