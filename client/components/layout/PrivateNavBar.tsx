@@ -1,18 +1,33 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Mail } from "lucide-react";
 import { SidebarProvider, SidebarTrigger } from "./PrivateSideBar";
 import DropdownNavItem from "./DropDownNavItem";
-import ActionIcon from "./ActionIcon";
+import ActionIcon from "./NavBarActionIcon";
 import { ATS_ITEMS, EMS_ITEMS, HISTORY_ITEMS, TOOLS_ITEMS } from "@/constants/nav";
 import useIsPublicRoutes from "@/hooks/useIsPublicRoutes";
+import useAuth from "@/hooks/states/useAuth";
 
 const PrivateNavBar = () => {
+    const { userToken } = useAuth();
+    const [isLoading, setIsLoading] = useState(true);
     const isPublicRoute = useIsPublicRoutes();
     const [openDropdown, setOpenDropdown] = useState<"ATS" | "EMS" | "CALENDAR" | "HISTORY" | "TOOLS" | null>(null);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setIsLoading(false);
+        }, 0);
+
+        return () => clearTimeout(timer);
+    }, []);
+
+    if (isLoading) return null;
+    if (isPublicRoute || !userToken) return null;
+
     const handleCloseDropdown = () => {
         setOpenDropdown(null);
     };
@@ -21,7 +36,7 @@ const PrivateNavBar = () => {
         setOpenDropdown(dropdown);
     };
 
-    if (isPublicRoute) return null;
+
     return (
         <>
             <SidebarProvider>
@@ -149,7 +164,9 @@ const PrivateNavBar = () => {
                                                     width={20}
                                                     height={20}
                                                 />
-                                            } />
+                                            }
+
+                                        />
                                     </div>
                                 </div>
                             </div>

@@ -62,7 +62,7 @@ const PaymentForm = ({ setIsPaymentSuccess }: { setIsPaymentSuccess: (isPaymentS
                 userId: user.userId
             }, {
                 onError: (error: any) => {
-                    const message = error.response.data.message || "Something wend wrong";
+                    const message = error.message || "Something wend wrong";
                     setErrorMessage(message);
                     toast.error(message);
                 },

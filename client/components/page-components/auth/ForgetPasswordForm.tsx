@@ -73,7 +73,7 @@ const ForgetPasswordForm = () => {
                 toast.success("Verification code sent to your email");
             },
             onError: (error: any) => {
-                toast.error(error.response.data.message || "Something went wrong");
+                toast.error(error.message || "Something went wrong");
             }
         });
     }, [resendVerificationCode, getValues]);
@@ -96,7 +96,7 @@ const ForgetPasswordForm = () => {
                         setOtpExpiryTime(60);
                     },
                     onError: (error: any) => {
-                        const errorMessage = error.response.data.message || "Something went wrong";
+                        const errorMessage = error.message || "Something went wrong";
                         setError("email", { message: errorMessage });
                         toast.error(errorMessage);
                     }
@@ -116,7 +116,7 @@ const ForgetPasswordForm = () => {
                         toast.success("Verification code verified");
                     },
                     onError: (error: any) => {
-                        const errorMessage = error.response.data.message || "Something went wrong";
+                        const errorMessage = error.message || "Something went wrong";
                         setError("otp", { message: errorMessage });
                         toast.error(errorMessage);
                     }
@@ -137,7 +137,7 @@ const ForgetPasswordForm = () => {
                         router.push("/signin");
                     },
                     onError: (error: any) => {
-                        const errorMessage = error.response.data.message || "Something went wrong";
+                        const errorMessage = error.message || "Something went wrong";
                         setError("password", { message: errorMessage });
                         toast.error(errorMessage);
                     }

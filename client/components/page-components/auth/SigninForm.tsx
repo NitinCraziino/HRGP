@@ -30,12 +30,6 @@ const SigninForm = () => {
 
     const onSubmit = (data: z.infer<typeof signinSchema>) => {
         signin(data, {
-            onSuccess: () => {
-                router.push("/");
-                toast.success("Login successful", {
-                    icon: "🔑"
-                });
-            },
             onError: (error: any) => {
                 const message = error.response?.data?.message || "Something went wrong";
                 toast.error(message);

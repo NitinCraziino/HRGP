@@ -18,6 +18,15 @@ api.interceptors.request.use((config) => {
     return config;
 });
 
+api.interceptors.response.use(
+    (response) => response,
+    (error) => {
+        error.statusCode = error.response?.status;
+        error.userMessage = error.response?.data?.message || "An error occurred";
+        return Promise.reject(error);
+    }
+);
+
 export default api;
 
 export const GET = async <T>({ route, params, url }: GetParams) => {

@@ -27,7 +27,6 @@ export interface IUser {
     stripeCustomerId?: string;
 }
 
-
 export interface ICompany {
     companyId: string;
     companyName: string;
@@ -59,7 +58,6 @@ export interface AuthStateCompany {
     companyType: string;
     industryId: string;
 }
-
 
 export type TemplateType = "text" | "email";
 
@@ -93,6 +91,5 @@ export type Card = {
     cardHolderName: string;
     isPrimary: boolean;
 };
-
 
 export type SizeVariant = "xs" | "sm" | "md" | "lg";

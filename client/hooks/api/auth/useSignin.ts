@@ -3,6 +3,8 @@ import useAuth from "@/hooks/states/useAuth";
 import { POST } from "@/lib/api";
 import { PostRoutes } from "@/types/api/PostRoutes";
 import { AuthStateCompany, AuthStateUser } from "@/types";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 interface SigninData {
     email: string;
@@ -19,6 +21,7 @@ const useSignin = () => {
     const setUserToken = useAuth((state) => state.setUserToken);
     const setUser = useAuth((state) => state.setUser);
     const setCompany = useAuth((state) => state.setCompany);
+    const router = useRouter();
 
     return useMutation({
         mutationFn: async (data: SigninData) => {
@@ -29,9 +32,15 @@ const useSignin = () => {
             return response;
         },
         onSuccess: (data) => {
+            toast.success("Login successful", {
+                icon: "🔑"
+            });
             setUserToken(data.token);
             setUser(data.user);
             setCompany(data.company);
+            setTimeout(() => {
+                router.push("/applications");
+            }, 0);
         }
     });
 };

@@ -1,8 +1,15 @@
 import Link from "next/link";
+import useAuth from "@/hooks/states/useAuth";
+import { useRouter } from "next/navigation";
 
-const ActionIcon = ({ icon, link }: { icon: React.ReactNode; link: string; }) => {
+const NavBarActionIcon = ({ icon, link }: { icon: React.ReactNode; link: string; }) => {
+    const { logout } = useAuth();
+    const router = useRouter();
     const handleLogout = () => {
-        console.log('logout');
+        logout();
+        setTimeout(() => {
+            router.push("/signin");
+        }, 0);
     };
     if (link === '/logout') {
         return (
@@ -23,4 +30,4 @@ const ActionIcon = ({ icon, link }: { icon: React.ReactNode; link: string; }) =>
     );
 };
 
-export default ActionIcon;
+export default NavBarActionIcon;
