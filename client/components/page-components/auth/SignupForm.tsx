@@ -2,60 +2,60 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { InputWithError } from "@/components/ui/input";
+import InputWithError from "@/components/inputs/InputWithError";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Checkbox } from "@/components/ui/checkbox";
 import { signupSchema, SignupSchemaType } from "@/lib/schema";
-import { PhoneInputComponent } from "@/components/ui/phoneinput";
+import { PhoneInputComponent } from "@/components/inputs/PhoneInput";
 import { useState, useCallback } from "react";
 import { cn } from "@/lib/utils";
-import MultipleSelector from "@/components/ui/multiselect";
 import useSignup from "@/hooks/api/auth/useSignup";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import AddressInputs from "./AddressInputs";
+import SelectWithSearch from "@/components/inputs/SelectWithSearch";
 
 const companyTypes = [
-    { value: "Cooperative", label: "Cooperative" },
-    { value: "Corporation", label: "Corporation" },
-    { value: "Educational Institution", label: "Educational Institution" },
-    { value: "Government Agency", label: "Government Agency" },
-    { value: "Individual", label: "Individual" },
-    { value: "Limited Liability Company", label: "Limited Liability Company" },
-    { value: "Non-Government Organization", label: "Non-Government Organization" },
-    { value: "Non-Profit Organization", label: "Non-Profit Organization" },
-    { value: "Partnership", label: "Partnership" },
-    { value: "Sole Proprietorship", label: "Sole Proprietorship" }
+    { value: "Cooperative", },
+    { value: "Corporation" },
+    { value: "Educational Institution" },
+    { value: "Government Agency" },
+    { value: "Individual" },
+    { value: "Limited Liability Company" },
+    { value: "Non-Government Organization" },
+    { value: "Non-Profit Organization" },
+    { value: "Partnership" },
+    { value: "Sole Proprietorship" }
 ];
 
 // Sample industries
 const industries = [
-    { value: "1", label: "Accounting" },
-    { value: "2", label: "Airlines And Aviation" },
-    { value: "3", label: "Alternative Dispute Resolution" },
-    { value: "4", label: "Alternative Medicine" },
-    { value: "5", label: "Animation" },
-    { value: "6", label: "Apparel And Fashion" },
-    { value: "7", label: "Architecture And Planning" },
-    { value: "8", label: "Arts And Crafts" },
-    { value: "9", label: "Automotive" }
+    { value: "Accounting" },
+    { value: "Airlines And Aviation" },
+    { value: "Alternative Dispute Resolution" },
+    { value: "Alternative Medicine" },
+    { value: "Animation" },
+    { value: "Apparel And Fashion" },
+    { value: "Architecture And Planning" },
+    { value: "Arts And Crafts" },
+    { value: "Automotive" }
 ];
 
 const companies = [
-    { value: "1", label: "Company 1" },
-    { value: "2", label: "Company 2" },
-    { value: "3", label: "Company 3" },
-    { value: "4", label: "Company 4" },
-    { value: "5", label: "Company 5" }
+    { value: "Company 1" },
+    { value: "Company 2" },
+    { value: "Company 3" },
+    { value: "Company 4" },
+    { value: "Company 5" }
 ];
 
 const positions = [
-    { value: "1", label: "Position 1" },
-    { value: "2", label: "Position 2" },
-    { value: "3", label: "Position 3" },
-    { value: "4", label: "Position 4" },
-    { value: "5", label: "Position 5" }
+    { value: "Position 1" },
+    { value: "Position 2" },
+    { value: "Position 3" },
+    { value: "Position 4" },
+    { value: "Position 5" }
 ];
 
 const SignupForm = () => {
@@ -73,7 +73,8 @@ const SignupForm = () => {
         setValue,
         trigger,
         setError,
-        control
+        control,
+        watch
     } = useForm({
         resolver: zodResolver(signupSchema),
         defaultValues: {
@@ -167,14 +168,14 @@ const SignupForm = () => {
                                 error={errors.firstName?.message}
                                 type="text"
                                 placeholder="First Name"
-                                className="py-6 px-4 w-full"
+                                variant="md"
                                 {...register("firstName")}
                             />
                             <InputWithError
                                 error={errors.lastName?.message}
                                 type="text"
                                 placeholder="Last Name"
-                                className="py-6 px-4 w-full"
+                                variant="md"
                                 {...register("lastName")}
                             />
                         </div>
@@ -183,7 +184,7 @@ const SignupForm = () => {
                             error={errors.email?.message}
                             type="email"
                             placeholder="Email"
-                            className="py-6 px-4 w-full"
+                            variant="md"
                             {...register("email")}
                         />
 
@@ -192,14 +193,14 @@ const SignupForm = () => {
                                 error={errors.password?.message}
                                 type="password"
                                 placeholder="Password"
-                                className="py-6 px-4 w-full"
+                                variant="md"
                                 {...register("password")}
                             />
                             <InputWithError
                                 error={errors.confirmPassword?.message}
                                 type="password"
                                 placeholder="Confirm Password"
-                                className="py-6 px-4 w-full"
+                                variant="md"
                                 {...register("confirmPassword")}
                             />
                         </div>
@@ -248,30 +249,37 @@ const SignupForm = () => {
                     <div className="space-y-4">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
                             <div className="w-full">
-                                <MultipleSelector
+                                <SelectWithSearch
                                     options={companies}
+                                    value={watch("companyName")}
+                                    label="Company Name"
                                     placeholder="Select Company"
-                                    defaultOptions={companies}
-                                    onChange={(values) => setValue("companyName", values[0]?.value)}
-                                    creatable
-                                    maxSelected={1}
-                                    hidePlaceholderWhenSelected
-                                    emptyIndicator={<p className="text-gray-500 text-sm">No company found</p>}
+                                    onChange={(value) => setValue("companyName", value)}
+                                    size="md"
+                                    isCreatable
+                                    onCreateOption={(value) => {
+                                        setValue("companyName", value);
+                                        companies.push({ value });
+                                    }}
+                                    error={errors.companyName?.message}
+
                                 />
-                                {errors.companyName?.message && (
-                                    <p className="text-red-500 text-xs mt-2 font-medium">{errors.companyName?.message}</p>
-                                )}
                             </div>
                             <div className="w-full">
-                                <MultipleSelector
+                                <SelectWithSearch
+                                    value={watch("positionTitle")}
+                                    label="Position Title"
                                     options={positions}
                                     placeholder="Select Position"
-                                    defaultOptions={positions}
-                                    onChange={(values) => setValue("positionTitle", values[0]?.value)}
-                                    creatable
-                                    hidePlaceholderWhenSelected
-                                    maxSelected={1}
-                                    emptyIndicator={<p className="text-gray-500 text-sm">No position found</p>}
+                                    size="md"
+                                    onChange={(value) => setValue("positionTitle", value)}
+                                    isCreatable
+                                    onCreateOption={(value) => {
+                                        setValue("positionTitle", value);
+                                        positions.push({ value });
+                                    }}
+                                    emptyIndicator="No position found"
+                                    error={errors.positionTitle?.message}
                                 />
                                 {errors.positionTitle?.message && (
                                     <p className="text-red-500 text-xs mt-2 font-medium">{errors.positionTitle?.message}</p>
@@ -280,34 +288,36 @@ const SignupForm = () => {
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
                             <div className="w-full">
-                                <MultipleSelector
+                                <SelectWithSearch
+                                    label="Industry"
                                     options={industries}
                                     placeholder="Select Industry"
-                                    defaultOptions={industries}
-                                    hidePlaceholderWhenSelected
-                                    onChange={(values) => setValue("industry", values[0]?.value)}
-                                    creatable
-                                    maxSelected={1}
-                                    emptyIndicator={<p className="text-gray-500 text-sm">No industry found</p>}
+                                    value={watch("industry")}
+                                    onChange={(value) => setValue("industry", value)}
+                                    isCreatable
+                                    onCreateOption={(value) => {
+                                        setValue("industry", value);
+                                        industries.push({ value });
+                                    }}
+                                    error={errors.industry?.message}
+                                    size="md"
                                 />
-                                {errors.industry?.message && (
-                                    <p className="text-red-500 text-xs mt-2 font-medium">{errors.industry?.message}</p>
-                                )}
                             </div>
                             <div className="w-full">
-                                <MultipleSelector
+                                <SelectWithSearch
+                                    label="Company Type"
                                     options={companyTypes}
                                     placeholder="Select Company Type"
-                                    defaultOptions={companyTypes}
-                                    onChange={(values) => setValue("companyType", values[0]?.value)}
-                                    creatable
-                                    hidePlaceholderWhenSelected
-                                    maxSelected={4}
-                                    emptyIndicator={<p className="text-gray-500 text-sm">No company type found</p>}
+                                    value={watch("companyType")}
+                                    onChange={(value) => setValue("companyType", value)}
+                                    isCreatable
+                                    onCreateOption={(value) => {
+                                        setValue("companyType", value);
+                                        companyTypes.push({ value });
+                                    }}
+                                    error={errors.companyType?.message}
+                                    size="md"
                                 />
-                                {errors.companyType?.message && (
-                                    <p className="text-red-500 text-xs mt-2 font-medium">{errors.companyType?.message}</p>
-                                )}
                             </div>
                             <AddressInputs
                                 register={register}
@@ -315,6 +325,7 @@ const SignupForm = () => {
                                 setValue={setValue}
                                 setError={setError}
                                 control={control}
+                                variant="sm"
                             />
                         </div>
 

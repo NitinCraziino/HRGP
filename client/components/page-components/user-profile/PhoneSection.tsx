@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import EditButton from "./EditButton";
-import { PhoneInputComponent } from "@/components/ui/phoneinput";
+import { PhoneInputComponent } from "@/components/inputs/PhoneInput";
 import { DataTable } from "@/components/common/DataTable";
 import { Column } from "@/types/props";
 

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { InputWithError } from "@/components/ui/input";
+import InputWithError from "@/components/inputs/InputWithError";
 import { Checkbox } from "@/components/ui/checkbox";
 import EditButton from "./EditButton";
 import { DataTable } from "@/components/common/DataTable";

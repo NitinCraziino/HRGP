@@ -50,9 +50,9 @@ const UserProfilePage = () => {
                     />
                     <PhoneSection
                         initialPhones={[
-                            { phone: "+12345w67890", isPrimary: true },
-                            { phone: "+12345678ss90", isPrimary: false },
-                            { phone: "+12345678190", isPrimary: false },
+                            { phone: "+1234527890", isPrimary: true },
+                            { phone: "+12345678290", isPrimary: false },
+                            { phone: "+1234567190", isPrimary: false },
                         ]}
                     />
                 </div>

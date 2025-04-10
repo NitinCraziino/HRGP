@@ -1,4 +1,4 @@
-import { InputWithError } from "@/components/ui/input";
+import InputWithError from "@/components/inputs/InputWithError";
 import { useState } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";

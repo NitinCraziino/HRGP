@@ -1,5 +1,5 @@
 import { FieldErrors, UseFormRegister, UseFormSetValue, UseFormSetError, useWatch, Control, UseFormGetValues, UseFormWatch } from "react-hook-form";
-import { InputWithError } from "@/components/ui/input";
+import InputWithError from "@/components/inputs/InputWithError";
 import { useEffect, useState } from "react";
 import { getLocationByPostalCode } from "@/lib/api/publicRoutes";
 import useIsLoading from "@/hooks/states/useIsLoading";

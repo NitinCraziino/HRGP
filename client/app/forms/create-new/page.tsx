@@ -1,9 +1,9 @@
 'use client';
 
-import SelectWithSearch from "@/components/common/inputs/SelectWithSearch";
+import SelectWithSearch from "@/components/inputs/SelectWithSearch";
 import PrivateContainer from "@/components/hoc/PrivateContainer";
 import { Checkbox } from "@/components/ui/checkbox";
-import { InputWithError } from "@/components/ui/input";
+import InputWithError from "@/components/inputs/InputWithError";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 
@@ -41,7 +41,7 @@ const page = () => {
                                 options={formTypes}
                                 onChange={(value) => setFormType(value)}
                                 value={formType}
-                                noItemsText="No form types found"
+                                emptyIndicator="No form types found"
                                 label="Select a form type"
                             />
                             <div className="flex items-center gap-2 mt-2">

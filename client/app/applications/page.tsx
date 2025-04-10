@@ -6,10 +6,11 @@ import { useState } from "react";
 import { Search, UserRoundPlusIcon } from "lucide-react";
 import PrivateContainer from "@/components/hoc/PrivateContainer";
 import { Button } from "@/components/ui/button";
-import { Input, DatePicker } from "@/components/ui/input";
+import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import Image from "next/image";
+import DatePicker from "@/components/inputs/DatePicker";
 
 const CandidatesPage = () => {
     const [activeOnly, setActiveOnly] = useState(true);

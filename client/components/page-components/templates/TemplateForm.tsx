@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { InputWithError } from "@/components/ui/input";
-import { TextareaWithError } from "@/components/ui/textarea";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import InputWithError from "@/components/inputs/InputWithError";
+import TextareaWithError from "@/components/inputs/TextAreaWithError";
+import { Card, CardContent } from "@/components/ui/card";
 import PrivateContainer from "@/components/hoc/PrivateContainer";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useRouter } from "next/navigation";
@@ -99,11 +99,11 @@ const TemplateForm = ({ initialData, isEditing = false }: TemplateFormProps) => 
                                     <div>
                                         <InputWithError
                                             label="Template Name"
-                                            id="template-name"
                                             value={templateName}
                                             onChange={(e) => setTemplateName(e.target.value)}
                                             placeholder="Test template"
                                             className="mt-1"
+                                            variant="sm"
                                             required
                                         />
                                     </div>
@@ -111,7 +111,6 @@ const TemplateForm = ({ initialData, isEditing = false }: TemplateFormProps) => 
                                     <div>
                                         <TextareaWithError
                                             label="Message Text"
-                                            id="message-text"
                                             value={messageText}
                                             onChange={(e) => setMessageText(e.target.value)}
                                             placeholder="Hi [RecipientFirstName], it's [SenderFirstName] [SenderLastName] with [CompanyName]. Are you still considering your career options?"

@@ -3,7 +3,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { InputWithError } from "@/components/ui/input";
+import InputWithError from "@/components/inputs/InputWithError";
 import Link from "next/link";
 import { Checkbox } from "@/components/ui/checkbox";
 import { signinSchema } from "@/lib/schema";

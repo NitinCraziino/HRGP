@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback, memo } from "react";
-import { InputWithError } from "@/components/ui/input";
+import InputWithError from "@/components/inputs/InputWithError";
 import ButtonWithLoading from "@/components/common/ButtonWithLoading";
 import useForgotPassword from "@/hooks/api/auth/useForgotPassword";
 import useResendVerificationCode from "@/hooks/api/auth/useResendVerificationCode";

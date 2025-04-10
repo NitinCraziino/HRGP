@@ -1,6 +1,6 @@
 import { FieldErrors, UseFormRegister, UseFormSetValue, UseFormSetError, useWatch, Control } from "react-hook-form";
 import { SignupSchemaType } from "@/lib/schema";
-import { InputWithError } from "@/components/ui/input";
+import InputWithError from "@/components/inputs/InputWithError";
 import { useEffect, useState } from "react";
 import { getLocationByPostalCode } from "@/lib/api/publicRoutes";
 import useIsLoading from "@/hooks/states/useIsLoading";
@@ -11,9 +11,10 @@ type AddressInputsProps = {
     setValue: UseFormSetValue<SignupSchemaType>;
     setError: UseFormSetError<SignupSchemaType>;
     control: Control<SignupSchemaType>;
+    variant?: "xs" | "sm" | "md" | "lg";
 };
 
-const AddressInputs = ({ register, errors, setValue, setError, control }: AddressInputsProps) => {
+const AddressInputs = ({ register, errors, setValue, setError, control, variant = "md" }: AddressInputsProps) => {
     const [isDisabled, setIsDisabled] = useState(false);
     const setIsLoading = useIsLoading((state) => state.setIsLoading);
 
@@ -54,28 +55,28 @@ const AddressInputs = ({ register, errors, setValue, setError, control }: Addres
                 label="Postal Code"
                 error={errors.postalCode?.message}
                 placeholder="Postal Code"
-                className="py-0 px-4 w-full"
+                variant={variant}
                 {...register("postalCode")}
             />
             <InputWithError
                 label="Address"
                 error={errors.address?.message}
                 placeholder="Address"
-                className="py-0 px-4 w-full"
+                variant={variant}
                 {...register("address")}
             />
             <InputWithError
                 label="City"
                 error={errors.city?.message}
                 placeholder="City"
-                className="py-0 px-4 w-full"
+                variant={variant}
                 {...register("city")}
             />
             <InputWithError
                 label="State"
                 error={errors.state?.message}
                 placeholder="State"
-                className="py-0 px-4 w-full"
+                variant={variant}
                 {...register("state")}
                 disabled={isDisabled}
             />
@@ -83,7 +84,7 @@ const AddressInputs = ({ register, errors, setValue, setError, control }: Addres
                 label="Country"
                 error={errors.country?.message}
                 placeholder="Country"
-                className="py-0 px-4 w-full"
+                variant={variant}
                 {...register("country")}
                 disabled={isDisabled}
             />

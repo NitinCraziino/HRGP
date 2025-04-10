@@ -5,7 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Pencil, Copy, Check } from "lucide-react";
 import { useState } from "react";
 import LocationsSection from "./LocationsSection";
-import { InputWithError } from "@/components/ui/input";
+import InputWithError from "@/components/inputs/InputWithError";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";

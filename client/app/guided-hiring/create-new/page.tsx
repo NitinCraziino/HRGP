@@ -5,7 +5,7 @@ import { InputWithError } from '@/components/ui/input';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import MultipleSelector from '@/components/ui/multiselect';
+import MultipleSelector from '@/components/inputs/MultiSelect';
 import { Label } from '@/components/ui/label';
 const page = () => {
     const [positionTitle, setPositionTitle] = useState<string[]>([]);

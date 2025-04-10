@@ -8,8 +8,10 @@ import { SidebarProvider, SidebarTrigger } from "./PrivateSideBar";
 import DropdownNavItem from "./DropDownNavItem";
 import ActionIcon from "./ActionIcon";
 import { ATS_ITEMS, EMS_ITEMS, HISTORY_ITEMS, TOOLS_ITEMS } from "@/constants/nav";
+import useIsPublicRoutes from "@/hooks/useIsPublicRoutes";
 
 const PrivateNavBar = () => {
+    const isPublicRoute = useIsPublicRoutes();
     const [openDropdown, setOpenDropdown] = useState<"ATS" | "EMS" | "CALENDAR" | "HISTORY" | "TOOLS" | null>(null);
     const handleCloseDropdown = () => {
         setOpenDropdown(null);
@@ -19,6 +21,7 @@ const PrivateNavBar = () => {
         setOpenDropdown(dropdown);
     };
 
+    if (isPublicRoute) return null;
     return (
         <>
             <SidebarProvider>

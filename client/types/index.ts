@@ -93,3 +93,6 @@ export type Card = {
     cardHolderName: string;
     isPrimary: boolean;
 };
+
+
+export type SizeVariant = "xs" | "sm" | "md" | "lg";
