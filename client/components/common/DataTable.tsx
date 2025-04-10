@@ -149,14 +149,14 @@ export function DataTable<T>({
         <div className={cn("border rounded-none overflow-hidden", className)}>
             <div className="overflow-x-auto">
                 <Table className={cn("w-full", tableClassName)}>
-                    <TableHeader className={cn("bg-gray-200 hover:bg-gray-200", headerClassName)}>
+                    <TableHeader className={cn("bg-gray-100 hover:bg-gray-200", headerClassName)}>
                         <TableRow>
                             {columns.map((column, index) => (
-                                <TableHead key={index} className={cn("p-4 font-medium text-gray-600", column.className)}>
+                                <TableHead key={index} className={cn("p-4 font-bold text-gray-600", column.className)}>
                                     {column.header}
                                 </TableHead>
                             ))}
-                            {hasActions && <TableHead className="p-4 font-medium text-gray-600 text-center">Actions</TableHead>}
+                            {hasActions && <TableHead className="p-4 font-bold text-gray-600 text-center">Actions</TableHead>}
                         </TableRow>
                     </TableHeader>
                     <TableBody>

@@ -7,43 +7,19 @@ import { Switch } from "@/components/ui/switch";
 import { Role } from "@/types";
 import ConfirmDeleteDialog from "@/components/common/ConfirmDeleteDialog";
 
-const roles: Role[] = [
-    {
-        id: "1",
-        name: "Administrator",
-        hasHelp: true,
-        isOn: true,
-        permissions: {
-            ATS: "true",
-            EMS: "true",
-            FILES: "true",
-            TOOLS: "true",
-        },
-    },
-    {
-        id: "2",
-        name: "Editor",
-        hasHelp: false,
-        isOn: false,
-        permissions: {
-            ATS: "false",
-            EMS: "false",
-            FILES: "false",
-            TOOLS: "false",
-        },
-    },
-    {
-        id: "3",
-        name: "Viewer",
-        hasHelp: true,
-        isOn: true,
-        permissions: {
-            ATS: "true",
-            EMS: "true",
-            FILES: "true",
-            TOOLS: "true",
-        },
-    },
+const roles = [
+    { id: "1", name: "Company Admin", isOn: true, permissions: { ATS: "Full Access", EMS: "Full Access", FILES: "Full Access", TOOLS: "Full Access" } },
+    { id: "2", name: "Company Employee", isOn: true, hasHelp: true, permissions: { ATS: "Full Access", EMS: "Full Access", FILES: "Full Access", TOOLS: "Full Access" } },
+    { id: "3", name: "Minimal Access to Files", isOn: false, permissions: { ATS: "Full Access", EMS: "Full Access", FILES: "Full Access", TOOLS: "Full Access" } },
+    { id: "4", name: "Developers", isOn: true, permissions: { ATS: "Full Access", EMS: "Full Access", FILES: "Full Access", TOOLS: "Full Access" } },
+    { id: "5", name: "Limited Access to Files", isOn: true, permissions: { ATS: "Full Access", EMS: "Full Access", FILES: "Full Access", TOOLS: "Full Access" } },
+    { id: "6", name: "No Access to Files", isOn: true, permissions: { ATS: "Full Access", EMS: "Full Access", FILES: "Full Access", TOOLS: "Full Access" } },
+    { id: "7", name: "Full Access to ATS Only", isOn: true, permissions: { ATS: "Full Access", EMS: "Full Access", FILES: "Full Access", TOOLS: "Full Access" } },
+    { id: "8", name: "Full Access to EMS Only", isOn: true, permissions: { ATS: "Full Access", EMS: "Full Access", FILES: "Full Access", TOOLS: "Full Access" } },
+    { id: "9", name: "Limited Access to EMS Only", isOn: true, permissions: { ATS: "Full Access", EMS: "Full Access", FILES: "Full Access", TOOLS: "Full Access" } },
+    { id: "10", name: "Full Access to ATS & EMS Only", isOn: true, permissions: { ATS: "Full Access", EMS: "Full Access", FILES: "Full Access", TOOLS: "Full Access" } },
+    { id: "11", name: "No Access Period", isOn: true, permissions: { ATS: "Full Access", EMS: "Full Access", FILES: "Full Access", TOOLS: "Full Access" } },
+    { id: "12", name: "Access to Files/Tools, No Access to ATS/EMS", isOn: true, permissions: { ATS: "Full Access", EMS: "Full Access", FILES: "Full Access", TOOLS: "Full Access" } },
 ];
 
 const RolesList = () => {

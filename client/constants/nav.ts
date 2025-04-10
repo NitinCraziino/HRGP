@@ -1,6 +1,6 @@
 export const ATS_ITEMS = [
     { label: "Job Postings", link: "/job-postings" },
-    { label: "Guided Hiring", link: "/guided-hiring" },
+    { label: "Guided Hiring Workflows", link: "/guided-hiring" },
     { label: "Applicants", link: "/applications" },
     { label: "Sourcing Report", link: "/sourcing-report" }
 ];
