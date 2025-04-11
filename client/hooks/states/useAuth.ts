@@ -36,6 +36,7 @@ const useAuth = create<AuthState>((set) => {
             set({ isAuthenticated: false, userToken: null, user: null });
             localStorage.removeItem("userToken");
             localStorage.removeItem("user");
+            localStorage.removeItem("company");
         },
 
         setUser: (user) => {

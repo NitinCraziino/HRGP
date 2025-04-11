@@ -5,7 +5,7 @@ import { CustomError, UnauthorizedError } from "../types/CustomError";
 
 export default class JwtService {
     createToken(payload: TokenPayload): string {
-        const exp = NODE_ENV === 'production' ? "7h" : "1m";
+        const exp = NODE_ENV === 'production' ? "7h" : "10d";
         return sign(payload, TOKEN_SECRET, { expiresIn: exp });
     }
 
