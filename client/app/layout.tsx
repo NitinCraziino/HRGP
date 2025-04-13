@@ -12,7 +12,7 @@ const RootLayout = ({ children }: RootLayoutProps) => {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} antialiased `}
+        className={`${geistSans.variable} antialiased overflow-auto`}
       >
         <Providers>
           {children}
