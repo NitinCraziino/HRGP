@@ -396,7 +396,7 @@ export function DataTable<T>({
                                                             onClick={() => actions.delete?.onClick(item)}
                                                             disabled={actions.delete.isDisabled?.(item)}
                                                         >
-                                                            <i className="fas fa-trash"></i>
+                                                            <i className="fas fa-trash-alt"></i>
                                                         </Button>
                                                     )}
                                                     {actions?.custom &&

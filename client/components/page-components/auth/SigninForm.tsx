@@ -8,12 +8,10 @@ import Link from "next/link";
 import { Checkbox } from "@/components/ui/checkbox";
 import { signinSchema } from "@/lib/schema";
 import useSignin from "@/hooks/api/auth/useSignin";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import ButtonWithLoading from "@/components/common/ButtonWithLoading";
 
 const SigninForm = () => {
-    const router = useRouter();
     const {
         register,
         handleSubmit,

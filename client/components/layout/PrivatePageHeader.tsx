@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useMemo } from "react";
+import { memo, useMemo } from "react";
 import Link from "next/link";
 import { APPLICATION_LINKS } from "@/constants/nav";
 
@@ -119,4 +119,4 @@ const PrivatePageHeader = ({
     );
 };
 
-export default PrivatePageHeader;
+export default memo(PrivatePageHeader);

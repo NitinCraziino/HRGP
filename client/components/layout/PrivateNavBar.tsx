@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Mail } from "lucide-react";
@@ -10,13 +10,16 @@ import ActionIcon from "./NavBarActionIcon";
 import { ATS_ITEMS, EMS_ITEMS, HISTORY_ITEMS, TOOLS_ITEMS } from "@/constants/nav";
 import useIsPublicRoutes from "@/hooks/useIsPublicRoutes";
 import useAuth from "@/hooks/states/useAuth";
-
+import ConfirmLogoutDialog from "@/components/common/ConfirmLogoutDialog";
 const PrivateNavBar = () => {
     const { userToken } = useAuth();
     const [isLoading, setIsLoading] = useState(true);
     const isPublicRoute = useIsPublicRoutes();
     const [openDropdown, setOpenDropdown] = useState<"ATS" | "EMS" | "CALENDAR" | "HISTORY" | "TOOLS" | null>(null);
-
+    const [isConfirmLogoutOpen, setIsConfirmLogoutOpen] = useState(false);
+    const handleLogout = () => {
+        setIsConfirmLogoutOpen(true);
+    };
     useEffect(() => {
         const timer = setTimeout(() => {
             setIsLoading(false);
@@ -114,7 +117,7 @@ const PrivateNavBar = () => {
 
                                 {/* User and Action Icons */}
                                 <div className="flex items-center pr-4 sm:pr-2">
-                                    <Link href={'/user-profile'} className="flex items-center mr-4">
+                                    <Link href={'/user-profile'} className="flex items-center mr-4 cursor-pointer">
                                         <div className="flex items-center space-x-2 text-xs sm:text-sm">
                                             <div className="rounded-full h-8 w-8 flex items-center justify-center">
                                                 <Image
@@ -125,7 +128,7 @@ const PrivateNavBar = () => {
                                                     className="rounded-full"
                                                 />
                                             </div>
-                                            <span className="text-xs sm:text-sm font-medium">Minimal Access</span>
+                                            <span className="text-xs sm:text-sm font-medium cursor-pointer">Minimal Access</span>
                                         </div>
                                     </Link>
                                     <div className="flex items-center space-x-2">
@@ -155,18 +158,17 @@ const PrivateNavBar = () => {
                                                     height={20}
                                                 />
                                             } />
-                                        <ActionIcon
-                                            link="/logout"
-                                            icon={
-                                                <Image
-                                                    src="/assets/icons/leave.svg"
-                                                    alt="Leave"
-                                                    width={20}
-                                                    height={20}
-                                                />
-                                            }
-
-                                        />
+                                        <button
+                                            className="p-1 sm:p-2 rounded-full bg-white text-[#111836] hover:bg-gray-200 cursor-pointer"
+                                            onClick={handleLogout}
+                                        >
+                                            <Image
+                                                src="/assets/icons/leave.svg"
+                                                alt="Leave"
+                                                width={20}
+                                                height={20}
+                                            />
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -174,10 +176,14 @@ const PrivateNavBar = () => {
                     </div>
                 </header>
             </SidebarProvider>
+            <ConfirmLogoutDialog
+                isOpen={isConfirmLogoutOpen}
+                onOpenChange={setIsConfirmLogoutOpen}
+            />
         </>
     );
 };
 
-export default PrivateNavBar;
+export default memo(PrivateNavBar);
 
 

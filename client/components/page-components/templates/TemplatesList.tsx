@@ -25,7 +25,7 @@ const TemplatesList = ({ templates }: TemplatesListProps) => {
                 actions={{
                     custom: [
                         {
-                            icon: <Pencil className="h-4 w-4" />,
+                            icon: <i className="fas fa-pencil-alt"></i>,
                             onClick: (template) => {
                                 window.location.href = `/edit-template/${template.id}`;
                             },

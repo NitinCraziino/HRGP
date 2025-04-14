@@ -33,7 +33,9 @@ const useSignin = () => {
         },
         onSuccess: (data) => {
             toast.success("Login successful", {
-                icon: "🔑"
+                icon: "🔑",
+                duration: 3000,
+                position: "top-center"
             });
             setUserToken(data.token);
             setUser(data.user);
