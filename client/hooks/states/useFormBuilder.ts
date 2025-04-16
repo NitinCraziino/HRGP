@@ -10,6 +10,7 @@ type Form = {
     deleted: boolean;
     title: string;
     category: string;
+    formData?: {};
 };
 
 type FormBuilderStates = {
