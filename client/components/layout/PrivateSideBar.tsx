@@ -68,10 +68,10 @@ const SidebarContext = React.createContext<{
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }>({
   open: false,
-  setOpen: () => {},
+  setOpen: () => { },
 });
 
-export function SidebarProvider({ children }: { children: React.ReactNode }) {
+export function SidebarProvider({ children }: { children: React.ReactNode; }) {
   const [open, setOpen] = useState(false);
   const [expandedItems, setExpandedItems] = useState<Record<string, boolean>>({});
 
@@ -87,7 +87,7 @@ export function SidebarProvider({ children }: { children: React.ReactNode }) {
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetContent
           side="left"
-          className="p-0 bg-[#111836] border-r border-[#1a2847] overflow-hidden"
+          className="p-0 bg-[#111836] border-r border-[#1a2847] overflow-hidden "
         >
           <SheetTitle className="hidden" />
           <SheetDescription className="hidden" />

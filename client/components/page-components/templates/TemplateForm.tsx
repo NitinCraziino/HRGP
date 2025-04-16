@@ -89,59 +89,57 @@ const TemplateForm = ({ initialData, isEditing = false }: TemplateFormProps) => 
   };
 
   return (
-    <ScrollArea className="h-full">
-      <PrivateContainer className="pb-80" title={(isEditing && "Edit Template") || undefined}>
-        <Card className="w-full mx-auto">
-          <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-3 gap-6">
-                <div className="col-span-2 space-y-6">
-                  <div>
-                    <InputWithError
-                      label="Template Name"
-                      value={templateName}
-                      onChange={(e) => setTemplateName(e.target.value)}
-                      placeholder="Test template"
-                      className="mt-1"
-                      variant="sm"
-                      required
-                    />
-                  </div>
-
-                  <div>
-                    <TextareaWithError
-                      label="Message Text"
-                      value={messageText}
-                      onChange={(e) => setMessageText(e.target.value)}
-                      placeholder="Hi [RecipientFirstName], it's [SenderFirstName] [SenderLastName] with [CompanyName]. Are you still considering your career options?"
-                      className="mt-1 min-h-40"
-                      required
-                    />
-                  </div>
-
-                  <div className="flex justify-end gap-2 mt-6">
-                    <Button type="submit" className="bg-indigo-600 text-white hover:bg-indigo-700">
-                      Submit
-                    </Button>
-                    <Button type="button" onClick={handleCancel}>
-                      Cancel
-                    </Button>
-                  </div>
+    <PrivateContainer className="pb-80" title={(isEditing && "Edit Template") || undefined}>
+      <Card className="w-full mx-auto">
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="grid grid-cols-3 gap-6">
+              <div className="col-span-2 space-y-6">
+                <div>
+                  <InputWithError
+                    label="Template Name"
+                    value={templateName}
+                    onChange={(e) => setTemplateName(e.target.value)}
+                    placeholder="Test template"
+                    className="mt-1"
+                    variant="sm"
+                    required
+                  />
                 </div>
 
-                <KeyWordSection
-                  standardKeywords={standardKeywords}
-                  customKeywords={customKeywords}
-                  insertKeyword={insertKeyword}
-                  removeCustomKeyword={removeCustomKeyword}
-                  setCustomKeywords={setCustomKeywords}
-                />
+                <div>
+                  <TextareaWithError
+                    label="Message Text"
+                    value={messageText}
+                    onChange={(e) => setMessageText(e.target.value)}
+                    placeholder="Hi [RecipientFirstName], it's [SenderFirstName] [SenderLastName] with [CompanyName]. Are you still considering your career options?"
+                    className="mt-1 min-h-40"
+                    required
+                  />
+                </div>
+
+                <div className="flex justify-end gap-2 mt-6">
+                  <Button type="submit" className="bg-indigo-600 text-white hover:bg-indigo-700">
+                    Submit
+                  </Button>
+                  <Button type="button" onClick={handleCancel}>
+                    Cancel
+                  </Button>
+                </div>
               </div>
-            </form>
-          </CardContent>
-        </Card>
-      </PrivateContainer>
-    </ScrollArea>
+
+              <KeyWordSection
+                standardKeywords={standardKeywords}
+                customKeywords={customKeywords}
+                insertKeyword={insertKeyword}
+                removeCustomKeyword={removeCustomKeyword}
+                setCustomKeywords={setCustomKeywords}
+              />
+            </div>
+          </form>
+        </CardContent>
+      </Card>
+    </PrivateContainer>
   );
 };
 
