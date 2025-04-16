@@ -3,22 +3,21 @@ import { PostRoutes } from "@/types/api/PostRoutes";
 import { useMutation } from "@tanstack/react-query";
 
 interface ResetPasswordData {
-    email: string;
-    newPassword: string;
-    verificationCode: string;
+  email: string;
+  newPassword: string;
+  verificationCode: string;
 }
 
 const useResetPassword = () => {
-    return useMutation({
-        mutationFn: async (data: ResetPasswordData) => {
-            const response = await POST({
-                route: PostRoutes.ResetPassword,
-                body: data,
-            });
-            return response;
-        }
-    });
+  return useMutation({
+    mutationFn: async (data: ResetPasswordData) => {
+      const response = await POST({
+        route: PostRoutes.ResetPassword,
+        body: data,
+      });
+      return response;
+    },
+  });
 };
 
-
-export default useResetPassword;                
+export default useResetPassword;

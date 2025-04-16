@@ -2,26 +2,30 @@
 import { ReactNode, useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { StatusCode } from "@/types/api";
-const QueryProvider = ({ children }: { children: ReactNode; }) => {
-    const [queryClient] = useState(
-        () =>
-            new QueryClient({
-                defaultOptions: {
-                    queries: {
-                        staleTime: 60 * 1000 * 60,
-                        refetchInterval: 60 * 1000 * 60,
-                        refetchOnWindowFocus: false,
-                        retry: (failureCount, error: any) => {
-                            return failureCount < 2 && error.statusCode !== StatusCode.TOKEN_EXPIRED && error.statusCode !== StatusCode.UNAUTHORIZED;
-                        },
-                        refetchOnMount: false,
-                        refetchOnReconnect: false,
-                    },
-                },
-            })
-    );
+const QueryProvider = ({ children }: { children: ReactNode }) => {
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            staleTime: 60 * 1000 * 60,
+            refetchInterval: 60 * 1000 * 60,
+            refetchOnWindowFocus: false,
+            retry: (failureCount, error: any) => {
+              return (
+                failureCount < 2 &&
+                error.statusCode !== StatusCode.TOKEN_EXPIRED &&
+                error.statusCode !== StatusCode.UNAUTHORIZED
+              );
+            },
+            refetchOnMount: false,
+            refetchOnReconnect: false,
+          },
+        },
+      }),
+  );
 
-    return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
+  return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 };
 
 export default QueryProvider;

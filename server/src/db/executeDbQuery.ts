@@ -10,25 +10,36 @@ import { InternalServerError } from "../types/CustomError";
  * @throws {InternalServerError} - If the database query fails
  */
 
-export const executeDbQuery = async <T>(queryFn: () => Promise<T>, serviceName: string, isSP: boolean = true): Promise<T> => {
-    try {
-        let result = await queryFn();
-        // @ts-ignore
-        result = isSP ? result[1][0] : result && result.length > 0 ? result[0] : null;
-        console.log(serviceName, "result", result);
-        return result;
-    } catch (error) {
-        console.log(error);
-        throw new InternalServerError(error instanceof Error ? error.message : "Database Query Failed", serviceName);
-    }
+export const executeDbQuery = async <T>(
+  queryFn: () => Promise<T>,
+  serviceName: string,
+  isSP: boolean = true,
+): Promise<T> => {
+  try {
+    let result = await queryFn();
+    // @ts-ignore
+    result = isSP ? result[1][0] : result && result.length > 0 ? result[0] : null;
+    console.log(serviceName, "result", result);
+    return result;
+  } catch (error) {
+    console.log(error);
+    throw new InternalServerError(
+      error instanceof Error ? error.message : "Database Query Failed",
+      serviceName,
+    );
+  }
 };
 
-export const executeDbQuerySP = async <T>(queryFn: () => Promise<T>, serviceName: string): Promise<T> => {
-    return executeDbQuery(queryFn, serviceName, true);
+export const executeDbQuerySP = async <T>(
+  queryFn: () => Promise<T>,
+  serviceName: string,
+): Promise<T> => {
+  return executeDbQuery(queryFn, serviceName, true);
 };
 
-export const executeDbQueryDirect = async <T>(queryFn: () => Promise<T>, serviceName: string): Promise<T> => {
-    return executeDbQuery(queryFn, serviceName, false);
+export const executeDbQueryDirect = async <T>(
+  queryFn: () => Promise<T>,
+  serviceName: string,
+): Promise<T> => {
+  return executeDbQuery(queryFn, serviceName, false);
 };
-
-

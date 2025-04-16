@@ -158,31 +158,34 @@ const CommandEmpty = ({
 CommandEmpty.displayName = "CommandEmpty";
 
 const MultipleSelector = React.forwardRef<HTMLInputElement, MultipleSelectorProps>(
-  ({
-    value,
-    onChange,
-    placeholder,
-    defaultOptions = [],
-    options: arrayOptions,
-    delay,
-    onSearch,
-    onSearchSync,
-    loadingIndicator,
-    emptyIndicator,
-    maxSelected = Number.MAX_SAFE_INTEGER,
-    onMaxSelected,
-    hidePlaceholderWhenSelected,
-    disabled,
-    groupBy,
-    className,
-    badgeClassName,
-    selectFirstItem = true,
-    creatable = false,
-    triggerSearchOnFocus = false,
-    commandProps,
-    inputProps,
-    hideClearAllButton = false,
-  }, ref) => {
+  (
+    {
+      value,
+      onChange,
+      placeholder,
+      defaultOptions = [],
+      options: arrayOptions,
+      delay,
+      onSearch,
+      onSearchSync,
+      loadingIndicator,
+      emptyIndicator,
+      maxSelected = Number.MAX_SAFE_INTEGER,
+      onMaxSelected,
+      hidePlaceholderWhenSelected,
+      disabled,
+      groupBy,
+      className,
+      badgeClassName,
+      selectFirstItem = true,
+      creatable = false,
+      triggerSearchOnFocus = false,
+      commandProps,
+      inputProps,
+      hideClearAllButton = false,
+    },
+    ref,
+  ) => {
     const inputRef = React.useRef<HTMLInputElement>(null);
     const [open, setOpen] = React.useState(false);
     const [onScrollbar, setOnScrollbar] = React.useState(false);
@@ -532,7 +535,7 @@ const MultipleSelector = React.forwardRef<HTMLInputElement, MultipleSelectorProp
                   disabled ||
                   selected.length < 1 ||
                   selected.filter((s) => s.fixed).length === selected.length) &&
-                "hidden",
+                  "hidden",
               )}
               aria-label="Clear all"
             >
@@ -586,7 +589,7 @@ const MultipleSelector = React.forwardRef<HTMLInputElement, MultipleSelectorProp
                                 className={cn(
                                   "cursor-pointer",
                                   option.disable &&
-                                  "pointer-events-none cursor-not-allowed opacity-50",
+                                    "pointer-events-none cursor-not-allowed opacity-50",
                                 )}
                               >
                                 {option.value}
@@ -604,7 +607,7 @@ const MultipleSelector = React.forwardRef<HTMLInputElement, MultipleSelectorProp
         </div>
       </Command>
     );
-  }
+  },
 );
 
 MultipleSelector.displayName = "MultipleSelector";

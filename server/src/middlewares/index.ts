@@ -7,26 +7,30 @@ import passport from "passport";
 
 const router = Router();
 
-router.use(cors({
+router.use(
+  cors({
     origin: CLIENT_URL,
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-}));
+  }),
+);
 
 router.use(json());
 router.use(urlencoded({ extended: true }));
 
 router.use(cookieParser());
-router.use(session({
+router.use(
+  session({
     secret: EXPRESS_SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
     cookie: {
-        maxAge: 1000 * 60 * 60 * 6,//6 hours
-        httpOnly: true,
-        secure: NODE_ENV === "production",
-    }
-}));
+      maxAge: 1000 * 60 * 60 * 6, //6 hours
+      httpOnly: true,
+      secure: NODE_ENV === "production",
+    },
+  }),
+);
 
 router.use(passport.initialize());
 router.use(passport.session());

@@ -11,17 +11,12 @@ const geistSans = Geist({
 const RootLayout = ({ children }: RootLayoutProps) => {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} antialiased overflow-auto`}
-      >
-        <Providers>
-          {children}
-        </Providers>
+      <body className={`${geistSans.variable} antialiased overflow-auto`}>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
 };
-
 
 export { metadata } from "./metadata";
 export default RootLayout;

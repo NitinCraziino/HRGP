@@ -1,130 +1,150 @@
-import { Stripe } from 'stripe';
-import { HRGP_SUBSCRIPTION_PRICE_ID, HRGP_TWILIO_NUMBER_PRICE_ID, STRIPE_SECRET } from '../config';
-import { PaymentError } from '../types/CustomError';
+import { Stripe } from "stripe";
+import { HRGP_SUBSCRIPTION_PRICE_ID, HRGP_TWILIO_NUMBER_PRICE_ID, STRIPE_SECRET } from "../config";
+import { PaymentError } from "../types/CustomError";
 
 const stripe = new Stripe(STRIPE_SECRET!, {
-    apiVersion: "2025-02-24.acacia"
+  apiVersion: "2025-02-24.acacia",
 });
 
 type CustomerPayload = {
-    email: string;
-    name: string;
-    phone: string;
+  email: string;
+  name: string;
+  phone: string;
 };
 
 type CreateSubscriptionPayload = {
-    paymentMethodId: string;
-    customerId: string;
-    companyId: string;
-    email: string;
-    name: string;
-    phone: string;
+  paymentMethodId: string;
+  customerId: string;
+  companyId: string;
+  email: string;
+  name: string;
+  phone: string;
 };
 
 type AddNewCardPayload = {
-    paymentMethodId: string;
-    customerId: string;
-    isPrimary: boolean;
+  paymentMethodId: string;
+  customerId: string;
+  isPrimary: boolean;
 };
 
 export default class PaymentService {
-    constructor() { }
+  constructor() {}
 
-    async createCustomer({ email, name, phone }: CustomerPayload): Promise<Stripe.Customer> {
-        //@ts-ignore
-        return this.tryCatch<Stripe.Customer>(async () => {
-            const customer = await stripe.customers.create({ email, name, phone });
-            return customer;
+  async createCustomer({ email, name, phone }: CustomerPayload): Promise<Stripe.Customer> {
+    //@ts-ignore
+    return this.tryCatch<Stripe.Customer>(async () => {
+      const customer = await stripe.customers.create({
+        email,
+        name,
+        phone,
+      });
+      return customer;
+    });
+  }
+
+  async createSubscription({
+    paymentMethodId,
+    customerId,
+    companyId,
+    email,
+    name,
+    phone,
+  }: CreateSubscriptionPayload): Promise<Stripe.Subscription> {
+    return this.tryCatch<Stripe.Subscription>(async () => {
+      // Attach payment method to customer
+      await stripe.paymentMethods.attach(paymentMethodId, {
+        customer: customerId,
+      });
+
+      await stripe.customers.update(customerId, {
+        invoice_settings: { default_payment_method: paymentMethodId },
+      });
+
+      // Define subscription details
+      const subscription = await stripe.subscriptions.create({
+        customer: customerId,
+        metadata: { companyId, email, name, phone },
+        items: [{ price: HRGP_SUBSCRIPTION_PRICE_ID }, { price: HRGP_TWILIO_NUMBER_PRICE_ID }],
+        trial_period_days: 30,
+        expand: ["latest_invoice.payment_intent"],
+      });
+
+      return subscription;
+    });
+  }
+
+  async handleInvoicePaid(body: Buffer, signature: string) {
+    return this.tryCatch<{ invoice: Stripe.Invoice; eventType: string }>(async () => {
+      const event = stripe.webhooks.constructEvent(
+        body,
+        signature,
+        process.env.STRIPE_WEBHOOK_SECRET!,
+      );
+
+      const invoice = event.data.object as Stripe.Invoice;
+
+      return { invoice, eventType: event.type };
+    });
+  }
+
+  async addNewCard({
+    paymentMethodId,
+    customerId,
+    isPrimary,
+  }: AddNewCardPayload): Promise<Stripe.PaymentMethod> {
+    return this.tryCatch<Stripe.PaymentMethod>(async () => {
+      const paymentMethod = await stripe.paymentMethods.attach(paymentMethodId, {
+        customer: customerId,
+      });
+
+      if (isPrimary) {
+        await stripe.customers.update(customerId, {
+          invoice_settings: {
+            default_payment_method: paymentMethodId,
+          },
         });
+      }
+
+      return paymentMethod;
+    });
+  }
+
+  async getPaymentMethods(customerId: string): Promise<Stripe.PaymentMethod[]> {
+    return this.tryCatch<Stripe.PaymentMethod[]>(async () => {
+      const paymentMethods = await stripe.paymentMethods.list({
+        customer: customerId,
+        type: "card",
+      });
+      return paymentMethods.data;
+    });
+  }
+
+  async getStripeCustomer(customerId: string): Promise<Stripe.Customer> {
+    return this.tryCatch<Stripe.Customer>(async () => {
+      const customer = await stripe.customers.retrieve(customerId);
+      if (customer.deleted) {
+        throw new PaymentError("Customer has been deleted", "PaymentService");
+      }
+      return customer;
+    });
+  }
+
+  async deletePaymentMethod(methodId: string): Promise<void> {
+    return this.tryCatch<void>(async () => {
+      await stripe.paymentMethods.detach(methodId);
+    });
+  }
+
+  private async tryCatch<T>(fn: () => Promise<T>): Promise<T> {
+    try {
+      return await fn();
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new PaymentError(error.message, "PaymentService");
+      }
+      throw error;
     }
-
-    async createSubscription({ paymentMethodId, customerId, companyId, email, name, phone }: CreateSubscriptionPayload): Promise<Stripe.Subscription> {
-        return this.tryCatch<Stripe.Subscription>(async () => {
-            // Attach payment method to customer
-            await stripe.paymentMethods.attach(paymentMethodId, { customer: customerId });
-
-            await stripe.customers.update(customerId, {
-                invoice_settings: { default_payment_method: paymentMethodId },
-            });
-
-            // Define subscription details
-            const subscription = await stripe.subscriptions.create({
-                customer: customerId,
-                metadata: { companyId, email, name, phone },
-                items: [
-                    { price: HRGP_SUBSCRIPTION_PRICE_ID },
-                    { price: HRGP_TWILIO_NUMBER_PRICE_ID },
-                ],
-                trial_period_days: 30,
-                expand: ["latest_invoice.payment_intent"],
-            });
-
-
-            return subscription;
-        });
-    }
-
-    async handleInvoicePaid(body: Buffer, signature: string) {
-        return this.tryCatch<{ invoice: Stripe.Invoice, eventType: string; }>(async () => {
-            const event = stripe.webhooks.constructEvent(body, signature, process.env.STRIPE_WEBHOOK_SECRET!);
-
-            const invoice = event.data.object as Stripe.Invoice;
-
-            return { invoice, eventType: event.type };
-        });
-    }
-
-    async addNewCard({ paymentMethodId, customerId, isPrimary }: AddNewCardPayload): Promise<Stripe.PaymentMethod> {
-        return this.tryCatch<Stripe.PaymentMethod>(async () => {
-            const paymentMethod = await stripe.paymentMethods.attach(paymentMethodId, { customer: customerId });
-
-            if (isPrimary) {
-                await stripe.customers.update(customerId, {
-                    invoice_settings: { default_payment_method: paymentMethodId },
-                });
-            }
-
-            return paymentMethod;
-        });
-    }
-
-    async getPaymentMethods(customerId: string): Promise<Stripe.PaymentMethod[]> {
-        return this.tryCatch<Stripe.PaymentMethod[]>(async () => {
-            const paymentMethods = await stripe.paymentMethods.list({
-                customer: customerId,
-                type: "card",
-            });
-            return paymentMethods.data;
-        });
-    }
-
-    async getStripeCustomer(customerId: string): Promise<Stripe.Customer> {
-        return this.tryCatch<Stripe.Customer>(async () => {
-            const customer = await stripe.customers.retrieve(customerId);
-            if (customer.deleted) {
-                throw new PaymentError('Customer has been deleted', 'PaymentService');
-            }
-            return customer;
-        });
-    }
-
-    async deletePaymentMethod(methodId: string): Promise<void> {
-        return this.tryCatch<void>(async () => {
-            await stripe.paymentMethods.detach(methodId);
-        });
-    }
-
-    private async tryCatch<T>(fn: () => Promise<T>): Promise<T> {
-        try {
-            return await fn();
-        } catch (error) {
-            if (error instanceof Error) {
-                throw new PaymentError(error.message, "PaymentService");
-            }
-            throw error;
-        }
-    }
+  }
 }
-
 
 export const paymentService = new PaymentService();

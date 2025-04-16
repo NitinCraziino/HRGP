@@ -14,6 +14,6 @@ app.use("/api", router);
 app.use(errorHandler);
 
 app.listen(PORT, () => {
-    configurePassport();
-    console.log(`Server is running on port ${PORT}`);
+  configurePassport();
+  console.log(`Server is running on port ${PORT}`);
 });

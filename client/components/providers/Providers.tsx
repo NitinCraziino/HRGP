@@ -8,27 +8,23 @@ import { Toaster } from "../ui/sonner";
 import QueryProvider from "./QueryProvider";
 
 const Providers = ({ children }: WrapperProps) => {
-    return (
-        <>
-            <link
-                rel="stylesheet"
-                href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-            />
-            <QueryProvider>
-                <PublicHeader />
-                <PublicNavBar />
-                <PrivateNavBar />
-                {children}
-                <LoadingOverlay />
-                <PublicFooter />
-                <Toaster
-                    position="top-right"
-                    richColors
-                    duration={3000}
-                />
-            </QueryProvider>
-        </>
-    );
+  return (
+    <>
+      <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      />
+      <QueryProvider>
+        <PublicHeader />
+        <PublicNavBar />
+        <PrivateNavBar />
+        {children}
+        <LoadingOverlay />
+        <PublicFooter />
+        <Toaster position="top-right" richColors duration={3000} />
+      </QueryProvider>
+    </>
+  );
 };
 
-export default Providers;   
+export default Providers;

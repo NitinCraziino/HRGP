@@ -3,45 +3,57 @@ import { executeDbQuery } from "../executeDbQuery";
 import query from "../query";
 
 type EmployeeData = {
-    companyId: number;
-    userId: number;
-    positionTitle: string;
-    employeeCode?: string;
-    managerId?: number;
-    employeeType?: string;
-    isRemoteWorking?: boolean;
-    joiningDate?: string;
-    employeeStatus?: string;
+  companyId: number;
+  userId: number;
+  positionTitle: string;
+  employeeCode?: string;
+  managerId?: number;
+  employeeType?: string;
+  isRemoteWorking?: boolean;
+  joiningDate?: string;
+  employeeStatus?: string;
 };
 
 type EmployeeResponse = {
-    employeeId: number;
-    isSuccess: number;
-    error: string;
+  employeeId: number;
+  isSuccess: number;
+  error: string;
 };
 
-const createEmployee = async ({ companyId, userId, positionTitle, employeeCode, managerId, employeeType, isRemoteWorking, joiningDate, employeeStatus }: EmployeeData) => {
-    const params = [
-        companyId,
-        userId,
-        employeeCode || "",
-        managerId || 0,
-        positionTitle,
-        employeeType || "",
-        isRemoteWorking || false,
-        joiningDate || '',
-        employeeStatus || "active",
-    ];
-    const employeeResponse = await executeDbQuery<any>(async () => {
-        return await query("CALL usp_UpsertEmployee(?, ?, ?, ?, ?, ?, ?, ?, ?, @outParam1, @outParam2, @outParam3); SELECT @outParam1 AS error, @outParam2 AS employeeId, @outParam3 AS isSuccess;", params);
-    }, "createEmployee");
+const createEmployee = async ({
+  companyId,
+  userId,
+  positionTitle,
+  employeeCode,
+  managerId,
+  employeeType,
+  isRemoteWorking,
+  joiningDate,
+  employeeStatus,
+}: EmployeeData) => {
+  const params = [
+    companyId,
+    userId,
+    employeeCode || "",
+    managerId || 0,
+    positionTitle,
+    employeeType || "",
+    isRemoteWorking || false,
+    joiningDate || "",
+    employeeStatus || "active",
+  ];
+  const employeeResponse = await executeDbQuery<any>(async () => {
+    return await query(
+      "CALL usp_UpsertEmployee(?, ?, ?, ?, ?, ?, ?, ?, ?, @outParam1, @outParam2, @outParam3); SELECT @outParam1 AS error, @outParam2 AS employeeId, @outParam3 AS isSuccess;",
+      params,
+    );
+  }, "createEmployee");
 
+  if (employeeResponse.isSuccess !== 1) {
+    throw new ValidationError(employeeResponse.error, "createEmployee");
+  }
 
-    if (employeeResponse.isSuccess !== 1) {
-        throw new ValidationError(employeeResponse.error, "createEmployee");
-    }
-
-    return employeeResponse.employeeId;
+  return employeeResponse.employeeId;
 };
 
 export default createEmployee;

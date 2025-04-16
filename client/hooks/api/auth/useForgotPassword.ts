@@ -3,20 +3,19 @@ import { POST } from "@/lib/api";
 import { PostRoutes } from "@/types/api/PostRoutes";
 
 interface ForgotPasswordData {
-    email: string;
+  email: string;
 }
 
-
 const useForgotPassword = () => {
-    return useMutation({
-        mutationFn: async (data: ForgotPasswordData) => {
-            const response = await POST({
-                route: PostRoutes.ForgotPassword,
-                body: data,
-            });
-            return response;
-        }
-    });
+  return useMutation({
+    mutationFn: async (data: ForgotPasswordData) => {
+      const response = await POST({
+        route: PostRoutes.ForgotPassword,
+        body: data,
+      });
+      return response;
+    },
+  });
 };
 
 export default useForgotPassword;

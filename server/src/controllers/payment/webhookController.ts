@@ -4,39 +4,35 @@ import { StatusCode } from "../../types";
 import { PaymentError } from "../../types/CustomError";
 
 const webhookController = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const signature = req.headers['stripe-signature'] as string;
+  try {
+    const signature = req.headers["stripe-signature"] as string;
 
-        const { invoice, eventType } = await paymentService.handleInvoicePaid(req.body, signature);
+    const { invoice, eventType } = await paymentService.handleInvoicePaid(req.body, signature);
 
-        switch (eventType) {
-            case "payment_intent.payment_failed":
-                break;
-            case "payment_intent.payment_succeeded":
-                break;
-            case "invoice.payment_failed":
-                break;
-            case "invoice.payment_succeeded":
-                break;
-            case "customer.subscription_updated":
-                break;
-            case "customer.subscription_deleted":
-                break;
-            default:
-                throw new PaymentError("Invalid event type", "PaymentService");
-        }
-
-        res.status(StatusCode.OK).json({ received: true });
-    } catch (error) {
-        next(error);
+    switch (eventType) {
+      case "payment_intent.payment_failed":
+        break;
+      case "payment_intent.payment_succeeded":
+        break;
+      case "invoice.payment_failed":
+        break;
+      case "invoice.payment_succeeded":
+        break;
+      case "customer.subscription_updated":
+        break;
+      case "customer.subscription_deleted":
+        break;
+      default:
+        throw new PaymentError("Invalid event type", "PaymentService");
     }
+
+    res.status(StatusCode.OK).json({ received: true });
+  } catch (error) {
+    next(error);
+  }
 };
 
 export default webhookController;
-
-
-
-
 
 // const stripe = require("stripe")(process.env.STRIPE_SECRET);
 // var db = require("../db.js");

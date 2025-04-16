@@ -3,16 +3,18 @@ import { executeDbQueryDirect } from "../executeDbQuery";
 import query from "../query";
 
 const getCustomerIdByCompanyId = async (companyId: string) => {
-    const customer = await executeDbQueryDirect(async () => {
-        const result = await query<any>("SELECT * FROM CompanyPaymentDetails WHERE companyId = ?", [companyId]);
-        return result;
-    }, "getCustomerIdByCompanyId");
+  const customer = await executeDbQueryDirect(async () => {
+    const result = await query<any>("SELECT * FROM CompanyPaymentDetails WHERE companyId = ?", [
+      companyId,
+    ]);
+    return result;
+  }, "getCustomerIdByCompanyId");
 
-    if (!customer) {
-        throw new ValidationError("Customer not found", "getCustomerIdByCompanyId");
-    }
+  if (!customer) {
+    throw new ValidationError("Customer not found", "getCustomerIdByCompanyId");
+  }
 
-    return customer.stripeCustomerId;
+  return customer.stripeCustomerId;
 };
 
 export default getCustomerIdByCompanyId;

@@ -1,4 +1,4 @@
-import PrivateContainer from '@/components/hoc/PrivateContainer';
+import PrivateContainer from "@/components/hoc/PrivateContainer";
 
 const page = () => {
   return (

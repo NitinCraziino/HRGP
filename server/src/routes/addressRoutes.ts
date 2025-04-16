@@ -3,7 +3,6 @@ import getLocationByPostalCodeController from "../controllers/address/getLocatio
 
 const router = Router();
 
-
 router.get("/:postalCode", getLocationByPostalCodeController);
 
 export default router;

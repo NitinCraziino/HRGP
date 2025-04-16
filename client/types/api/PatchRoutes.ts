@@ -1,7 +1,6 @@
-
 export enum PatchRoutes {
-    test = "/test",
+  test = "/test",
 }
 export enum PatchRoutesWithParams {
-    test = "/test",
+  test = "/test",
 }

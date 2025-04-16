@@ -1,8 +1,6 @@
-
 export enum DeleteRoutes {
-    test = "/test",
+  test = "/test",
 }
 export enum DeleteRoutesWithParams {
-    DeletePaymentMethod = "/payment",
+  DeletePaymentMethod = "/payment",
 }
-
