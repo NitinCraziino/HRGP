@@ -5,17 +5,23 @@ import { cn } from "@/lib/utils";
 import { memo, useEffect } from "react";
 import useIsLoading from "@/hooks/states/useIsLoading";
 
-const LoadingOverlay = ({ className }: { className?: string }) => {
+const LoadingOverlay = ({ className }: { className?: string; }) => {
   const isLoading = useIsLoading((state) => state.isLoading);
+
   useEffect(() => {
-    document.body.style.overflow = "hidden";
+    if (isLoading) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
 
     return () => {
       document.body.style.overflow = "unset";
     };
-  }, []);
+  }, [isLoading]);
 
   if (!isLoading) return null;
+
   return (
     <div
       className={cn(
